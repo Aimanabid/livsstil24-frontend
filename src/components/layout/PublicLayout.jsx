@@ -23,7 +23,7 @@ export default function PublicLayout() {
   const headerRef = useRef(null);
 
   useEffect(() => {
-    api.get('/categories').then(r => setCategories(r.data)).catch(() => {});
+    api.get('/categories').then(r => setCategories(Array.isArray(r.data) ? r.data : [])).catch(() => {});
   }, []);
   const navigate = useNavigate();
   const today = format(new Date(), "EEEE d MMMM yyyy", { locale: sv });

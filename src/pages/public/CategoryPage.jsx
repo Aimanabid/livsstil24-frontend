@@ -21,9 +21,14 @@ export default function CategoryPage() {
       api.get(`/articles?category=${slug}&limit=${PER_PAGE}&offset=0`),
       api.get('/categories'),
     ]).then(([artRes, catRes]) => {
-      setArticles(artRes.data.articles);
-      setTotal(artRes.data.total);
-      setCategory(catRes.data.find(c => c.slug === slug) || null);
+      const arts = Array.isArray(artRes.data?.articles) ? artRes.data.articles : [];
+      const cats = Array.isArray(catRes.data) ? catRes.data : [];
+      setArticles(arts);
+      setTotal(artRes.data?.total || 0);
+      setCategory(cats.find(c => c.slug === slug) || null);
+    }).catch(() => {
+      setArticles([]);
+      setTotal(0);
     }).finally(() => setLoading(false));
   }, [slug]);
 
@@ -31,8 +36,9 @@ export default function CategoryPage() {
     setLoadingMore(true);
     try {
       const { data } = await api.get(`/articles?category=${slug}&limit=${PER_PAGE}&offset=${articles.length}`);
-      setArticles(prev => [...prev, ...data.articles]);
-      setTotal(data.total);
+      const arts = Array.isArray(data?.articles) ? data.articles : [];
+      setArticles(prev => [...prev, ...arts]);
+      setTotal(data?.total || 0);
     } finally {
       setLoadingMore(false);
     }
