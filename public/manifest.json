@@ -1,0 +1,16 @@
+{
+  "name": "Livsstil24",
+  "short_name": "Livsstil24",
+  "description": "Din digitala livsstilstidning",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FDFAF5",
+  "theme_color": "#C9A96E",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "categories": ["news", "lifestyle", "entertainment"]
+}
