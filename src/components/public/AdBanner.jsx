@@ -72,7 +72,7 @@ export default function AdBanner({ placement, className = '' }) {
 
   useEffect(() => {
     api.get(`/ads/placement/${placement}`)
-      .then(({ data }) => setAd(data[0] ?? null))
+      .then(({ data }) => setAd(Array.isArray(data) ? (data[0] ?? null) : null))
       .catch(() => setAd(null));
   }, [placement]);
 

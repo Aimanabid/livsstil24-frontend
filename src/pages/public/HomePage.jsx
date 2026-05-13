@@ -19,7 +19,8 @@ export default function HomePage() {
     setLoading(true);
     if (search) {
       api.get(`/articles?search=${encodeURIComponent(search)}&limit=50`)
-        .then(({ data }) => { setArticles(data.articles); setFeatured([]); })
+        .then(({ data }) => { setArticles(Array.isArray(data?.articles) ? data.articles : []); setFeatured([]); })
+        .catch(() => setArticles([]))
         .finally(() => setLoading(false));
     } else {
       Promise.all([
@@ -27,9 +28,13 @@ export default function HomePage() {
         api.get('/articles?limit=24'),
         api.get('/categories'),
       ]).then(([featRes, allRes, catRes]) => {
-        setFeatured(featRes.data.articles);
-        setArticles(allRes.data.articles);
-        setCategories(catRes.data);
+        setFeatured(Array.isArray(featRes.data?.articles) ? featRes.data.articles : []);
+        setArticles(Array.isArray(allRes.data?.articles) ? allRes.data.articles : []);
+        setCategories(Array.isArray(catRes.data) ? catRes.data : []);
+      }).catch(() => {
+        setFeatured([]);
+        setArticles([]);
+        setCategories([]);
       }).finally(() => setLoading(false));
     }
   }, [search]);
