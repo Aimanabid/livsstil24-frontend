@@ -12,7 +12,10 @@ export default function DashboardPage() {
 
   useEffect(() => {
     api.get('/stats/dashboard')
-      .then(r => setData(r.data))
+      .then(r => {
+        const d = r.data;
+        setData((d && typeof d === 'object' && d.stats) ? d : null);
+      })
       .catch(err => console.error('Dashboard failed:', err.response?.data?.error || err.message))
       .finally(() => setLoading(false));
   }, []);

@@ -26,7 +26,8 @@ export const useAuthStore = create((set) => ({
   fetchMe: async () => {
     try {
       const { data } = await api.get('/auth/me');
-      set({ user: data, initialized: true });
+      const user = (data && typeof data === 'object' && data.id) ? data : null;
+      set({ user, initialized: true });
     } catch {
       set({ user: null, initialized: true });
     }
