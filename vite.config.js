@@ -10,5 +10,5 @@ export default defineConfig({
       '/uploads': { target: 'http://localhost:3001', changeOrigin: true }
     }
   },
-  build: { outDir: 'dist' }
+  build: { outDir: '../backend/public' }
 });
