@@ -68,7 +68,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <AdBanner placement="hero_banner" className="border-b border-cream-200" />
+      <AdBanner placement="hero_banner" className="border-b border-cream-200 pb-4" />
 
       {/* ══ HERO ══ */}
       {hero && (

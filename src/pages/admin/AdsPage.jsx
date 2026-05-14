@@ -256,7 +256,7 @@ export default function AdsPage() {
                 <label className="label">Annonsplats</label>
                 <select value={form.placement_id} onChange={e => set('placement_id', e.target.value)} className="input-field">
                   <option value="">Välj plats...</option>
-                  {placements.map(p => <option key={p.id} value={p.id}>{p.name} ({p.size}) – {p.price_monthly.toLocaleString('sv')} kr/mån</option>)}
+                  {placements.map(p => <option key={p.id} value={p.id}>{p.name} – {p.price_monthly.toLocaleString('sv')} kr/mån</option>)}
                 </select>
               </div>
               <div>

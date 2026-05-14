@@ -26,7 +26,7 @@ export default function PlacementsPage() {
   const [showModal, setShowModal] = useState(false)
   const [editing, setEditing] = useState(null)
   const [form, setForm] = useState({
-    name: '', key: '', description: '', width: '', height: '', price_per_month: '', max_ads: 1, is_active: true
+    name: '', key: '', description: '', price_per_month: '', max_ads: 1, is_active: true
   })
 
   useEffect(() => { fetchPlacements() }, [])
@@ -52,7 +52,6 @@ export default function PlacementsPage() {
     setEditing(p)
     setForm({
       name: p.name, key: p.key, description: p.description || '',
-      width: p.width || '', height: p.height || '',
       price_per_month: p.price_per_month, max_ads: p.max_ads, is_active: p.is_active === 1 || p.is_active === true
     })
     setShowModal(true)
@@ -77,7 +76,7 @@ export default function PlacementsPage() {
 
   async function toggleActive(p) {
     try {
-      await api.put(`/ads/placements/${p.id}`, { name: p.name, key: p.key || p.position_key, description: p.description, width: p.width, height: p.height, price_per_month: p.price_per_month || p.price_monthly, max_ads: p.max_ads, is_active: !p.is_active })
+      await api.put(`/ads/placements/${p.id}`, { name: p.name, key: p.key || p.position_key, description: p.description, price_per_month: p.price_per_month || p.price_monthly, max_ads: p.max_ads, is_active: !p.is_active })
       fetchPlacements()
     } catch {
       toast.error('Kunde inte uppdatera status')
@@ -149,11 +148,6 @@ export default function PlacementsPage() {
               )}
 
               <div className="mt-4 flex items-center gap-4 text-sm">
-                {p.width && p.height && (
-                  <span className="text-gray-500">
-                    <span className="text-gray-400">Storlek:</span> {p.width}×{p.height}px
-                  </span>
-                )}
                 <span className="text-gray-500">
                   <span className="text-gray-400">Max annonser:</span> {p.max_ads}
                 </span>
@@ -211,7 +205,6 @@ export default function PlacementsPage() {
           <thead className="bg-gray-50">
             <tr>
               <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Placering</th>
-              <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Storlek</th>
               <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Max annonser</th>
               <th className="text-right text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Pris/månad</th>
             </tr>
@@ -221,9 +214,6 @@ export default function PlacementsPage() {
               <tr key={p.id} className="hover:bg-gray-50/50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="font-medium text-charcoal-800 text-sm">{p.name}</div>
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-500">
-                  {p.width && p.height ? `${p.width}×${p.height}px` : '—'}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">{p.max_ads}</td>
                 <td className="px-6 py-4 text-right font-semibold text-charcoal-800">
@@ -267,16 +257,6 @@ export default function PlacementsPage() {
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-1.5">Beskrivning</label>
                 <textarea className="input-field" rows={2} value={form.description} onChange={e => setForm({...form, description: e.target.value})} placeholder="Kort beskrivning av placeringsplatsen" />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1.5">Bredd (px)</label>
-                  <input className="input-field" type="number" value={form.width} onChange={e => setForm({...form, width: e.target.value})} placeholder="970" />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1.5">Höjd (px)</label>
-                  <input className="input-field" type="number" value={form.height} onChange={e => setForm({...form, height: e.target.value})} placeholder="250" />
-                </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>

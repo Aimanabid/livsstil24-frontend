@@ -2,19 +2,64 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
-import { Save, Eye, ArrowLeft, X, Image, Clock } from 'lucide-react';
-import ReactQuill from 'react-quill-new';;
-import 'react-quill-new/dist/quill.snow.css';
+import { Save, Eye, ArrowLeft, X, Image, Clock, Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Quote, Link as LinkIcon, Eraser } from 'lucide-react';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import TipTapLink from '@tiptap/extension-link';
+import TipTapImage from '@tiptap/extension-image';
 
-const quillModules = {
-  toolbar: [
-    [{ header: [2, 3, false] }],
-    ['bold', 'italic', 'underline'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    ['blockquote', 'link', 'image'],
-    ['clean']
-  ]
-};
+function EditorToolbar({ editor }) {
+  if (!editor) return null;
+
+  const Btn = ({ onClick, active, title, children }) => (
+    <button
+      type="button"
+      title={title}
+      onMouseDown={e => { e.preventDefault(); onClick(); }}
+      className={`p-1.5 rounded transition-colors ${active ? 'bg-gold-400 text-white' : 'text-gray-600 hover:bg-cream-100 hover:text-charcoal-800'}`}
+    >
+      {children}
+    </button>
+  );
+
+  const Sep = () => <div className="w-px h-5 bg-gray-200 mx-0.5 self-center" />;
+
+  const addLink = () => {
+    const url = window.prompt('Länk URL:');
+    if (url) editor.chain().focus().setLink({ href: url }).run();
+    else if (editor.isActive('link')) editor.chain().focus().unsetLink().run();
+  };
+
+  const addImage = () => {
+    const url = window.prompt('Bild URL:');
+    if (url) editor.chain().focus().setImage({ src: url }).run();
+  };
+
+  return (
+    <div className="flex flex-wrap items-center gap-0.5 p-2 border border-gray-200 rounded-t-lg bg-gray-50">
+      <Btn onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive('heading', { level: 2 })} title="Rubrik 2">
+        <span className="text-xs font-bold">H2</span>
+      </Btn>
+      <Btn onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive('heading', { level: 3 })} title="Rubrik 3">
+        <span className="text-xs font-bold">H3</span>
+      </Btn>
+      <Sep />
+      <Btn onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')} title="Fet"><Bold size={14} /></Btn>
+      <Btn onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive('italic')} title="Kursiv"><Italic size={14} /></Btn>
+      <Btn onClick={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive('underline')} title="Understrykning"><UnderlineIcon size={14} /></Btn>
+      <Sep />
+      <Btn onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editor.isActive('orderedList')} title="Numrerad lista"><ListOrdered size={14} /></Btn>
+      <Btn onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive('bulletList')} title="Punktlista"><List size={14} /></Btn>
+      <Btn onClick={() => editor.chain().focus().toggleBlockquote().run()} active={editor.isActive('blockquote')} title="Citat"><Quote size={14} /></Btn>
+      <Sep />
+      <Btn onClick={addLink} active={editor.isActive('link')} title="Länk"><LinkIcon size={14} /></Btn>
+      <Btn onClick={addImage} active={false} title="Infoga bild via URL"><Image size={14} /></Btn>
+      <Sep />
+      <Btn onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()} active={false} title="Rensa formatering"><Eraser size={14} /></Btn>
+    </div>
+  );
+}
 
 export default function ArticleEditorPage() {
   const { id } = useParams();
@@ -30,7 +75,28 @@ export default function ArticleEditorPage() {
   const [saving, setSaving] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [tagInput, setTagInput] = useState('');
+  const [loadedContent, setLoadedContent] = useState(null);
   const fileInputRef = useRef();
+  const contentRef = useRef('');
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      TipTapLink.configure({ openOnClick: false }),
+      TipTapImage,
+    ],
+    onUpdate: ({ editor }) => {
+      contentRef.current = editor.getHTML();
+    },
+  });
+
+  useEffect(() => {
+    if (editor && loadedContent !== null) {
+      editor.commands.setContent(loadedContent);
+      contentRef.current = loadedContent;
+    }
+  }, [editor, loadedContent]);
 
   useEffect(() => {
     api.get('/categories').then(r => setCategories(r.data)).catch(() => {});
@@ -38,10 +104,12 @@ export default function ArticleEditorPage() {
     if (!isNew) {
       api.get(`/articles/admin/${id}`)
         .then(({ data }) => {
+          const content = (data.content || '').replace(/&nbsp;/g, ' ');
+          setLoadedContent(content);
           setForm({
             title: data.title || '',
             excerpt: data.excerpt || '',
-            content: data.content || '',
+            content,
             featured_image: data.featured_image || '',
             category_id: data.category_id || '',
             status: data.status || 'draft',
@@ -85,7 +153,7 @@ export default function ArticleEditorPage() {
     if (!form.category_id) { toast.error('Välj en kategori'); return; }
     setSaving(true);
     try {
-      const payload = { ...form, status: status || form.status };
+      const payload = { ...form, content: contentRef.current, status: status || form.status };
       if (isNew) {
         const { data } = await api.post('/articles', payload);
         toast.success('Artikel skapad!');
@@ -202,12 +270,10 @@ export default function ArticleEditorPage() {
           {/* Content */}
           <div className="card p-5">
             <label className="label">Innehåll</label>
-            <ReactQuill
-              value={form.content}
-              onChange={val => set('content', val)}
-              modules={quillModules}
-              theme="snow"
-            />
+            <EditorToolbar editor={editor} />
+            <div className="border border-t-0 border-gray-200 rounded-b-lg px-4 py-3">
+              <EditorContent editor={editor} />
+            </div>
           </div>
         </div>
 
