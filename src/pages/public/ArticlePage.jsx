@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import api from '../../utils/api';
 import AdBanner from '../../components/public/AdBanner';
+import FooterBanner from '../../components/public/FooterBanner';
 import ArticleCard from '../../components/public/ArticleCard';
 import { Clock, ArrowLeft, Share2 } from 'lucide-react';
 import { format } from 'date-fns';
@@ -214,7 +215,7 @@ export default function ArticlePage() {
         </div>
       )}
 
-      <AdBanner placement="footer_banner" className="border-t border-cream-200 py-6 bg-cream-50" />
+      <FooterBanner />
     </div>
   );
 }
