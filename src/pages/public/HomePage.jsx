@@ -214,20 +214,6 @@ export default function HomePage() {
               </div>
 
               <AdBanner placement="sidebar_mid" />
-
-              {/* Categories */}
-              <div>
-                <div className="eyebrow text-charcoal-800 pb-3 mb-1 border-b border-cream-200">
-                  Kategorier
-                </div>
-                {categories.map(c => (
-                  <Link key={c.id} to={`/kategori/${c.slug}`}
-                    className="flex items-center justify-between py-3 border-b border-cream-100 last:border-0 group">
-                    <span className="text-sm group-hover:text-gold-500 transition-colors">{c.name}</span>
-                    <span className="text-xs text-gray-300 group-hover:text-gold-400 transition-colors">{c.article_count}</span>
-                  </Link>
-                ))}
-              </div>
             </div>
           </aside>
         </div>

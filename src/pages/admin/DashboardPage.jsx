@@ -208,7 +208,7 @@ export default function DashboardPage() {
                     <td className="py-2.5 text-xs text-gray-400">{a.placement_name}</td>
                     <td className="py-2.5 text-right text-sm">{a.impressions.toLocaleString('sv')}</td>
                     <td className="py-2.5 text-right text-sm">{a.clicks}</td>
-                    <td className="py-2.5 text-right text-sm font-medium text-gold-500">{a.ctr}%</td>
+                    <td className="py-2.5 text-right text-sm font-medium text-gold-500">{parseFloat(a.ctr || 0).toFixed(2)}%</td>
                   </tr>
                 ))}
               </tbody>

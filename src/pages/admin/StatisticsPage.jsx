@@ -17,7 +17,7 @@ export default function StatisticsPage() {
 
   const { stats, topArticles, adStats, viewsByDay, categoryBreakdown } = data;
   const colors = ['#C9A96E', '#D4A5A5', '#A8C5A0', '#B8C4D4', '#C4A5C9', '#A5C4C9', '#E8C4B8'];
-  const avgCTR = adStats.length ? (adStats.reduce((s, a) => s + a.ctr, 0) / adStats.length).toFixed(2) : 0;
+  const avgCTR = adStats.length ? (adStats.reduce((s, a) => s + parseFloat(a.ctr || 0), 0) / adStats.length).toFixed(2) : 0;
 
   return (
     <div className="space-y-6 max-w-6xl">
@@ -132,8 +132,8 @@ export default function StatisticsPage() {
                     <td className="py-2.5 px-2 text-right text-sm">{a.impressions.toLocaleString('sv')}</td>
                     <td className="py-2.5 px-2 text-right text-sm">{a.clicks}</td>
                     <td className="py-2.5 px-2 text-right">
-                      <span className={`text-sm font-medium ${a.ctr > 2 ? 'text-green-600' : a.ctr > 0.5 ? 'text-amber-600' : 'text-gray-400'}`}>
-                        {a.ctr}%
+                      <span className={`text-sm font-medium ${parseFloat(a.ctr) > 2 ? 'text-green-600' : parseFloat(a.ctr) > 0.5 ? 'text-amber-600' : 'text-gray-400'}`}>
+                        {parseFloat(a.ctr || 0).toFixed(2)}%
                       </span>
                     </td>
                   </tr>

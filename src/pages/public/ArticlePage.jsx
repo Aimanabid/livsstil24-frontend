@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import api from '../../utils/api';
 import AdBanner from '../../components/public/AdBanner';
 import ArticleCard from '../../components/public/ArticleCard';
@@ -12,6 +13,30 @@ export default function ArticlePage() {
   const [article, setArticle] = useState(null);
   const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
+  const articleBodyRef = useRef(null);
+  const viewFired = useRef(false);
+
+  useEffect(() => {
+    viewFired.current = false;
+  }, [slug]);
+
+  useEffect(() => {
+    if (!article || viewFired.current || !articleBodyRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          viewFired.current = true;
+          api.post(`/articles/${slug}/view`).catch(() => {});
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(articleBodyRef.current);
+    return () => observer.disconnect();
+  }, [article, slug]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -56,8 +81,35 @@ export default function ArticlePage() {
 
   const tags = Array.isArray(article.tags) ? article.tags : [];
 
+  const seoTitle = article.seo_title || article.title;
+  const seoDescription = article.seo_description || article.excerpt || '';
+  const seoKeywords = Array.isArray(article.tags) ? article.tags.join(', ') : '';
+  const canonicalUrl = `${window.location.origin}/artikel/${article.slug}`;
+
   return (
     <div>
+      <Helmet>
+        <title>{seoTitle} – Livsstil24</title>
+        <meta name="description" content={seoDescription} />
+        {seoKeywords && <meta name="keywords" content={seoKeywords} />}
+        <link rel="canonical" href={canonicalUrl} />
+
+        {/* Open Graph (Facebook, WhatsApp, LinkedIn) */}
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
+        <meta property="og:url" content={canonicalUrl} />
+        {article.featured_image && <meta property="og:image" content={article.featured_image} />}
+        {article.published_at && <meta property="article:published_time" content={article.published_at} />}
+        {article.category_name && <meta property="article:section" content={article.category_name} />}
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seoTitle} />
+        <meta name="twitter:description" content={seoDescription} />
+        {article.featured_image && <meta name="twitter:image" content={article.featured_image} />}
+      </Helmet>
+
       {article.featured_image && (
         <div className="relative w-full overflow-hidden" style={{ height: 'min(62vh, 540px)' }}>
           <img
@@ -119,11 +171,11 @@ export default function ArticlePage() {
       <div className="max-w-7xl mx-auto px-6 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_256px] gap-16">
           <article className="max-w-2xl">
-            <div className="article-body"
+            <div ref={articleBodyRef} className="article-body"
               dangerouslySetInnerHTML={{ __html: article.content || '<p>Innehåll saknas.</p>' }} />
 
             <div className="my-12">
-              <AdBanner placement="article_inline" />
+              <AdBanner placement="article_inline" noFallback />
             </div>
 
             {tags.length > 0 && (

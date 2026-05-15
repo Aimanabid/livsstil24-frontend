@@ -20,11 +20,21 @@ export default function PublicLayout() {
   const [search, setSearch] = useState('');
   const [spacerHeight, setSpacerHeight] = useState(0);
   const [categories, setCategories] = useState([]);
+  const [settings, setSettings] = useState({});
   const headerRef = useRef(null);
 
   useEffect(() => {
     api.get('/categories').then(r => setCategories(Array.isArray(r.data) ? r.data : [])).catch(() => {});
+    api.get('/settings').then(r => setSettings(r.data || {})).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (!settings.favicon_url) return;
+    const link = document.querySelector("link[rel='icon']") || document.createElement('link');
+    link.rel  = 'icon';
+    link.href = settings.favicon_url;
+    document.head.appendChild(link);
+  }, [settings.favicon_url]);
   const navigate = useNavigate();
   const today = format(new Date(), "EEEE d MMMM yyyy", { locale: sv });
 
@@ -70,9 +80,9 @@ export default function PublicLayout() {
             Prenumerera på nyhetsbrevet →
           </Link>
           <div className="flex items-center gap-4">
-            <a href="#" aria-label="Instagram" className="text-gray-400 hover:text-charcoal-800 transition-colors"><Instagram size={14} /></a>
-            <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-charcoal-800 transition-colors"><Facebook size={14} /></a>
-            <a href="#" aria-label="TikTok" className="text-gray-400 hover:text-charcoal-800 transition-colors"><TikTokIcon size={14} /></a>
+            {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-gray-400 hover:text-charcoal-800 transition-colors"><Instagram size={14} /></a>}
+            {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="text-gray-400 hover:text-charcoal-800 transition-colors"><Facebook  size={14} /></a>}
+            {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="text-gray-400 hover:text-charcoal-800 transition-colors"><TikTokIcon size={14} /></a>}
           </div>
         </div>
       </div>
@@ -99,9 +109,17 @@ export default function PublicLayout() {
 
           {/* Center: masthead */}
           <Link to="/" className="flex-shrink-0">
-            <span className={`font-display tracking-[0.12em] text-charcoal-800 transition-all duration-300 block ${scrolled ? 'text-xl md:text-2xl' : 'text-3xl md:text-5xl'}`}>
-              LIVSSTIL<span className="text-gold-400">24</span>
-            </span>
+            {settings.logo_url ? (
+              <img
+                src={settings.logo_url}
+                alt="Livsstil24"
+                className={`object-contain transition-all duration-300 ${scrolled ? 'h-7 md:h-8' : 'h-10 md:h-14'}`}
+              />
+            ) : (
+              <span className={`font-display tracking-[0.12em] text-charcoal-800 transition-all duration-300 block ${scrolled ? 'text-xl md:text-2xl' : 'text-3xl md:text-5xl'}`}>
+                LIVSSTIL<span className="text-gold-400">24</span>
+              </span>
+            )}
           </Link>
 
           {/* Right: app link */}
@@ -201,26 +219,30 @@ export default function PublicLayout() {
       {/* ── Footer ── */}
       <footer className="bg-charcoal-900 text-cream-50">
         <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mb-14">
 
             <div className="col-span-2 md:col-span-1">
-              <span className="font-display text-2xl tracking-[0.1em] block mb-4">
-                LIVSSTIL<span className="text-gold-400">24</span>
-              </span>
+              {settings.logo_url ? (
+                <img src={settings.logo_url} alt="Livsstil24" className="h-8 object-contain mb-4" />
+              ) : (
+                <span className="font-display text-2xl tracking-[0.1em] block mb-4">
+                  LIVSSTIL<span className="text-gold-400">24</span>
+                </span>
+              )}
               <p className="text-xs text-cream-300/50 leading-relaxed mb-6 max-w-[200px]">
-                Din digitala livsstilstidning för mode, skönhet och det moderna livet.
+                {settings.site_description || 'Din digitala livsstilstidning för mode, skönhet och det moderna livet.'}
               </p>
               <div className="flex gap-4">
-                <a href="#" aria-label="Instagram" className="text-cream-300/40 hover:text-gold-400 transition-colors"><Instagram size={16} /></a>
-                <a href="#" aria-label="Facebook" className="text-cream-300/40 hover:text-gold-400 transition-colors"><Facebook size={16} /></a>
-                <a href="#" aria-label="TikTok" className="text-cream-300/40 hover:text-gold-400 transition-colors"><TikTokIcon size={16} /></a>
+                {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-cream-300/40 hover:text-gold-400 transition-colors"><Instagram size={16} /></a>}
+                {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="text-cream-300/40 hover:text-gold-400 transition-colors"><Facebook  size={16} /></a>}
+                {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="text-cream-300/40 hover:text-gold-400 transition-colors"><TikTokIcon size={16} /></a>}
               </div>
             </div>
 
             <div>
               <h3 className="eyebrow text-gold-400 mb-5">Kategorier</h3>
               <ul className="space-y-3">
-                {categories.map(cat => (
+                {categories.slice(0, 6).map(cat => (
                   <li key={cat.id}>
                     <Link to={`/kategori/${cat.slug}`}
                       className="text-xs text-cream-300/50 hover:text-cream-50 transition-colors">
@@ -228,15 +250,6 @@ export default function PublicLayout() {
                     </Link>
                   </li>
                 ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="eyebrow text-gold-400 mb-5">Om oss</h3>
-              <ul className="space-y-3 text-xs text-cream-300/50">
-                <li><a href="mailto:redaktion@livsstil24.se" className="hover:text-cream-50 transition-colors">Redaktionen</a></li>
-                <li><a href="mailto:annons@livsstil24.se" className="hover:text-cream-50 transition-colors">Annonsera</a></li>
-                <li><Link to="/app" className="hover:text-cream-50 transition-colors">Ladda ner appen</Link></li>
               </ul>
             </div>
 

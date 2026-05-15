@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useAuthStore } from '../../context/authStore';
 import {
   LayoutDashboard, FileText, Megaphone, Users, BarChart2,
-  MapPin, LogOut, Menu, X
+  MapPin, LogOut, Menu, X, Settings
 } from 'lucide-react';
 
 const navItems = [
@@ -12,7 +12,8 @@ const navItems = [
   { to: '/admin/annonser', icon: Megaphone, label: 'Annonser' },
   { to: '/admin/platser', icon: MapPin, label: 'Annonsplatser' },
   { to: '/admin/kunder', icon: Users, label: 'Kunder' },
-  { to: '/admin/statistik', icon: BarChart2, label: 'Statistik' },
+  { to: '/admin/statistik',     icon: BarChart2, label: 'Statistik' },
+  { to: '/admin/installningar', icon: Settings,  label: 'Inställningar' },
 ];
 
 function Sidebar({ user, onLogout, onNavClick }) {

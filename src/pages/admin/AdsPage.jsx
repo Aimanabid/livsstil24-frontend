@@ -99,9 +99,9 @@ export default function AdsPage() {
     finally { setUploading(u => ({ ...u, video: false })); }
   };
 
-  const totalRevenue = ads.reduce((s, a) => s + (a.price_paid || 0), 0);
-  const totalClicks = ads.reduce((s, a) => s + (a.clicks || 0), 0);
-  const totalImpressions = ads.reduce((s, a) => s + (a.impressions || 0), 0);
+  const totalRevenue = ads.reduce((s, a) => s + parseFloat(a.price_paid || 0), 0);
+  const totalClicks = ads.reduce((s, a) => s + parseInt(a.clicks || 0), 0);
+  const totalImpressions = ads.reduce((s, a) => s + parseInt(a.impressions || 0), 0);
 
   return (
     <div className="space-y-6 max-w-6xl">
@@ -163,8 +163,8 @@ export default function AdsPage() {
                     </td>
                     <td className="px-4 py-3 text-sm text-gray-600">{ad.customer_name || '–'}</td>
                     <td className="px-4 py-3 text-xs text-gray-500">{ad.placement_name}</td>
-                    <td className="px-4 py-3 text-right text-sm">{ad.impressions?.toLocaleString('sv')}</td>
-                    <td className="px-4 py-3 text-right text-sm">{ad.clicks}</td>
+                    <td className="px-4 py-3 text-right text-sm">{parseInt(ad.impressions || 0).toLocaleString('sv')}</td>
+                    <td className="px-4 py-3 text-right text-sm">{parseInt(ad.clicks || 0).toLocaleString('sv')}</td>
                     <td className="px-4 py-3 text-right text-sm font-medium">{(ad.price_paid || 0).toLocaleString('sv')} kr</td>
                     <td className="px-4 py-3 text-center">
                       <span className={`status-badge ${ad.status === 'active' ? 'status-active' : 'status-inactive'}`}>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import api from '../../utils/api';
 
 // Fallback designs shown when no real ad is configured for a placement
@@ -69,8 +69,10 @@ function FallbackVideo({ className }) {
   );
 }
 
-export default function AdBanner({ placement, className = '' }) {
-  const [ad, setAd] = useState(undefined); // undefined=loading, null=no ad, object=real ad
+export default function AdBanner({ placement, className = '', noFallback = false }) {
+  const [ad, setAd] = useState(undefined);
+  const containerRef = useRef(null);
+  const impressionFired = useRef(false);
 
   useEffect(() => {
     api.get(`/ads/placement/${placement}`)
@@ -78,8 +80,28 @@ export default function AdBanner({ placement, className = '' }) {
       .catch(() => setAd(null));
   }, [placement]);
 
-  // Show fallback while loading or when no real ad exists
+  // Fire impression only when the ad is actually visible in the viewport
+  useEffect(() => {
+    if (!ad?.id || impressionFired.current || !containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          impressionFired.current = true;
+          api.post(`/ads/${ad.id}/impression`).catch(() => {});
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 } // at least 50% of the ad must be visible
+    );
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [ad?.id]);
+
+  // Show nothing while loading or when no real ad exists and noFallback is set
   if (ad === undefined || ad === null) {
+    if (noFallback) return null;
     if (VIDEO_PLACEMENTS.has(placement))  return <FallbackVideo className={className} />;
     if (BANNER_PLACEMENTS.has(placement)) return <FallbackBanner className={className} />;
     return <FallbackBox className={className} />;
@@ -94,7 +116,7 @@ export default function AdBanner({ placement, className = '' }) {
   if (ad.ad_type === 'video') {
     const isNarrow = BANNER_PLACEMENTS.has(placement) && placement !== 'hero_banner';
     return (
-      <div className={className}>
+      <div className={className} ref={containerRef}>
         <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>
         <div className={isNarrow ? 'flex justify-center' : ''}>
           <div
@@ -130,7 +152,7 @@ export default function AdBanner({ placement, className = '' }) {
     : BANNER_PLACEMENTS.has(placement) ? 'h-20 sm:h-24 md:h-28' : '';
 
   return (
-    <div className={className}>
+    <div className={className} ref={containerRef}>
       <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>
       {ad.image_url ? (
         placement === 'hero_banner' ? (

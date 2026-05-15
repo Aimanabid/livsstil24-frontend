@@ -19,6 +19,7 @@ import AdsPage from './pages/admin/AdsPage';
 import CustomersPage from './pages/admin/CustomersPage';
 import StatisticsPage from './pages/admin/StatisticsPage';
 import PlacementsPage from './pages/admin/PlacementsPage';
+import SettingsPage from './pages/admin/SettingsPage';
 
 function ProtectedRoute({ children }) {
   const { user, initialized } = useAuthStore();
@@ -54,7 +55,8 @@ export default function App() {
         <Route path="annonser" element={<AdsPage />} />
         <Route path="platser" element={<PlacementsPage />} />
         <Route path="kunder" element={<CustomersPage />} />
-        <Route path="statistik" element={<StatisticsPage />} />
+        <Route path="statistik"     element={<StatisticsPage />} />
+        <Route path="installningar" element={<SettingsPage />} />
       </Route>
     </Routes>
   );
