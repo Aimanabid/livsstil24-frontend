@@ -7,13 +7,11 @@ const PLACEMENT_ICONS = {
   sidebar_top:    '📌',
   sidebar_mid:    '📌',
   article_inline: '📄',
-  footer_banner:  '🦶',
   category_top:   '🏷️',
 }
 
 const POSITION_KEYS = [
   { key: 'hero_banner',    label: 'Hero Banner',       description: 'Startsida — stor hero-bild överst' },
-  { key: 'footer_banner',  label: 'Footer Banner',     description: 'Alla sidor — horisontell banner längst ned' },
   { key: 'category_top',   label: 'Category Top',      description: 'Kategorisidor — banner under rubriken' },
   { key: 'article_inline', label: 'Article Inline',    description: 'Artikelsidor — video/banner mitt i text' },
   { key: 'sidebar_top',    label: 'Sidebar Top',       description: 'Sidopanel — övre annonsplats' },

@@ -6,6 +6,7 @@ import ArticleCard from '../../components/public/ArticleCard';
 import { TrendingUp } from 'lucide-react';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
+import FooterBanner from '../../components/public/FooterBanner';
 
 export default function HomePage() {
   const [articles, setArticles] = useState([]);
@@ -219,7 +220,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <AdBanner placement="footer_banner" className="border-t border-cream-200 py-6 bg-cream-100" />
+      <FooterBanner />
     </div>
   );
 }

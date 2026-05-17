@@ -201,7 +201,7 @@ export default function PublicLayout() {
             Håll dig inspirerad
           </h2>
           <p className="text-xs text-cream-300/60 mb-8 tracking-wide leading-relaxed">
-            Mode, skönhet och livsstil – direkt i din inkorg varje vecka.
+            Mode,  livsstil & trender – direkt i din inkorg varje vecka.
           </p>
           <form className="flex" onSubmit={e => e.preventDefault()}>
             <input

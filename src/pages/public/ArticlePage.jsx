@@ -214,7 +214,6 @@ export default function ArticlePage() {
         </div>
       )}
 
-      <AdBanner placement="footer_banner" className="border-t border-cream-200 py-6 bg-cream-50" />
     </div>
   );
 }
