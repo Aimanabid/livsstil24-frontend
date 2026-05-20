@@ -39,10 +39,10 @@ export default function DashboardPage() {
 
   const statCards = [
     { label: 'Publicerade artiklar', value: stats.publishedArticles, icon: FileText, color: 'text-blue-500', bg: 'bg-blue-50' },
-    { label: 'Totala visningar', value: stats.totalViews.toLocaleString('sv'), icon: Eye, color: 'text-purple-500', bg: 'bg-purple-50' },
+    { label: 'Totala visningar', value: Number(stats.totalViews).toLocaleString('sv'), icon: Eye, color: 'text-purple-500', bg: 'bg-purple-50' },
     { label: 'Aktiva annonser', value: stats.totalAds, icon: Megaphone, color: 'text-amber-500', bg: 'bg-amber-50' },
     { label: 'Kunder', value: stats.totalCustomers, icon: Users, color: 'text-green-500', bg: 'bg-green-50' },
-    { label: 'Annonsintäkter', value: `${stats.adRevenue.toLocaleString('sv')} kr`, icon: DollarSign, color: 'text-gold-500', bg: 'bg-cream-100' },
+    { label: 'Annonsintäkter', value: `${Number(stats.adRevenue).toLocaleString('sv')} kr`, icon: DollarSign, color: 'text-gold-500', bg: 'bg-cream-100' },
   ];
 
   const chartColors = ['#C9A96E', '#D4A5A5', '#A8C5A0', '#B8C4D4', '#C4A5C9', '#A5C4C9'];
@@ -148,7 +148,7 @@ export default function DashboardPage() {
                   <p className="text-xs text-gold-400 uppercase tracking-wide">{a.category_name}</p>
                   <p className="text-sm font-medium truncate">{a.title}</p>
                 </div>
-                <span className="text-xs text-gray-400 flex-shrink-0">{a.views.toLocaleString('sv')} vy</span>
+                <span className="text-xs text-gray-400 flex-shrink-0">{Number(a.views).toLocaleString('sv')} vy</span>
               </div>
             ))}
           </div>
@@ -206,7 +206,7 @@ export default function DashboardPage() {
                     <td className="py-2.5 text-sm font-medium max-w-[200px] truncate">{a.title}</td>
                     <td className="py-2.5 text-sm text-gray-500">{a.customer_name || '–'}</td>
                     <td className="py-2.5 text-xs text-gray-400">{a.placement_name}</td>
-                    <td className="py-2.5 text-right text-sm">{a.impressions.toLocaleString('sv')}</td>
+                    <td className="py-2.5 text-right text-sm">{Number(a.impressions).toLocaleString('sv')}</td>
                     <td className="py-2.5 text-right text-sm">{a.clicks}</td>
                     <td className="py-2.5 text-right text-sm font-medium text-gold-500">{parseFloat(a.ctr || 0).toFixed(2)}%</td>
                   </tr>

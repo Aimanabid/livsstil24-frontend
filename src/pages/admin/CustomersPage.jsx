@@ -55,7 +55,7 @@ export default function CustomersPage() {
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
-  const totalRevenue = customers.reduce((s, c) => s + (c.total_revenue || 0), 0);
+  const totalRevenue = customers.reduce((s, c) => s + Number(c.total_revenue || 0), 0);
   const activeCustomers = customers.filter(c => c.status === 'active').length;
 
   return (
@@ -75,7 +75,7 @@ export default function CustomersPage() {
         {[
           { label: 'Aktiva kunder', value: activeCustomers },
           { label: 'Total omsättning', value: `${totalRevenue.toLocaleString('sv')} kr` },
-          { label: 'Aktiva annonser', value: customers.reduce((s, c) => s + (c.ad_count || 0), 0) },
+          { label: 'Aktiva annonser', value: customers.reduce((s, c) => s + Number(c.ad_count || 0), 0) },
         ].map(({ label, value }) => (
           <div key={label} className="card p-4">
             <p className="text-2xl font-semibold">{value}</p>

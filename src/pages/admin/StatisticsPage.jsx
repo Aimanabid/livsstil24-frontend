@@ -134,7 +134,9 @@ export default function StatisticsPage() {
     URL.revokeObjectURL(url);
   };
   const colors = ['#C9A96E', '#D4A5A5', '#A8C5A0', '#B8C4D4', '#C4A5C9', '#A5C4C9', '#E8C4B8'];
-  const avgCTR = adStats.length ? (adStats.reduce((s, a) => s + parseFloat(a.ctr || 0), 0) / adStats.length).toFixed(2) : 0;
+  const totalImpressions = adStats.reduce((s, a) => s + Number(a.impressions || 0), 0);
+  const totalClicks      = adStats.reduce((s, a) => s + Number(a.clicks || 0), 0);
+  const avgCTR = totalImpressions > 0 ? (totalClicks / totalImpressions * 100).toFixed(2) : 0;
 
   return (
     <div className="space-y-6 max-w-6xl">
@@ -194,10 +196,10 @@ export default function StatisticsPage() {
       {/* KPI row */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {[
-          { icon: Eye,          label: 'Totala sidvisningar', value: stats.totalViews.toLocaleString('sv'),                                    color: 'text-purple-500', bg: 'bg-purple-50' },
+          { icon: Eye,          label: 'Totala sidvisningar', value: Number(stats.totalViews).toLocaleString('sv'),                                    color: 'text-purple-500', bg: 'bg-purple-50' },
           { icon: Users,        label: 'Unika besökare',      value: Number(stats.uniqueVisitors || 0).toLocaleString('sv'),                   color: 'text-green-500',  bg: 'bg-green-50'  },
-          { icon: TrendingUp,   label: 'Publicerade artiklar', value: stats.publishedArticles,                                                  color: 'text-blue-500',   bg: 'bg-blue-50'   },
-          { icon: MousePointer, label: 'Annonsklick totalt',   value: adStats.reduce((s, a) => s + a.clicks, 0).toLocaleString('sv'),           color: 'text-amber-500',  bg: 'bg-amber-50'  },
+          { icon: TrendingUp,   label: 'Publicerade artiklar', value: Number(stats.publishedArticles),                                          color: 'text-blue-500',   bg: 'bg-blue-50'   },
+          { icon: MousePointer, label: 'Annonsklick totalt',   value: adStats.reduce((s, a) => s + Number(a.clicks), 0).toLocaleString('sv'),   color: 'text-amber-500',  bg: 'bg-amber-50'  },
           { icon: Award,        label: 'Genomsnittlig CTR',    value: `${avgCTR}%`,                                                             color: 'text-gold-500',   bg: 'bg-cream-100' },
         ].map(({ icon: Icon, label, value, color, bg }) => (
           <div key={label} className="card p-5">
@@ -267,7 +269,7 @@ export default function StatisticsPage() {
                   <p className="text-sm font-medium truncate">{a.title}</p>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <p className="text-sm font-semibold">{a.views.toLocaleString('sv')}</p>
+                  <p className="text-sm font-semibold">{Number(a.views).toLocaleString('sv')}</p>
                   <p className="text-xs text-gray-400">visningar</p>
                 </div>
               </div>
@@ -327,7 +329,7 @@ export default function StatisticsPage() {
                     <td className="py-2.5 px-2 text-sm font-medium max-w-[180px] truncate">{a.title}</td>
                     <td className="py-2.5 px-2 text-sm text-gray-500">{a.customer_name || '–'}</td>
                     <td className="py-2.5 px-2 text-xs text-gray-400">{a.placement_name}</td>
-                    <td className="py-2.5 px-2 text-right text-sm">{a.impressions.toLocaleString('sv')}</td>
+                    <td className="py-2.5 px-2 text-right text-sm">{Number(a.impressions).toLocaleString('sv')}</td>
                     <td className="py-2.5 px-2 text-right text-sm">{a.clicks}</td>
                     <td className="py-2.5 px-2 text-right">
                       <span className={`text-sm font-medium ${parseFloat(a.ctr) > 2 ? 'text-green-600' : parseFloat(a.ctr) > 0.5 ? 'text-amber-600' : 'text-gray-400'}`}>
