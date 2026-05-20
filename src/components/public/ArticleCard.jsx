@@ -8,7 +8,7 @@ export default function ArticleCard({ article }) {
   const date = published_at ? format(new Date(published_at), 'd MMM yyyy', { locale: sv }) : '';
 
   return (
-    <Link to={`/artikel/${slug}`} className="article-card group block">
+    <Link to={`/artikel/${slug}`} state={{ fromApp: true }} className="article-card group block">
       <div className="overflow-hidden aspect-[4/3] mb-4">
         <img
           src={featured_image || fallback}

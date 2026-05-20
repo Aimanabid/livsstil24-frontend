@@ -13,7 +13,7 @@ const navItems = [
   { to: '/admin/platser', icon: MapPin, label: 'Annonsplatser' },
   { to: '/admin/kunder', icon: Users, label: 'Kunder' },
   { to: '/admin/statistik',     icon: BarChart2, label: 'Statistik' },
-  { to: '/admin/installningar', icon: Settings,  label: 'Inställningar' },
+{ to: '/admin/installningar', icon: Settings,  label: 'Inställningar' },
 ];
 
 function Sidebar({ user, onLogout, onNavClick }) {
@@ -48,7 +48,11 @@ function Sidebar({ user, onLogout, onNavClick }) {
 
       {/* User */}
       <div className="px-3 py-4 border-t border-gray-100">
-        <div className="flex items-center gap-3 px-3 py-2.5">
+        <Link
+          to="/admin/profil"
+          onClick={onNavClick}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-cream-50 transition-colors"
+        >
           <div className="w-8 h-8 rounded-full bg-gold-400 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
             {user?.name?.charAt(0) || 'A'}
           </div>
@@ -56,7 +60,7 @@ function Sidebar({ user, onLogout, onNavClick }) {
             <p className="text-sm font-medium truncate">{user?.name}</p>
             <p className="text-xs text-gray-400 truncate">{user?.email}</p>
           </div>
-        </div>
+        </Link>
         <button
           onClick={onLogout}
           className="flex items-center gap-2 w-full px-3 py-2 text-sm text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors mt-1"

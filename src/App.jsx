@@ -8,6 +8,9 @@ import HomePage from './pages/public/HomePage';
 import ArticlePage from './pages/public/ArticlePage';
 import CategoryPage from './pages/public/CategoryPage';
 import AppDownloadPage from './pages/public/AppDownloadPage';
+import TagPage from './pages/public/TagPage';
+import SearchPage from './pages/public/SearchPage';
+import NotFoundPage from './pages/public/NotFoundPage';
 
 // Admin pages
 import AdminLayout from './components/layout/AdminLayout';
@@ -20,6 +23,7 @@ import CustomersPage from './pages/admin/CustomersPage';
 import StatisticsPage from './pages/admin/StatisticsPage';
 import PlacementsPage from './pages/admin/PlacementsPage';
 import SettingsPage from './pages/admin/SettingsPage';
+import ProfilePage from './pages/admin/ProfilePage';
 
 function ProtectedRoute({ children }) {
   const { user, initialized } = useAuthStore();
@@ -39,7 +43,14 @@ export default function App() {
         <Route index element={<HomePage />} />
         <Route path="kategori/:slug" element={<CategoryPage />} />
         <Route path="artikel/:slug" element={<ArticlePage />} />
+        <Route path="tag/:tag" element={<TagPage />} />
+        <Route path="sok" element={<SearchPage />} />
         <Route path="app" element={<AppDownloadPage />} />
+      </Route>
+
+      {/* 404 */}
+      <Route path="*" element={<PublicLayout />}>
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
 
       {/* Admin login */}
@@ -57,6 +68,7 @@ export default function App() {
         <Route path="kunder" element={<CustomersPage />} />
         <Route path="statistik"     element={<StatisticsPage />} />
         <Route path="installningar" element={<SettingsPage />} />
+<Route path="profil" element={<ProfilePage />} />
       </Route>
     </Routes>
   );

@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
-import { Save, Eye, ArrowLeft, X, Image, Clock, Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Quote, Link as LinkIcon, Eraser } from 'lucide-react';
+import { Save, Eye, ArrowLeft, X, Image, Clock, Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Quote, Link as LinkIcon, Eraser, Loader } from 'lucide-react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -10,14 +10,18 @@ import TipTapLink from '@tiptap/extension-link';
 import TipTapImage from '@tiptap/extension-image';
 
 function EditorToolbar({ editor }) {
+  const imgInputRef = useRef();
+  const [uploadingImg, setUploadingImg] = useState(false);
+
   if (!editor) return null;
 
-  const Btn = ({ onClick, active, title, children }) => (
+  const Btn = ({ onClick, active, title, disabled, children }) => (
     <button
       type="button"
       title={title}
+      disabled={disabled}
       onMouseDown={e => { e.preventDefault(); onClick(); }}
-      className={`p-1.5 rounded transition-colors ${active ? 'bg-gold-400 text-white' : 'text-gray-600 hover:bg-cream-100 hover:text-charcoal-800'}`}
+      className={`p-1.5 rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${active ? 'bg-gold-400 text-white' : 'text-gray-600 hover:bg-cream-100 hover:text-charcoal-800'}`}
     >
       {children}
     </button>
@@ -31,9 +35,17 @@ function EditorToolbar({ editor }) {
     else if (editor.isActive('link')) editor.chain().focus().unsetLink().run();
   };
 
-  const addImage = () => {
-    const url = window.prompt('Bild URL:');
-    if (url) editor.chain().focus().setImage({ src: url }).run();
+  const handleImageFile = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('file', file);
+    setUploadingImg(true);
+    try {
+      const { data } = await api.post('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      editor.chain().focus().setImage({ src: data.url }).run();
+    } catch { toast.error('Bilduppladdning misslyckades'); }
+    finally { setUploadingImg(false); e.target.value = ''; }
   };
 
   return (
@@ -54,7 +66,10 @@ function EditorToolbar({ editor }) {
       <Btn onClick={() => editor.chain().focus().toggleBlockquote().run()} active={editor.isActive('blockquote')} title="Citat"><Quote size={14} /></Btn>
       <Sep />
       <Btn onClick={addLink} active={editor.isActive('link')} title="Länk"><LinkIcon size={14} /></Btn>
-      <Btn onClick={addImage} active={false} title="Infoga bild via URL"><Image size={14} /></Btn>
+      <Btn onClick={() => imgInputRef.current?.click()} active={false} disabled={uploadingImg} title="Ladda upp bild">
+        {uploadingImg ? <Loader size={14} className="animate-spin" /> : <Image size={14} />}
+      </Btn>
+      <input ref={imgInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageFile} />
       <Sep />
       <Btn onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()} active={false} title="Rensa formatering"><Eraser size={14} /></Btn>
     </div>

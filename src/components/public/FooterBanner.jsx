@@ -155,6 +155,7 @@ function ArticleOverlay({ article }) {
       </span>
       <Link
         to={`/artikel/${article.slug}`}
+        state={{ fromApp: true }}
         className="font-display italic text-white text-xl md:text-2xl leading-snug hover:text-gold-300 transition-colors line-clamp-2 block"
       >
         {article.title}

@@ -7,13 +7,15 @@ const PLACEMENT_ICONS = {
   sidebar_top:    '📌',
   sidebar_mid:    '📌',
   article_inline: '📄',
+  article_mid:    '📰',
   category_top:   '🏷️',
 }
 
 const POSITION_KEYS = [
   { key: 'hero_banner',    label: 'Hero Banner',       description: 'Startsida — stor hero-bild överst' },
   { key: 'category_top',   label: 'Category Top',      description: 'Kategorisidor — banner under rubriken' },
-  { key: 'article_inline', label: 'Article Inline',    description: 'Artikelsidor — video/banner mitt i text' },
+  { key: 'article_inline', label: 'Article Inline',    description: 'Artikelsidor — video/banner efter texten' },
+  { key: 'article_mid',    label: 'Article Mid',       description: 'Artikelsidor — annons mitt i artikeln' },
   { key: 'sidebar_top',    label: 'Sidebar Top',       description: 'Sidopanel — övre annonsplats' },
   { key: 'sidebar_mid',    label: 'Sidebar Mid',       description: 'Sidopanel — nedre annonsplats' },
 ]

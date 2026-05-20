@@ -62,7 +62,7 @@ export default function PublicLayout() {
     e.preventDefault();
     const q = search.trim();
     if (q) {
-      navigate({ pathname: '/', search: `?search=${encodeURIComponent(q)}` });
+      navigate(`/sok?q=${encodeURIComponent(q)}`);
       setSearchOpen(false);
       setSearch('');
     }

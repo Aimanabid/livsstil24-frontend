@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import api from '../../utils/api';
 import AdBanner from '../../components/public/AdBanner';
@@ -10,6 +10,7 @@ import { sv } from 'date-fns/locale';
 
 export default function ArticlePage() {
   const { slug } = useParams();
+  const location = useLocation();
   const [article, setArticle] = useState(null);
   const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,15 +24,26 @@ export default function ArticlePage() {
   useEffect(() => {
     if (!article || viewFired.current || !articleBodyRef.current) return;
 
+    const fromApp = location.state?.fromApp;
+    if (!fromApp) {
+      const navType = performance.getEntriesByType('navigation')[0]?.type;
+      if (navType === 'reload') return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           viewFired.current = true;
-          api.post(`/articles/${slug}/view`).catch(() => {});
+          let visitorId = localStorage.getItem('visitor_id');
+          if (!visitorId) {
+            visitorId = crypto.randomUUID();
+            localStorage.setItem('visitor_id', visitorId);
+          }
+          api.post(`/articles/${slug}/view`, { visitor_id: visitorId }).catch(() => {});
           observer.disconnect();
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0 }
     );
 
     observer.observe(articleBodyRef.current);
@@ -80,6 +92,17 @@ export default function ArticlePage() {
     : '';
 
   const tags = Array.isArray(article.tags) ? article.tags : [];
+
+  const html = article.content || '<p>Innehåll saknas.</p>';
+  const [contentTop, contentBottom] = (() => {
+    if (html.length < 600) return [html, null];
+    const mid = Math.floor(html.length / 2);
+    const before = html.lastIndexOf('</p>', mid);
+    const after  = html.indexOf('</p>', mid);
+    if (before === -1 && after === -1) return [html, null];
+    const splitAt = (before === -1 ? after : after === -1 ? before : (mid - before < after - mid ? before : after)) + 4;
+    return [html.slice(0, splitAt), html.slice(splitAt)];
+  })();
 
   const seoTitle = article.seo_title || article.title;
   const seoDescription = article.seo_description || article.excerpt || '';
@@ -172,19 +195,28 @@ export default function ArticlePage() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_256px] gap-16">
           <article className="max-w-2xl">
             <div ref={articleBodyRef} className="article-body"
-              dangerouslySetInnerHTML={{ __html: article.content || '<p>Innehåll saknas.</p>' }} />
+              dangerouslySetInnerHTML={{ __html: contentTop }} />
+            {contentBottom && (
+              <>
+                <div className="my-10">
+                  <AdBanner placement="article_mid" />
+                </div>
+                <div className="article-body"
+                  dangerouslySetInnerHTML={{ __html: contentBottom }} />
+              </>
+            )}
 
             <div className="my-12">
-              <AdBanner placement="article_inline" noFallback />
+              <AdBanner placement="article_inline" />
             </div>
 
             {tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-10 pt-8 border-t border-cream-200">
                 {tags.map(tag => (
-                  <span key={tag}
-                    className="text-[10px] uppercase tracking-[0.2em] px-3 py-1.5 bg-cream-100 text-gray-500 hover:bg-cream-200 transition-colors cursor-default">
+                  <Link key={tag} to={`/tag/${encodeURIComponent(tag)}`}
+                    className="text-[10px] uppercase tracking-[0.2em] px-3 py-1.5 bg-cream-100 text-gray-500 hover:bg-cream-200 transition-colors">
                     {tag}
-                  </span>
+                  </Link>
                 ))}
               </div>
             )}

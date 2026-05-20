@@ -92,7 +92,7 @@ export default function AdBanner({ placement, className = '', noFallback = false
           observer.disconnect();
         }
       },
-      { threshold: 0.5 } // at least 50% of the ad must be visible
+      { threshold: 0.5 }
     );
 
     observer.observe(containerRef.current);

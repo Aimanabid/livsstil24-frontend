@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import api from '../../utils/api';
 import AdBanner from '../../components/public/AdBanner';
 import ArticleCard from '../../components/public/ArticleCard';
@@ -13,50 +13,41 @@ export default function HomePage() {
   const [featured, setFeatured] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchParams] = useSearchParams();
-  const search = searchParams.get('search');
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [total, setTotal] = useState(0);
+
+  const PER_PAGE = 24;
 
   useEffect(() => {
     setLoading(true);
-    if (search) {
-      api.get(`/articles?search=${encodeURIComponent(search)}&limit=50`)
-        .then(({ data }) => { setArticles(Array.isArray(data?.articles) ? data.articles : []); setFeatured([]); })
-        .catch(() => setArticles([]))
-        .finally(() => setLoading(false));
-    } else {
-      Promise.all([
-        api.get('/articles?featured=true&limit=6'),
-        api.get('/articles?limit=24'),
-        api.get('/categories'),
-      ]).then(([featRes, allRes, catRes]) => {
-        setFeatured(Array.isArray(featRes.data?.articles) ? featRes.data.articles : []);
-        setArticles(Array.isArray(allRes.data?.articles) ? allRes.data.articles : []);
-        setCategories(Array.isArray(catRes.data) ? catRes.data : []);
-      }).catch(() => {
-        setFeatured([]);
-        setArticles([]);
-        setCategories([]);
-      }).finally(() => setLoading(false));
-    }
-  }, [search]);
+    Promise.all([
+      api.get('/articles?featured=true&limit=6'),
+      api.get(`/articles?limit=${PER_PAGE}`),
+      api.get('/categories'),
+    ]).then(([featRes, allRes, catRes]) => {
+      setFeatured(Array.isArray(featRes.data?.articles) ? featRes.data.articles : []);
+      setArticles(Array.isArray(allRes.data?.articles) ? allRes.data.articles : []);
+      setTotal(allRes.data?.total || 0);
+      setCategories(Array.isArray(catRes.data) ? catRes.data : []);
+    }).catch(() => {
+      setFeatured([]);
+      setArticles([]);
+      setCategories([]);
+    }).finally(() => setLoading(false));
+  }, []);
+
+  const loadMore = async () => {
+    setLoadingMore(true);
+    try {
+      const { data } = await api.get(`/articles?limit=${PER_PAGE}&offset=${articles.length}`);
+      setArticles(prev => [...prev, ...(Array.isArray(data?.articles) ? data.articles : [])]);
+      setTotal(data?.total || 0);
+    } finally { setLoadingMore(false); }
+  };
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center">
       <LoadingDots />
-    </div>
-  );
-
-  // ── Search results ──
-  if (search) return (
-    <div className="max-w-7xl mx-auto px-6 py-14">
-      <div className="mb-10 border-b border-cream-200 pb-8">
-        <p className="eyebrow text-gold-400 mb-2">Sökresultat</p>
-        <h1 className="font-display italic text-4xl md:text-5xl">"{search}"</h1>
-        <p className="text-xs text-gray-400 mt-3 tracking-wide">{articles.length} artiklar hittades</p>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
-        {articles.map(a => <ArticleCard key={a.id} article={a} />)}
-      </div>
     </div>
   );
 
@@ -74,7 +65,7 @@ export default function HomePage() {
       {/* ══ HERO ══ */}
       {hero && (
         <section>
-          <Link to={`/artikel/${hero.slug}`} className="group block relative">
+          <Link to={`/artikel/${hero.slug}`} state={{ fromApp: true }} className="group block relative">
             <div className="relative w-full overflow-hidden" style={{ height: 'min(82vh, 700px)' }}>
               <img
                 src={hero.featured_image}
@@ -110,7 +101,7 @@ export default function HomePage() {
         <section className="max-w-7xl mx-auto px-6 py-12 border-b border-cream-200">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {subFeatured.map(a => (
-              <Link key={a.id} to={`/artikel/${a.slug}`} className="group">
+              <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group">
                 <div className="overflow-hidden aspect-[3/2] mb-4">
                   <img
                     src={a.featured_image}
@@ -142,7 +133,7 @@ export default function HomePage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {editorsPick.map(a => (
-                <Link key={a.id} to={`/artikel/${a.slug}`} className="group flex gap-5 items-start">
+                <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-5 items-start">
                   <div className="overflow-hidden w-32 md:w-40 shrink-0 aspect-[4/3]">
                     <img
                       src={a.featured_image}
@@ -190,6 +181,14 @@ export default function HomePage() {
                 )}
               </div>
             ))}
+
+            {articles.length < total && (
+              <div className="text-center mt-6 mb-12">
+                <button onClick={loadMore} disabled={loadingMore} className="btn-outline">
+                  {loadingMore ? 'Laddar...' : 'Ladda fler'}
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -204,7 +203,7 @@ export default function HomePage() {
                   <span className="eyebrow text-charcoal-800">Mest lästa</span>
                 </div>
                 {[...articles].sort((a, b) => b.views - a.views).slice(0, 5).map((a, i) => (
-                  <Link key={a.id} to={`/artikel/${a.slug}`} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
+                  <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
                     <span className="font-display text-4xl text-cream-200 leading-none w-8 shrink-0 select-none">{i + 1}</span>
                     <div className="min-w-0">
                       <span className="eyebrow block mb-1" style={{ color: a.category_color }}>{a.category_name}</span>
