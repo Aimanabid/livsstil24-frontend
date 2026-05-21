@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
 
 export default function ArticleCard({ article }) {
-  const { title, slug, excerpt, featured_image, category_name, category_color, author_name, read_time, published_at } = article;
+  const { title, slug, excerpt, featured_image, category_name, category_color, published_at } = article;
   const fallback = 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800';
   const date = published_at ? format(new Date(published_at), 'd MMM yyyy', { locale: sv }) : '';
 
@@ -28,10 +28,7 @@ export default function ArticleCard({ article }) {
           <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-3 font-light">{excerpt}</p>
         )}
         <div className="flex items-center gap-2 text-[11px] text-gray-400">
-          {author_name && <span className="font-medium text-gray-500">{author_name}</span>}
-          {author_name && <span className="text-gray-300">·</span>}
           <span>{date}</span>
-          {read_time && <><span className="text-gray-300">·</span><span>{read_time} min</span></>}
         </div>
       </div>
     </Link>

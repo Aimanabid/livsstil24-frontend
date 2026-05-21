@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import api from '../../utils/api';
 import AdBanner from '../../components/public/AdBanner';
 import ArticleCard from '../../components/public/ArticleCard';
-import { Clock, ArrowLeft, Share2 } from 'lucide-react';
+import { ArrowLeft, Share2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
 
@@ -131,6 +131,8 @@ export default function ArticlePage() {
         {article.featured_image && <meta name="twitter:image" content={article.featured_image} />}
       </Helmet>
 
+      <AdBanner placement="hero_banner" className="border-b border-cream-200 pb-4" />
+
       {article.featured_image && (
         <div className="relative w-full overflow-hidden" style={{ height: 'min(62vh, 540px)' }}>
           <img
@@ -178,8 +180,6 @@ export default function ArticlePage() {
               <span className="font-semibold text-charcoal-800">{article.author_name}</span>
               <span className="text-gray-300">·</span>
               <span>{publishDate}</span>
-              <span className="text-gray-300">·</span>
-              <span className="flex items-center gap-1"><Clock size={11} /> {article.read_time} min läsning</span>
             </div>
             <button
               onClick={() => navigator.share?.({ title: article.title, url: window.location.href })}

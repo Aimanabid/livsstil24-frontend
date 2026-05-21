@@ -84,10 +84,6 @@ export default function HomePage() {
                   {hero.excerpt}
                 </p>
                 <div className="flex items-center gap-3 text-xs text-white/45">
-                  <span className="font-medium text-white/70">{hero.author_name}</span>
-                  <span>·</span>
-                  <span>{hero.read_time} min läsning</span>
-                  <span>·</span>
                   <span>{format(new Date(hero.published_at), 'd MMM yyyy', { locale: sv })}</span>
                 </div>
               </div>
@@ -146,7 +142,6 @@ export default function HomePage() {
                     <h3 className="font-display text-lg md:text-xl text-cream-50 leading-snug group-hover:text-gold-400 transition-colors mb-2">
                       {a.title}
                     </h3>
-                    <p className="text-[11px] text-cream-300/45">{a.author_name} · {a.read_time} min</p>
                   </div>
                 </Link>
               ))}

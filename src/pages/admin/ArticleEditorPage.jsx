@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
-import { Save, Eye, ArrowLeft, X, Image, Clock, Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Quote, Link as LinkIcon, Eraser, Loader } from 'lucide-react';
+import { Save, Eye, ArrowLeft, X, Image, Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Quote, Link as LinkIcon, Eraser, Loader } from 'lucide-react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -83,7 +83,7 @@ export default function ArticleEditorPage() {
 
   const [form, setForm] = useState({
     title: '', excerpt: '', content: '', featured_image: '',
-    category_id: '', status: 'draft', featured: false, read_time: 5,
+    category_id: '', status: 'draft', featured: false,
     seo_title: '', seo_description: '', tags: [], slug: ''
   });
   const [categories, setCategories] = useState([]);
@@ -129,7 +129,6 @@ export default function ArticleEditorPage() {
             category_id: data.category_id || '',
             status: data.status || 'draft',
             featured: !!data.featured,
-            read_time: data.read_time || 5,
             seo_title: data.seo_title || '',
             seo_description: data.seo_description || '',
             tags: Array.isArray(data.tags) ? data.tags : JSON.parse(data.tags || '[]'),
@@ -312,13 +311,6 @@ export default function ArticleEditorPage() {
                 <option value="">Välj kategori...</option>
                 {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
-            </div>
-
-            <div>
-              <label className="label flex items-center gap-1.5"><Clock size={12} /> Lästid (minuter)</label>
-              <input type="number" min="1" max="60" value={form.read_time}
-                onChange={e => set('read_time', parseInt(e.target.value))}
-                className="input-field text-sm" />
             </div>
 
             <label className="flex items-center gap-2.5 cursor-pointer">
