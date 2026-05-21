@@ -142,50 +142,52 @@ export default function ArticlePage() {
         </div>
       )}
 
-      <div className="max-w-3xl mx-auto px-6">
-        <div className="flex items-center gap-2 pt-6 mb-7">
-          <Link to="/" className="text-[11px] text-gray-400 hover:text-gold-400 transition-colors flex items-center gap-1">
-            <ArrowLeft size={11} /> Hem
-          </Link>
-          {article.category_name && (
-            <>
-              <span className="text-gray-300 text-xs">/</span>
-              <Link to={`/kategori/${article.category_slug}`}
-                className="text-[11px] text-gray-400 hover:text-gold-400 transition-colors">
-                {article.category_name}
-              </Link>
-            </>
-          )}
-        </div>
-
-        <span className="eyebrow block mb-4" style={{ color: article.category_color || '#C9A96E' }}>
-          {article.category_name}
-        </span>
-
-        <h1 className="font-display italic text-4xl md:text-6xl leading-[1.04] tracking-tight mb-5">
-          {article.title}
-        </h1>
-
-        {article.excerpt && (
-          <p className="text-lg text-gray-500 leading-relaxed mb-7 font-light border-l-2 border-gold-400 pl-4">
-            {article.excerpt}
-          </p>
-        )}
-
-        <div className="flex items-center justify-between py-5 border-y border-cream-200 mb-12">
-          <div className="flex items-center gap-3 text-xs text-gray-500 flex-wrap">
-            <span className="font-semibold text-charcoal-800">{article.author_name}</span>
-            <span className="text-gray-300">·</span>
-            <span>{publishDate}</span>
-            <span className="text-gray-300">·</span>
-            <span className="flex items-center gap-1"><Clock size={11} /> {article.read_time} min läsning</span>
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-4xl">
+          <div className="flex items-center gap-2 pt-2 mb-4">
+            <Link to="/" className="text-[11px] text-gray-400 hover:text-gold-400 transition-colors flex items-center gap-1">
+              <ArrowLeft size={11} /> Hem
+            </Link>
+            {article.category_name && (
+              <>
+                <span className="text-gray-300 text-xs">/</span>
+                <Link to={`/kategori/${article.category_slug}`}
+                  className="text-[11px] text-gray-400 hover:text-gold-400 transition-colors">
+                  {article.category_name}
+                </Link>
+              </>
+            )}
           </div>
-          <button
-            onClick={() => navigator.share?.({ title: article.title, url: window.location.href })}
-            className="flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase text-gray-400 hover:text-gold-400 transition-colors shrink-0 ml-4"
-          >
-            <Share2 size={13} /> Dela
-          </button>
+
+          <span className="eyebrow block mb-3" style={{ color: article.category_color || '#C9A96E' }}>
+            {article.category_name}
+          </span>
+
+          <h1 className="font-display italic text-4xl md:text-5xl lg:text-[3.25rem] leading-[1.06] tracking-tight mb-5 uppercase">
+            {article.title}
+          </h1>
+
+          {article.excerpt && (
+            <p className="text-lg text-gray-500 leading-relaxed mb-6 font-light border-l-2 border-gold-400 pl-4">
+              {article.excerpt}
+            </p>
+          )}
+
+          <div className="flex items-center justify-between py-5 border-y border-cream-200 mb-12">
+            <div className="flex items-center gap-3 text-xs text-gray-500 flex-wrap">
+              <span className="font-semibold text-charcoal-800">{article.author_name}</span>
+              <span className="text-gray-300">·</span>
+              <span>{publishDate}</span>
+              <span className="text-gray-300">·</span>
+              <span className="flex items-center gap-1"><Clock size={11} /> {article.read_time} min läsning</span>
+            </div>
+            <button
+              onClick={() => navigator.share?.({ title: article.title, url: window.location.href })}
+              className="flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase text-gray-400 hover:text-gold-400 transition-colors shrink-0 ml-4"
+            >
+              <Share2 size={13} /> Dela
+            </button>
+          </div>
         </div>
       </div>
 
