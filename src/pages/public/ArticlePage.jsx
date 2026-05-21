@@ -91,8 +91,6 @@ export default function ArticlePage() {
     ? format(new Date(article.published_at), 'd MMMM yyyy', { locale: sv })
     : '';
 
-  const tags = Array.isArray(article.tags) ? article.tags : [];
-
   const html = article.content || '<p>Innehåll saknas.</p>';
   const [contentTop, contentBottom] = (() => {
     if (html.length < 600) return [html, null];
@@ -209,17 +207,6 @@ export default function ArticlePage() {
             <div className="my-12">
               <AdBanner placement="article_inline" />
             </div>
-
-            {tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-10 pt-8 border-t border-cream-200">
-                {tags.map(tag => (
-                  <Link key={tag} to={`/tag/${encodeURIComponent(tag)}`}
-                    className="text-[10px] uppercase tracking-[0.2em] px-3 py-1.5 bg-cream-100 text-gray-500 hover:bg-cream-200 transition-colors">
-                    {tag}
-                  </Link>
-                ))}
-              </div>
-            )}
           </article>
 
           <aside className="hidden lg:block">
