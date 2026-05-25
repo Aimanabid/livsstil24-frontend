@@ -1,6 +1,8 @@
 import { Outlet, Link, NavLink, useNavigate } from 'react-router-dom';
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { Search, Menu, X, Download, Instagram, Facebook } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Search, Menu, X, Download, Instagram, Facebook, Youtube, Linkedin } from 'lucide-react';
+import AdBanner from '../public/AdBanner';
+import FooterBanner from '../public/FooterBanner';
 
 function TikTokIcon({ size = 14 }) {
   return (
@@ -14,18 +16,24 @@ import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
 
 export default function PublicLayout() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen]   = useState(false);
+  const [scrolled, setScrolled]   = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [search, setSearch] = useState('');
-  const [spacerHeight, setSpacerHeight] = useState(0);
+  const [search, setSearch]       = useState('');
   const [categories, setCategories] = useState([]);
-  const [settings, setSettings] = useState({});
-  const headerRef = useRef(null);
+  const [settings, setSettings]   = useState({});
+  const bannerRef = useRef(null);
 
   useEffect(() => {
     api.get('/categories').then(r => setCategories(Array.isArray(r.data) ? r.data : [])).catch(() => {});
     api.get('/settings').then(r => setSettings(r.data || {})).catch(() => {});
+
+    let visitorId = localStorage.getItem('visitor_id');
+    if (!visitorId) {
+      visitorId = crypto.randomUUID();
+      localStorage.setItem('visitor_id', visitorId);
+      api.post('/articles/visit', { visitor_id: visitorId }).catch(() => {});
+    }
   }, []);
 
   useEffect(() => {
@@ -35,28 +43,22 @@ export default function PublicLayout() {
     link.href = settings.favicon_url;
     document.head.appendChild(link);
   }, [settings.favicon_url]);
-  const navigate = useNavigate();
-  const today = format(new Date(), "EEEE d MMMM yyyy", { locale: sv });
 
-  // Measure the large (non-scrolled) header height once on mount for the spacer
-  useLayoutEffect(() => {
-    if (headerRef.current) setSpacerHeight(headerRef.current.offsetHeight);
-  }, []);
-
-  // Re-measure on resize (viewport width change can alter height)
   useEffect(() => {
-    const onResize = () => {
-      if (headerRef.current && !scrolled) setSpacerHeight(headerRef.current.offsetHeight);
+    const onScroll = () => {
+      const bannerH = bannerRef.current?.offsetHeight ?? 0;
+      setScrolled(prev => {
+        if (!prev && window.scrollY >= bannerH) return true;
+        if (prev && window.scrollY < bannerH - 20) return false;
+        return prev;
+      });
     };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, [scrolled]);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  const navigate = useNavigate();
+  const today = format(new Date(), "EEEE d MMMM yyyy", { locale: sv });
 
   const handleSearch = e => {
     e.preventDefault();
@@ -71,27 +73,33 @@ export default function PublicLayout() {
   return (
     <div className="min-h-screen bg-cream-50">
 
-      {/* ── Top microbar ── */}
-      <div className="hidden md:block border-b border-cream-200">
-        <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
-          <p className="text-[11px] text-gray-400 tracking-wide capitalize">{today}</p>
-          <Link to="#newsletter"
-            className="text-[11px] tracking-[0.18em] uppercase font-medium text-charcoal-800 hover:text-gold-400 transition-colors">
-            Prenumerera på nyhetsbrevet →
-          </Link>
-          <div className="flex items-center gap-4">
-            {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-gray-400 hover:text-charcoal-800 transition-colors"><Instagram size={14} /></a>}
-            {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="text-gray-400 hover:text-charcoal-800 transition-colors"><Facebook  size={14} /></a>}
-            {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="text-gray-400 hover:text-charcoal-800 transition-colors"><TikTokIcon size={14} /></a>}
-          </div>
-        </div>
+      {/* ── Hero banner — normal flow, scrolls away ── */}
+      <div ref={bannerRef} className="h-screen">
+        <AdBanner placement="hero_banner" className="h-full border-b border-cream-200" hideLabel />
       </div>
 
-      {/* Spacer — reserves the space the fixed header occupies */}
-      <div style={{ height: spacerHeight }} />
+      {/* ── Sticky header ── */}
+      <header className={`sticky top-0 z-50 bg-cream-50 transition-shadow duration-300 ${scrolled ? 'shadow-[0_1px_0_#F0E6D3]' : ''}`}>
 
-      {/* ── Fixed header ── */}
-      <header ref={headerRef} className={`fixed top-0 left-0 right-0 z-50 bg-cream-50 transition-shadow duration-300 ${scrolled ? 'shadow-[0_1px_0_#F0E6D3]' : ''}`}>
+        {/* Top microbar — hidden when scrolled to keep header compact */}
+        {/* {!scrolled && (
+          <div className="hidden md:block border-b border-cream-200">
+            <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
+              <p className="text-[11px] text-gray-400 tracking-wide capitalize">{today}</p>
+              <Link to="#newsletter"
+                className="text-[11px] tracking-[0.18em] uppercase font-medium text-charcoal-800 hover:text-gold-400 transition-colors">
+                Prenumerera på nyhetsbrevet →
+              </Link>
+              <div className="flex items-center gap-4">
+                {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-gray-400 hover:text-charcoal-800 transition-colors"><Instagram size={14} /></a>}
+                {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="text-gray-400 hover:text-charcoal-800 transition-colors"><Facebook  size={14} /></a>}
+                {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="text-gray-400 hover:text-charcoal-800 transition-colors"><TikTokIcon size={14} /></a>}
+                {settings.youtube_url   && <a href={settings.youtube_url}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="text-gray-400 hover:text-charcoal-800 transition-colors"><Youtube    size={14} /></a>}
+                {settings.linkedin_url  && <a href={settings.linkedin_url}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  className="text-gray-400 hover:text-charcoal-800 transition-colors"><Linkedin   size={14} /></a>}
+              </div>
+            </div>
+          </div>
+        )} */}
 
         {/* Logo row */}
         <div className={`flex items-center px-6 md:px-12 transition-all duration-300 ${scrolled ? 'py-2 md:py-3' : 'py-5 md:py-6'}`}>
@@ -191,6 +199,8 @@ export default function PublicLayout() {
         <Outlet />
       </main>
 
+      <FooterBanner />
+
       {/* ── Newsletter ── */}
       <section className="bg-charcoal-800 py-16" id="newsletter">
         <div className="max-w-md mx-auto px-6 text-center">
@@ -236,6 +246,8 @@ export default function PublicLayout() {
                 {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-cream-300/40 hover:text-gold-400 transition-colors"><Instagram size={16} /></a>}
                 {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="text-cream-300/40 hover:text-gold-400 transition-colors"><Facebook  size={16} /></a>}
                 {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="text-cream-300/40 hover:text-gold-400 transition-colors"><TikTokIcon size={16} /></a>}
+                {settings.youtube_url   && <a href={settings.youtube_url}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="text-cream-300/40 hover:text-gold-400 transition-colors"><Youtube    size={16} /></a>}
+                {settings.linkedin_url  && <a href={settings.linkedin_url}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  className="text-cream-300/40 hover:text-gold-400 transition-colors"><Linkedin   size={16} /></a>}
               </div>
             </div>
 

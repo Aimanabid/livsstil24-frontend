@@ -3,7 +3,6 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../../utils/api';
 import ArticleCard from '../../components/public/ArticleCard';
 import { Search } from 'lucide-react';
-import FooterBanner from '../../components/public/FooterBanner';
 
 export default function SearchPage() {
   const [searchParams] = useSearchParams();
@@ -97,7 +96,6 @@ export default function SearchPage() {
         )}
       </div>
 
-      <FooterBanner />
     </div>
   );
 }

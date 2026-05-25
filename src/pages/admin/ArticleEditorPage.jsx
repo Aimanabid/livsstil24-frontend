@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
-import { Save, Eye, ArrowLeft, X, Image, Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Quote, Link as LinkIcon, Eraser, Loader } from 'lucide-react';
+import { Save, Eye, ArrowLeft, X, Image, Video, Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Quote, Link as LinkIcon, Eraser, Loader } from 'lucide-react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -82,16 +82,18 @@ export default function ArticleEditorPage() {
   const isNew = !id || id === 'ny';
 
   const [form, setForm] = useState({
-    title: '', excerpt: '', content: '', featured_image: '',
+    title: '', excerpt: '', content: '', featured_image: '', video_url: '',
     category_id: '', status: 'draft', featured: false,
     seo_title: '', seo_description: '', tags: [], slug: ''
   });
   const [categories, setCategories] = useState([]);
   const [saving, setSaving] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
   const [tagInput, setTagInput] = useState('');
   const [loadedContent, setLoadedContent] = useState(null);
   const fileInputRef = useRef();
+  const videoInputRef = useRef();
   const contentRef = useRef('');
 
   const editor = useEditor({
@@ -126,6 +128,7 @@ export default function ArticleEditorPage() {
             excerpt: data.excerpt || '',
             content,
             featured_image: data.featured_image || '',
+            video_url: data.video_url || '',
             category_id: data.category_id || '',
             status: data.status || 'draft',
             featured: !!data.featured,
@@ -141,6 +144,8 @@ export default function ArticleEditorPage() {
 
   const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
 
+  const isTV = categories.find(c => c.id === form.category_id)?.slug === 'livsstil24-tv';
+
   const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -153,6 +158,20 @@ export default function ArticleEditorPage() {
       toast.success('Bild uppladdad');
     } catch { toast.error('Bilduppladdning misslyckades'); }
     finally { setUploadingImage(false); }
+  };
+
+  const handleVideoUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('file', file);
+    setUploadingVideo(true);
+    try {
+      const { data } = await api.post('/upload/video', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      set('video_url', data.url);
+      toast.success('Video uppladdad');
+    } catch { toast.error('Videouppladdning misslyckades'); }
+    finally { setUploadingVideo(false); e.target.value = ''; }
   };
 
   const addTag = () => {
@@ -280,6 +299,45 @@ export default function ArticleEditorPage() {
             />
             <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
           </div>
+
+          {/* Video — only for Lifestyle24 TV category */}
+          {isTV && <div className="card p-5">
+            <label className="label">Video</label>
+            {form.video_url ? (
+              <div className="relative group">
+                <video src={form.video_url} controls className="w-full rounded-lg max-h-64 bg-black" />
+                <button
+                  onClick={() => set('video_url', '')}
+                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            ) : (
+              <div
+                onClick={() => videoInputRef.current?.click()}
+                className="border-2 border-dashed border-cream-200 rounded-lg p-8 text-center cursor-pointer hover:border-gold-400 transition-colors"
+              >
+                {uploadingVideo ? (
+                  <p className="text-sm text-gray-400">Laddar upp video...</p>
+                ) : (
+                  <>
+                    <Video size={24} className="mx-auto text-gray-300 mb-2" />
+                    <p className="text-sm text-gray-400">Klicka för att ladda upp video</p>
+                    <p className="text-xs text-gray-300 mt-1">MP4, WebM – max 200MB</p>
+                  </>
+                )}
+              </div>
+            )}
+            <input
+              type="text"
+              value={form.video_url}
+              onChange={e => set('video_url', e.target.value)}
+              placeholder="eller klistra in video-URL..."
+              className="input-field mt-3 text-xs"
+            />
+            <input ref={videoInputRef} type="file" accept="video/*" onChange={handleVideoUpload} className="hidden" />
+          </div>}
 
           {/* Content */}
           <div className="card p-5">

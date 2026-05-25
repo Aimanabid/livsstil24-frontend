@@ -49,8 +49,6 @@ export default function CategoryPage() {
 
   return (
     <div>
-      <AdBanner placement="hero_banner" className="border-b border-cream-200" />
-
       <div className="border-b border-cream-200">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 text-center">
           <div className="flex justify-center mb-4">

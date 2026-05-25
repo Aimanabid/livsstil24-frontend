@@ -7,6 +7,7 @@ import PublicLayout from './components/layout/PublicLayout';
 import HomePage from './pages/public/HomePage';
 import ArticlePage from './pages/public/ArticlePage';
 import CategoryPage from './pages/public/CategoryPage';
+import TvPage from './pages/public/TvPage';
 import AppDownloadPage from './pages/public/AppDownloadPage';
 import TagPage from './pages/public/TagPage';
 import SearchPage from './pages/public/SearchPage';
@@ -41,6 +42,7 @@ export default function App() {
       {/* Public */}
       <Route path="/" element={<PublicLayout />}>
         <Route index element={<HomePage />} />
+        <Route path="kategori/livsstil24-tv" element={<TvPage />} />
         <Route path="kategori/:slug" element={<CategoryPage />} />
         <Route path="artikel/:slug" element={<ArticlePage />} />
         <Route path="tag/:tag" element={<TagPage />} />

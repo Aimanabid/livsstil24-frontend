@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import api from '../../utils/api';
 import ArticleCard from '../../components/public/ArticleCard';
 import AdBanner from '../../components/public/AdBanner';
-import FooterBanner from '../../components/public/FooterBanner';
 
 const PER_PAGE = 12;
 
@@ -100,7 +99,6 @@ export default function TagPage() {
         </div>
       </div>
 
-      <FooterBanner />
     </div>
   );
 }

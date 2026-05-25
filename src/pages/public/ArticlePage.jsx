@@ -4,22 +4,43 @@ import { Helmet } from 'react-helmet-async';
 import api from '../../utils/api';
 import AdBanner from '../../components/public/AdBanner';
 import ArticleCard from '../../components/public/ArticleCard';
-import { ArrowLeft, Share2 } from 'lucide-react';
+import { ArrowLeft, Share2, TrendingUp } from 'lucide-react';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
 
 export default function ArticlePage() {
   const { slug } = useParams();
   const location = useLocation();
-  const [article, setArticle] = useState(null);
-  const [related, setRelated] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [article, setArticle]   = useState(null);
+  const [related, setRelated]   = useState([]);
+  const [mostRead, setMostRead] = useState([]);
+  const [loading, setLoading]   = useState(true);
+  const [autoThumb, setAutoThumb] = useState(null);
   const articleBodyRef = useRef(null);
   const viewFired = useRef(false);
 
   useEffect(() => {
     viewFired.current = false;
   }, [slug]);
+
+  useEffect(() => {
+    if (!article?.video_url || article?.featured_image) { setAutoThumb(null); return; }
+    const vid = document.createElement('video');
+    vid.preload = 'metadata';
+    vid.muted = true;
+    vid.src = article.video_url;
+    vid.onloadedmetadata = () => { vid.currentTime = Math.min(1, vid.duration * 0.1); };
+    vid.onseeked = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = vid.videoWidth;
+        canvas.height = vid.videoHeight;
+        canvas.getContext('2d').drawImage(vid, 0, 0);
+        setAutoThumb(canvas.toDataURL('image/jpeg'));
+      } catch { setAutoThumb(null); }
+    };
+    vid.onerror = () => setAutoThumb(null);
+  }, [article?.video_url, article?.featured_image]);
 
   useEffect(() => {
     if (!article || viewFired.current || !articleBodyRef.current) return;
@@ -49,6 +70,13 @@ export default function ArticlePage() {
     observer.observe(articleBodyRef.current);
     return () => observer.disconnect();
   }, [article, slug]);
+
+  useEffect(() => {
+    api.get('/articles?limit=6').then(({ data }) => {
+      const sorted = (data?.articles ?? []).sort((a, b) => (b.views ?? 0) - (a.views ?? 0));
+      setMostRead(sorted.slice(0, 5));
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -131,9 +159,17 @@ export default function ArticlePage() {
         {article.featured_image && <meta name="twitter:image" content={article.featured_image} />}
       </Helmet>
 
-      <AdBanner placement="hero_banner" className="border-b border-cream-200 pb-4" />
-
-      {article.featured_image && (
+      {article.video_url && article.category_slug === 'livsstil24-tv' ? (
+        <div className="w-full bg-black" style={{ maxHeight: 'min(62vh, 540px)' }}>
+          <video
+            src={article.video_url}
+            poster={article.featured_image || autoThumb || undefined}
+            controls
+            className="w-full object-contain"
+            style={{ maxHeight: 'min(62vh, 540px)' }}
+          />
+        </div>
+      ) : article.featured_image ? (
         <div className="relative w-full overflow-hidden" style={{ height: 'min(62vh, 540px)' }}>
           <img
             src={article.featured_image}
@@ -142,7 +178,7 @@ export default function ArticlePage() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-cream-50 via-cream-50/10 to-transparent" />
         </div>
-      )}
+      ) : null}
 
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-4xl">
@@ -214,6 +250,26 @@ export default function ArticlePage() {
           <aside className="hidden lg:block">
             <div className="sticky top-[120px] space-y-8">
               <AdBanner placement="sidebar_top" />
+
+              {mostRead.length > 0 && (
+                <div>
+                  <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
+                    <TrendingUp size={12} className="text-gold-400" />
+                    <span className="eyebrow text-charcoal-800">Mest lästa</span>
+                  </div>
+                  {mostRead.map((a, i) => (
+                    <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }}
+                      className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
+                      <span className="font-display text-4xl text-cream-200 leading-none w-8 shrink-0 select-none">{i + 1}</span>
+                      <div className="min-w-0">
+                        <span className="eyebrow block mb-1" style={{ color: a.category_color || '#C9A96E' }}>{a.category_name}</span>
+                        <h4 className="text-sm font-medium leading-snug group-hover:text-gold-500 transition-colors line-clamp-2">{a.title}</h4>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+
               <AdBanner placement="sidebar_mid" />
             </div>
           </aside>

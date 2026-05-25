@@ -5,10 +5,17 @@ import api from '../../utils/api';
 const VIDEO_PLACEMENTS  = new Set(['article_inline']);
 const BANNER_PLACEMENTS = new Set(['hero_banner', 'footer_banner', 'category_top']);
 
-function FallbackBanner({ className }) {
+function FallbackBanner({ className, hideLabel }) {
+  const isHero = className?.includes('h-full');
+  if (isHero) {
+    return (
+      <div className={`relative overflow-hidden ${className}`}
+        style={{ background: 'linear-gradient(135deg,#1a1a1a,#2d2d2d,#1a1a1a)' }} />
+    );
+  }
   return (
     <div className={className}>
-      <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>
+      {!hideLabel && <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>}
       <div className="flex justify-center">
         <div
           className="h-20 sm:h-24 md:h-28 flex items-center justify-between gap-6 px-8 sm:px-12 overflow-hidden"
@@ -28,10 +35,10 @@ function FallbackBanner({ className }) {
   );
 }
 
-function FallbackBox({ className }) {
+function FallbackBox({ className, hideLabel }) {
   return (
     <div className={className}>
-      <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>
+      {!hideLabel && <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>}
       <div
         className="flex flex-col items-center justify-center text-center px-6 py-8 gap-4 w-full"
         style={{ background: 'linear-gradient(160deg,#2c1810,#4a2c1a)', minHeight: 200 }}
@@ -47,10 +54,10 @@ function FallbackBox({ className }) {
   );
 }
 
-function FallbackVideo({ className }) {
+function FallbackVideo({ className, hideLabel }) {
   return (
     <div className={className}>
-      <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>
+      {!hideLabel && <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>}
       <div className="relative bg-black w-full overflow-hidden">
         <video src="/mock_ad.mp4" poster="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&auto=format&fit=crop"
           autoPlay muted loop playsInline className="w-full max-h-[320px] object-cover" />
@@ -69,7 +76,7 @@ function FallbackVideo({ className }) {
   );
 }
 
-export default function AdBanner({ placement, className = '', noFallback = false }) {
+export default function AdBanner({ placement, className = '', noFallback = false, hideLabel = false }) {
   const [ad, setAd] = useState(undefined);
   const containerRef = useRef(null);
   const impressionFired = useRef(false);
@@ -102,9 +109,9 @@ export default function AdBanner({ placement, className = '', noFallback = false
   // Show nothing while loading or when no real ad exists and noFallback is set
   if (ad === undefined || ad === null) {
     if (noFallback) return null;
-    if (VIDEO_PLACEMENTS.has(placement))  return <FallbackVideo className={className} />;
-    if (BANNER_PLACEMENTS.has(placement)) return <FallbackBanner className={className} />;
-    return <FallbackBox className={className} />;
+    if (VIDEO_PLACEMENTS.has(placement))  return <FallbackVideo  className={className} hideLabel={hideLabel} />;
+    if (BANNER_PLACEMENTS.has(placement)) return <FallbackBanner className={className} hideLabel={hideLabel} />;
+    return <FallbackBox className={className} hideLabel={hideLabel} />;
   }
 
   // Real ad from backend
@@ -117,29 +124,17 @@ export default function AdBanner({ placement, className = '', noFallback = false
     const isNarrow = BANNER_PLACEMENTS.has(placement) && placement !== 'hero_banner';
     return (
       <div className={className} ref={containerRef}>
-        <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>
-        <div className={isNarrow ? 'flex justify-center' : ''}>
+        {!hideLabel && <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>}
+        <div className={isNarrow ? 'flex justify-center' : 'h-full'}>
           <div
-            className="relative bg-black overflow-hidden cursor-pointer"
+            className={`relative bg-black overflow-hidden cursor-pointer ${placement === 'hero_banner' ? 'h-full' : ''}`}
             style={isNarrow ? { width: '70%', maxWidth: '70%' } : { width: '100%' }}
             onClick={handleClick}
           >
             <video src={ad.video_url} poster={ad.image_url || undefined}
               autoPlay muted loop playsInline
-              className={`w-full object-cover ${isNarrow ? 'h-20 sm:h-24 md:h-28' : 'max-h-[320px]'}`} />
+              className={`w-full object-cover ${isNarrow ? 'h-20 sm:h-24 md:h-28' : placement === 'hero_banner' ? 'h-full' : 'max-h-[320px]'}`} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />
-            <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between px-5 py-4">
-              <div>
-                <p className="text-xs tracking-[0.18em] uppercase mb-1 text-gold-400">Sponsrat</p>
-                <p className="text-white font-semibold text-base leading-snug">{ad.title}</p>
-                {ad.alt_text && <p className="text-white/60 text-xs mt-0.5">{ad.alt_text}</p>}
-              </div>
-              {ad.link_url && (
-                <button className="shrink-0 text-xs tracking-widest uppercase font-semibold px-4 py-2 border border-gold-400 text-gold-400">
-                  Läs mer
-                </button>
-              )}
-            </div>
           </div>
         </div>
       </div>
@@ -148,12 +143,12 @@ export default function AdBanner({ placement, className = '', noFallback = false
 
   // image (default)
   const bannerHeight = placement === 'hero_banner'
-    ? 'h-[600px]'
+    ? 'h-full'
     : BANNER_PLACEMENTS.has(placement) ? 'h-20 sm:h-24 md:h-28' : '';
 
   return (
     <div className={className} ref={containerRef}>
-      <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>
+      {!hideLabel && <p className="text-xs text-gray-300 mb-1 tracking-widest uppercase text-center">Annons</p>}
       {ad.image_url ? (
         placement === 'hero_banner' ? (
           <div className={`cursor-pointer w-full overflow-hidden ${bannerHeight}`} onClick={handleClick}>
@@ -166,11 +161,17 @@ export default function AdBanner({ placement, className = '', noFallback = false
             </div>
           </div>
         )
+      ) : placement === 'hero_banner' ? (
+        <div
+          className={`cursor-pointer w-full overflow-hidden ${bannerHeight}`}
+          style={{ background: 'linear-gradient(135deg,#1a1a1a,#2d2d2d,#1a1a1a)' }}
+          onClick={handleClick}
+        />
       ) : (
         <div className="flex justify-center cursor-pointer" onClick={handleClick}>
           <div
             className={`flex items-center justify-between gap-6 px-8 sm:px-12 overflow-hidden ${bannerHeight}`}
-            style={{ background: 'linear-gradient(135deg,#1a1a1a,#2d2d2d,#1a1a1a)', width: placement === 'hero_banner' ? '100%' : '70%', minWidth: 0, maxWidth: placement === 'hero_banner' ? '100%' : '70%', flexShrink: 0 }}
+            style={{ background: 'linear-gradient(135deg,#1a1a1a,#2d2d2d,#1a1a1a)', width: '70%', minWidth: 0, maxWidth: '70%', flexShrink: 0 }}
           >
             <div className="min-w-0 flex-1 overflow-hidden">
               <p className="text-[10px] tracking-[0.2em] uppercase mb-1 text-gold-400">Sponsrat</p>

@@ -6,7 +6,6 @@ import ArticleCard from '../../components/public/ArticleCard';
 import { TrendingUp } from 'lucide-react';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
-import FooterBanner from '../../components/public/FooterBanner';
 
 export default function HomePage() {
   const [articles, setArticles] = useState([]);
@@ -60,8 +59,6 @@ export default function HomePage() {
 
   return (
     <div>
-      <AdBanner placement="hero_banner" className="border-b border-cream-200 pb-4" />
-
       {/* ══ HERO ══ */}
       {hero && (
         <section>
@@ -214,7 +211,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <FooterBanner />
     </div>
   );
 }
