@@ -65,12 +65,16 @@ export default function StatisticsPage() {
   const { stats, topArticles, viewsByDay, categoryBreakdown, deviceBreakdown } = overview;
   const { adStats = [], articleStats = [], customerStats = [], customerAdsByDay = [], sovStats = [], ipStats = [] } = details || {};
 
-  // Group SOV data by placement
-  const sovByPlacement = (sovStats || []).reduce((acc, row) => {
-    if (!acc[row.placement_name]) acc[row.placement_name] = [];
-    acc[row.placement_name].push(row);
-    return acc;
-  }, {});
+  // Group SOV data by placement — only keep placements with 2+ competing ads
+  const sovByPlacement = Object.fromEntries(
+    Object.entries(
+      (sovStats || []).reduce((acc, row) => {
+        if (!acc[row.placement_name]) acc[row.placement_name] = [];
+        acc[row.placement_name].push(row);
+        return acc;
+      }, {})
+    ).filter(([, rows]) => rows.length > 1)
+  );
 
   const revenues = (customerStats || []).map(c => Number(c.total_revenue));
   const n = revenues.length;
@@ -359,28 +363,49 @@ export default function StatisticsPage() {
       {/* Customer ad activity over time */}
       {customerAdsByDay?.length > 0 && (
         <div className="card p-5">
-          <h2 className="text-sm font-medium mb-4 text-charcoal-800">Annonsaktivitet över tid</h2>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={customerAdsByDay}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0ebe0" />
-              <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#9ca3af' }}
-                tickFormatter={d => { try { return format(parseISO(d), 'd/M'); } catch { return d; } }} />
-              <YAxis tick={{ fontSize: 11, fill: '#9ca3af' }} />
-              <Tooltip
-                labelFormatter={d => { try { return format(parseISO(d), 'd MMMM', { locale: sv }); } catch { return d; } }}
-                formatter={(v, name) => [v.toLocaleString('sv'), name === 'impressions' ? 'Visningar' : 'Klick']}
-                contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e5e7eb' }} />
-              <Bar dataKey="impressions" fill="#C9A96E" radius={[2, 2, 0, 0]} />
-              <Bar dataKey="clicks" fill="#A8C5A0" radius={[2, 2, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-          <div className="flex items-center justify-center gap-5 mt-3">
-            <span className="flex items-center gap-1.5 text-xs text-gray-400">
-              <span className="w-3 h-3 rounded-sm bg-gold-400 inline-block" /> Visningar
-            </span>
-            <span className="flex items-center gap-1.5 text-xs text-gray-400">
-              <span className="w-3 h-3 rounded-sm inline-block" style={{ background: '#A8C5A0' }} /> Klick
-            </span>
+          <h2 className="text-sm font-medium mb-4 text-charcoal-800">Räckvidd & engagemang</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <h2 className="text-xs font-medium mb-3 text-gray-400 uppercase tracking-wide">Visningar</h2>
+            <ResponsiveContainer width="100%" height={200}>
+              <AreaChart data={customerAdsByDay}>
+                <defs>
+                  <linearGradient id="impGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#C9A96E" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#C9A96E" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0ebe0" />
+                <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#9ca3af' }}
+                  tickFormatter={d => { try { return format(parseISO(d), 'd/M'); } catch { return d; } }} />
+                <YAxis tick={{ fontSize: 11, fill: '#9ca3af' }}
+                  tickFormatter={v => v.toLocaleString('sv')} />
+                <Tooltip
+                  labelFormatter={d => { try { return format(parseISO(d), 'd MMMM', { locale: sv }); } catch { return d; } }}
+                  formatter={v => [v.toLocaleString('sv'), 'Visningar']}
+                  contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e5e7eb' }} />
+                <Area type="monotone" dataKey="impressions" stroke="#C9A96E" strokeWidth={2}
+                  fill="url(#impGrad)" dot={false} activeDot={{ r: 4 }} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div>
+            <h2 className="text-xs font-medium mb-3 text-gray-400 uppercase tracking-wide">Klick</h2>
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={customerAdsByDay}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0ebe0" />
+                <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#9ca3af' }}
+                  tickFormatter={d => { try { return format(parseISO(d), 'd/M'); } catch { return d; } }} />
+                <YAxis tick={{ fontSize: 11, fill: '#9ca3af' }} allowDecimals={false} />
+                <Tooltip
+                  labelFormatter={d => { try { return format(parseISO(d), 'd MMMM', { locale: sv }); } catch { return d; } }}
+                  formatter={v => [v.toLocaleString('sv'), 'Klick']}
+                  contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e5e7eb' }} />
+                <Bar dataKey="clicks" fill="#A8C5A0" radius={[3, 3, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
           </div>
         </div>
       )}
