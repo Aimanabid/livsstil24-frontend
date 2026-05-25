@@ -78,14 +78,16 @@ function ImageUploadField({ label, hint, value, onChange, previewSize = 'h-20', 
 
 export default function SettingsPage() {
   const [form, setForm] = useState({
-    site_description: '',
-    instagram_url:    '',
-    facebook_url:     '',
-    tiktok_url:       '',
-    youtube_url:      '',
-    linkedin_url:     '',
-    logo_url:         '',
-    favicon_url:      '',
+    site_description:      '',
+    instagram_url:         '',
+    facebook_url:          '',
+    tiktok_url:            '',
+    youtube_url:           '',
+    linkedin_url:          '',
+    logo_url:              '',
+    favicon_url:           '',
+    chief_editor:          '',
+    responsible_publisher: '',
   });
   const [loading, setLoading] = useState(true);
   const [saving,  setSaving]  = useState(false);
@@ -148,6 +150,23 @@ export default function SettingsPage() {
                 placeholder="Din digitala livsstilstidning..."
               />
               <p className="text-xs text-gray-400 mt-1">Visas i footern under LIVSSTIL24-logotypen.</p>
+            </div>
+          </div>
+
+          <div className="card p-6">
+            <h2 className="text-sm font-semibold text-charcoal-800 mb-1">Redaktion</h2>
+            <p className="text-xs text-gray-400 mb-4">Visas i footern. Ansvarig utgivare krävs enligt svensk presslag.</p>
+            <div className="space-y-4">
+              <div>
+                <label className="label">Chefredaktör</label>
+                <input type="text" name="chief_editor" value={form.chief_editor} onChange={handleChange}
+                  className="input-field w-full" placeholder="Förnamn Efternamn" />
+              </div>
+              <div>
+                <label className="label">Ansvarig utgivare</label>
+                <input type="text" name="responsible_publisher" value={form.responsible_publisher} onChange={handleChange}
+                  className="input-field w-full" placeholder="Förnamn Efternamn" />
+              </div>
             </div>
           </div>
 

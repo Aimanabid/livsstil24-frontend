@@ -3,7 +3,7 @@ import api from '../../utils/api';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
 import { format, parseISO, subDays } from 'date-fns';
 import { sv } from 'date-fns/locale';
-import { TrendingUp, Eye, MousePointer, Award, Download, Users } from 'lucide-react';
+import { TrendingUp, Eye, MousePointer, Award, Download, Users, Building2, PieChart } from 'lucide-react';
 
 const fmt = d => d.toISOString().split('T')[0];
 
@@ -13,19 +13,40 @@ const PRESETS = [
   { label: '30 dagar', days: 30 },
 ];
 
+const DetailsSkeleton = () => (
+  <div className="space-y-6">
+    {[1, 2, 3].map(i => (
+      <div key={i} className="card p-5 animate-pulse">
+        <div className="h-4 w-40 bg-cream-200 rounded mb-4" />
+        <div className="space-y-2">
+          {[1, 2, 3].map(j => <div key={j} className="h-8 bg-cream-100 rounded" />)}
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
 export default function StatisticsPage() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [overview, setOverview] = useState(null);
+  const [details, setDetails]   = useState(null);
+  const [loadingOverview, setLoadingOverview] = useState(true);
+  const [loadingDetails, setLoadingDetails]   = useState(true);
   const [from, setFrom] = useState(fmt(subDays(new Date(), 30)));
   const [to, setTo]     = useState(fmt(new Date()));
   const [activePreset, setActivePreset] = useState(30);
 
   const fetchStats = (f, t) => {
-    setLoading(true);
-    api.get(`/stats/dashboard?from=${f}&to=${t}`)
-      .then(r => setData(r.data))
+    setLoadingOverview(true);
+    setLoadingDetails(true);
+    const qs = `?from=${f}&to=${t}`;
+    api.get(`/stats/dashboard/overview${qs}`)
+      .then(r => setOverview(r.data))
       .catch(() => {})
-      .finally(() => setLoading(false));
+      .finally(() => setLoadingOverview(false));
+    api.get(`/stats/dashboard/details${qs}`)
+      .then(r => setDetails(r.data))
+      .catch(() => {})
+      .finally(() => setLoadingDetails(false));
   };
 
   useEffect(() => { fetchStats(from, to); }, []);
@@ -39,11 +60,25 @@ export default function StatisticsPage() {
 
   const applyCustom = () => { setActivePreset(null); fetchStats(from, to); };
 
-  if (loading) return <div className="flex items-center justify-center h-48"><div className="text-gray-400 text-sm">Laddar statistik...</div></div>;
+  if (loadingOverview) return <div className="flex items-center justify-center h-48"><div className="text-gray-400 text-sm">Laddar statistik...</div></div>;
 
-  const { stats, topArticles, adStats, viewsByDay, categoryBreakdown, articleStats } = data;
+  const { stats, topArticles, viewsByDay, categoryBreakdown, deviceBreakdown } = overview;
+  const { adStats = [], articleStats = [], customerStats = [], customerAdsByDay = [], sovStats = [], ipStats = [] } = details || {};
+
+  // Group SOV data by placement
+  const sovByPlacement = (sovStats || []).reduce((acc, row) => {
+    if (!acc[row.placement_name]) acc[row.placement_name] = [];
+    acc[row.placement_name].push(row);
+    return acc;
+  }, {});
+
+  const revenues = (customerStats || []).map(c => Number(c.total_revenue));
+  const n = revenues.length;
+  const mean = n > 0 ? revenues.reduce((a, b) => a + b, 0) / n : 0;
+  const stdDev = n > 1 ? Math.sqrt(revenues.reduce((a, b) => a + (b - mean) ** 2, 0) / n) : 0;
 
   const downloadPDF = () => {
+    if (!details) return;
     const win = window.open('', '_blank');
     win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8">
       <title>Livsstil24 – Statistik ${from} till ${to}</title>
@@ -83,15 +118,24 @@ export default function StatisticsPage() {
         ${articleStats.map(a=>`<tr><td>${a.title}</td><td>${a.category_name||'–'}</td><td>${a.author_name||'–'}</td><td class="tr">${Number(a.period_views).toLocaleString('sv')}</td></tr>`).join('')}
       </tbody></table>
       <h2>Annonsprestation</h2>
-      <table><thead><tr><th>Annons</th><th>Kund</th><th>Annonsplats</th><th class="tr">Visningar</th><th class="tr">Klick</th><th class="tr">CTR</th></tr></thead><tbody>
-        ${adStats.map(a=>`<tr><td>${a.title}</td><td>${a.customer_name||'–'}</td><td>${a.placement_name||'–'}</td><td class="tr">${Number(a.impressions).toLocaleString('sv')}</td><td class="tr">${a.clicks}</td><td class="tr">${parseFloat(a.ctr||0).toFixed(2)}%</td></tr>`).join('')}
+      <table><thead><tr><th>Annons</th><th>Kund</th><th>Annonsplats</th><th class="tr">Visningar</th><th class="tr">Cap</th><th class="tr">Klick</th><th class="tr">CTR</th><th class="tr">CPM-pris</th><th class="tr">Intäkt</th></tr></thead><tbody>
+        ${adStats.map(a=>`<tr><td>${a.title}</td><td>${a.customer_name||'–'}</td><td>${a.placement_name||'–'}</td><td class="tr">${Number(a.total_impressions||0).toLocaleString('sv')}</td><td class="tr">${a.max_impressions?Number(a.max_impressions).toLocaleString('sv'):'–'}</td><td class="tr">${a.clicks}</td><td class="tr">${parseFloat(a.ctr||0).toFixed(2)}%</td><td class="tr">${a.cpm_rate!=null?parseFloat(a.cpm_rate).toFixed(2)+' kr':'–'}</td><td class="tr">${a.revenue!=null?parseFloat(a.revenue).toLocaleString('sv',{maximumFractionDigits:0})+' kr':'–'}</td></tr>`).join('')}
       </tbody></table>
+      <h2>Share of Voice per annonsplats</h2>
+      <table><thead><tr><th>Annonsplats</th><th>Annons</th><th>Kund</th><th class="tr">Visningar</th><th class="tr">SOV</th></tr></thead><tbody>
+        ${(sovStats||[]).map(r=>`<tr><td>${r.placement_name||'–'}</td><td>${r.ad_title}</td><td>${r.customer_name||'–'}</td><td class="tr">${Number(r.impressions).toLocaleString('sv')}</td><td class="tr">${parseFloat(r.sov).toFixed(1)}%</td></tr>`).join('')}
+      </tbody></table>
+      ${(ipStats||[]).length>0?`<h2>Besöksfrekvens per IP</h2>
+      <table><thead><tr><th>IP-adress</th><th class="tr">Sessioner</th><th class="tr">Sidvisningar</th><th class="tr">Aktiva dagar</th><th class="tr">Första besök</th><th class="tr">Senaste besök</th></tr></thead><tbody>
+        ${(ipStats||[]).map(r=>`<tr><td style="font-family:monospace">${r.ip_address}</td><td class="tr">${Number(r.visits).toLocaleString('sv')}</td><td class="tr">${Number(r.page_views).toLocaleString('sv')}</td><td class="tr">${r.active_days}</td><td class="tr">${r.first_seen?new Date(r.first_seen).toLocaleDateString('sv'):'–'}</td><td class="tr">${r.last_seen?new Date(r.last_seen).toLocaleDateString('sv'):'–'}</td></tr>`).join('')}
+      </tbody></table>`:''}
       <script>window.onload=()=>{window.print();window.onafterprint=()=>window.close();}<\/script>
     </body></html>`);
     win.document.close();
   };
 
   const downloadCSV = () => {
+    if (!details) return;
     const esc = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
     const rows = [];
 
@@ -121,8 +165,18 @@ export default function StatisticsPage() {
     articleStats.forEach(a => rows.push([esc(a.title), esc(a.category_name), esc(a.author_name), a.period_views]));
     rows.push([]);
     rows.push(['Annonsprestation']);
-    rows.push(['Annons', 'Kund', 'Annonsplats', 'Visningar', 'Klick', 'CTR (%)']);
-    adStats.forEach(a => rows.push([esc(a.title), esc(a.customer_name), esc(a.placement_name), a.impressions, a.clicks, a.ctr]));
+    rows.push(['Annons', 'Kund', 'Annonsplats', 'Visningar', 'Cap', 'Klick', 'CTR (%)', 'CPM-pris (kr)', 'Intäkt (kr)']);
+    adStats.forEach(a => rows.push([esc(a.title), esc(a.customer_name), esc(a.placement_name), a.total_impressions || 0, a.max_impressions || '–', a.clicks, a.ctr, a.cpm_rate != null ? parseFloat(a.cpm_rate).toFixed(2) : '–', a.revenue != null ? parseFloat(a.revenue).toFixed(0) : '–']));
+    rows.push([]);
+    rows.push(['Share of Voice per annonsplats']);
+    rows.push(['Annonsplats', 'Annons', 'Kund', 'Visningar', 'Totalt på plats', 'SOV (%)']);
+    (sovStats || []).forEach(r => rows.push([esc(r.placement_name), esc(r.ad_title), esc(r.customer_name), r.impressions, r.total_placement_impressions, parseFloat(r.sov).toFixed(1)]));
+    if ((ipStats || []).length > 0) {
+      rows.push([]);
+      rows.push(['Besöksfrekvens per IP']);
+      rows.push(['IP-adress', 'Sessioner', 'Sidvisningar', 'Aktiva dagar', 'Första besök', 'Senaste besök']);
+      ipStats.forEach(r => rows.push([r.ip_address, r.visits, r.page_views, r.active_days, r.first_seen ? new Date(r.first_seen).toLocaleDateString('sv') : '–', r.last_seen ? new Date(r.last_seen).toLocaleDateString('sv') : '–']));
+    }
 
     const csv = '﻿' + rows.map(r => r.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -194,13 +248,14 @@ export default function StatisticsPage() {
       </div>
 
       {/* KPI row */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         {[
-          { icon: Eye,          label: 'Totala sidvisningar', value: Number(stats.totalViews).toLocaleString('sv'),                                    color: 'text-purple-500', bg: 'bg-purple-50' },
-          { icon: Users,        label: 'Unika besökare',      value: Number(stats.uniqueVisitors || 0).toLocaleString('sv'),                   color: 'text-green-500',  bg: 'bg-green-50'  },
-          { icon: TrendingUp,   label: 'Publicerade artiklar', value: Number(stats.publishedArticles),                                          color: 'text-blue-500',   bg: 'bg-blue-50'   },
-          { icon: MousePointer, label: 'Annonsklick totalt',   value: adStats.reduce((s, a) => s + Number(a.clicks), 0).toLocaleString('sv'),   color: 'text-amber-500',  bg: 'bg-amber-50'  },
-          { icon: Award,        label: 'Genomsnittlig CTR',    value: `${avgCTR}%`,                                                             color: 'text-gold-500',   bg: 'bg-cream-100' },
+          { icon: Eye,          label: 'Totala sidvisningar',  value: Number(stats.totalViews).toLocaleString('sv'),                                  color: 'text-purple-500', bg: 'bg-purple-50' },
+          { icon: Users,        label: 'Unika besökare',       value: Number(stats.uniqueVisitors || 0).toLocaleString('sv'),                         color: 'text-green-500',  bg: 'bg-green-50'  },
+          { icon: TrendingUp,   label: 'Publicerade artiklar', value: Number(stats.publishedArticles),                                                color: 'text-blue-500',   bg: 'bg-blue-50'   },
+          { icon: MousePointer, label: 'Annonsklick totalt',   value: adStats.reduce((s, a) => s + Number(a.clicks), 0).toLocaleString('sv'),         color: 'text-amber-500',  bg: 'bg-amber-50'  },
+          { icon: Award,        label: 'Genomsnittlig CTR',    value: `${avgCTR}%`,                                                                   color: 'text-gold-500',   bg: 'bg-cream-100' },
+          { icon: Building2,    label: 'Antal kunder',         value: Number(stats.totalCustomers || 0).toLocaleString('sv'),                         color: 'text-rose-500',   bg: 'bg-rose-50'   },
         ].map(({ icon: Icon, label, value, color, bg }) => (
           <div key={label} className="card p-5">
             <div className={`inline-flex w-9 h-9 ${bg} ${color} rounded-lg items-center justify-center mb-3`}>
@@ -278,6 +333,95 @@ export default function StatisticsPage() {
         </div>
       </div>
 
+      {loadingDetails ? <DetailsSkeleton /> : (<>
+
+      {/* Customer revenue bar chart */}
+      {customerStats?.length > 0 && (
+        <div className="card p-5">
+          <h2 className="text-sm font-medium mb-4 text-charcoal-800">Annonsintäkter per kund</h2>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={customerStats} layout="vertical">
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0ebe0" horizontal={false} />
+              <XAxis type="number" tick={{ fontSize: 11, fill: '#9ca3af' }}
+                tickFormatter={v => `${Number(v).toLocaleString('sv')} kr`} />
+              <YAxis dataKey="name" type="category" tick={{ fontSize: 11, fill: '#9ca3af' }} width={100} />
+              <Tooltip
+                formatter={(v, name) => name === 'total_revenue' ? [`${Number(v).toLocaleString('sv')} kr`, 'Intäkter'] : [v, 'Annonser']}
+                contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e5e7eb' }} />
+              <Bar dataKey="total_revenue" radius={[0, 4, 4, 0]}>
+                {customerStats.map((_, i) => <Cell key={i} fill={colors[i % colors.length]} />)}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Customer ad activity over time */}
+      {customerAdsByDay?.length > 0 && (
+        <div className="card p-5">
+          <h2 className="text-sm font-medium mb-4 text-charcoal-800">Annonsaktivitet över tid</h2>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={customerAdsByDay}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0ebe0" />
+              <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#9ca3af' }}
+                tickFormatter={d => { try { return format(parseISO(d), 'd/M'); } catch { return d; } }} />
+              <YAxis tick={{ fontSize: 11, fill: '#9ca3af' }} />
+              <Tooltip
+                labelFormatter={d => { try { return format(parseISO(d), 'd MMMM', { locale: sv }); } catch { return d; } }}
+                formatter={(v, name) => [v.toLocaleString('sv'), name === 'impressions' ? 'Visningar' : 'Klick']}
+                contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e5e7eb' }} />
+              <Bar dataKey="impressions" fill="#C9A96E" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="clicks" fill="#A8C5A0" radius={[2, 2, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+          <div className="flex items-center justify-center gap-5 mt-3">
+            <span className="flex items-center gap-1.5 text-xs text-gray-400">
+              <span className="w-3 h-3 rounded-sm bg-gold-400 inline-block" /> Visningar
+            </span>
+            <span className="flex items-center gap-1.5 text-xs text-gray-400">
+              <span className="w-3 h-3 rounded-sm inline-block" style={{ background: '#A8C5A0' }} /> Klick
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Device breakdown + Std deviation */}
+      {(deviceBreakdown?.length > 0 || n > 1) && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {deviceBreakdown?.length > 0 && (
+            <div className="card p-5">
+              <h2 className="text-sm font-medium mb-4 text-charcoal-800">Enhetsfördelning</h2>
+              <ResponsiveContainer width="100%" height={180}>
+                <BarChart data={deviceBreakdown} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0ebe0" horizontal={false} />
+                  <XAxis type="number" tick={{ fontSize: 11, fill: '#9ca3af' }} />
+                  <YAxis dataKey="device" type="category" tick={{ fontSize: 11, fill: '#9ca3af' }} width={60} />
+                  <Tooltip formatter={v => [v.toLocaleString('sv'), 'Visningar']}
+                    contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e5e7eb' }} />
+                  <Bar dataKey="views" radius={[0, 4, 4, 0]}>
+                    {deviceBreakdown.map((_, i) => <Cell key={i} fill={colors[i % colors.length]} />)}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+          {n > 1 && (
+            <div className="card p-5 flex flex-col justify-center">
+              <h2 className="text-sm font-medium mb-4 text-charcoal-800">Intäktsspridning (Std)</h2>
+              <p className="text-3xl font-semibold text-charcoal-800">
+                {stdDev.toLocaleString('sv', { maximumFractionDigits: 0 })} kr
+              </p>
+              <p className="text-xs text-gray-400 mt-1">Standardavvikelse för annonsintäkter per kund</p>
+              <div className="mt-4 space-y-1">
+                <p className="text-xs text-gray-400">Medel: <span className="text-charcoal-800 font-medium">{mean.toLocaleString('sv', { maximumFractionDigits: 0 })} kr</span></p>
+                <p className="text-xs text-gray-400">Min: <span className="text-charcoal-800 font-medium">{Math.min(...revenues).toLocaleString('sv')} kr</span></p>
+                <p className="text-xs text-gray-400">Max: <span className="text-charcoal-800 font-medium">{Math.max(...revenues).toLocaleString('sv')} kr</span></p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Article performance table */}
       {articleStats?.length > 0 && (
         <div className="card p-5">
@@ -310,6 +454,80 @@ export default function StatisticsPage() {
         </div>
       )}
 
+      {/* Share of Voice */}
+      {Object.keys(sovByPlacement).length > 0 && (
+        <div className="card p-5">
+          <div className="flex items-center gap-2 mb-5">
+            <PieChart size={15} className="text-gold-400" />
+            <h2 className="text-sm font-medium text-charcoal-800">Share of Voice – per annonsplats</h2>
+          </div>
+          <div className="space-y-6">
+            {Object.entries(sovByPlacement).map(([placement, rows]) => (
+              <div key={placement}>
+                <p className="text-xs text-gray-400 uppercase tracking-widest mb-3">{placement}</p>
+                <div className="space-y-2.5">
+                  {rows.map((row, i) => (
+                    <div key={row.ad_id}>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="text-xs font-medium truncate max-w-[180px]">{row.ad_title}</span>
+                          {row.customer_name && (
+                            <span className="text-[10px] text-gray-400 shrink-0">{row.customer_name}</span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-3 shrink-0 ml-4">
+                          <span className="text-xs text-gray-400">{Number(row.impressions).toLocaleString('sv')} vis.</span>
+                          <span className="text-sm font-semibold text-charcoal-800 w-12 text-right">{parseFloat(row.sov).toFixed(1)}%</span>
+                        </div>
+                      </div>
+                      <div className="h-2 bg-cream-100 rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full transition-all duration-500"
+                          style={{ width: `${row.sov}%`, backgroundColor: colors[i % colors.length] }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[10px] text-gray-300 mt-2">
+                  Totalt {Number(rows[0]?.total_placement_impressions || 0).toLocaleString('sv')} visningar på denna plats
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* IP visit frequency */}
+      {ipStats?.length > 0 && (
+        <div className="card p-5">
+          <h2 className="text-sm font-medium mb-4 text-charcoal-800">Besöksfrekvens per IP</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-100">
+                  {['IP-adress', 'Sessioner', 'Sidvisningar', 'Aktiva dagar', 'Första besök', 'Senaste besök'].map(h => (
+                    <th key={h} className={`py-2 text-xs text-gray-400 font-medium ${h === 'IP-adress' ? 'text-left px-2' : 'text-right px-2'}`}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {ipStats.map((row, i) => (
+                  <tr key={i} className="border-b border-gray-50 hover:bg-cream-50">
+                    <td className="py-2.5 px-2 text-sm font-mono text-gray-600">{row.ip_address}</td>
+                    <td className="py-2.5 px-2 text-right text-sm font-semibold">{Number(row.visits).toLocaleString('sv')}</td>
+                    <td className="py-2.5 px-2 text-right text-sm text-gray-400">{Number(row.page_views).toLocaleString('sv')}</td>
+                    <td className="py-2.5 px-2 text-right text-sm text-gray-500">{row.active_days}</td>
+                    <td className="py-2.5 px-2 text-right text-xs text-gray-400">{row.first_seen ? new Date(row.first_seen).toLocaleDateString('sv') : '–'}</td>
+                    <td className="py-2.5 px-2 text-right text-xs text-gray-400">{row.last_seen ? new Date(row.last_seen).toLocaleDateString('sv') : '–'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       {/* Ad performance table */}
       {adStats.length > 0 && (
         <div className="card p-5">
@@ -318,7 +536,7 @@ export default function StatisticsPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-100">
-                  {['Annons', 'Kund', 'Annonsplats', 'Visningar', 'Klick', 'CTR'].map(h => (
+                  {['Annons', 'Kund', 'Annonsplats', 'Visningar / Cap', 'Klick', 'CTR', 'CPM-pris', 'Intäkt'].map(h => (
                     <th key={h} className={`py-2 text-xs text-gray-400 font-medium ${h === 'Annons' || h === 'Kund' || h === 'Annonsplats' ? 'text-left px-2' : 'text-right px-2'}`}>{h}</th>
                   ))}
                 </tr>
@@ -329,12 +547,25 @@ export default function StatisticsPage() {
                     <td className="py-2.5 px-2 text-sm font-medium max-w-[180px] truncate">{a.title}</td>
                     <td className="py-2.5 px-2 text-sm text-gray-500">{a.customer_name || '–'}</td>
                     <td className="py-2.5 px-2 text-xs text-gray-400">{a.placement_name}</td>
-                    <td className="py-2.5 px-2 text-right text-sm">{Number(a.impressions).toLocaleString('sv')}</td>
+                    <td className="py-2.5 px-2 text-right text-sm">
+                      <div>{Number(a.total_impressions || 0).toLocaleString('sv')}{a.max_impressions ? ` / ${Number(a.max_impressions).toLocaleString('sv')}` : ''}</div>
+                      {a.max_impressions > 0 && (
+                        <div className="w-16 h-1 bg-gray-100 rounded-full ml-auto mt-1">
+                          <div className="h-1 rounded-full bg-gold-400" style={{ width: `${Math.min(100, Math.round((a.total_impressions / a.max_impressions) * 100))}%` }} />
+                        </div>
+                      )}
+                    </td>
                     <td className="py-2.5 px-2 text-right text-sm">{a.clicks}</td>
                     <td className="py-2.5 px-2 text-right">
                       <span className={`text-sm font-medium ${parseFloat(a.ctr) > 2 ? 'text-green-600' : parseFloat(a.ctr) > 0.5 ? 'text-amber-600' : 'text-gray-400'}`}>
                         {parseFloat(a.ctr || 0).toFixed(2)}%
                       </span>
+                    </td>
+                    <td className="py-2.5 px-2 text-right text-sm text-gray-600">
+                      {a.cpm_rate != null ? `${parseFloat(a.cpm_rate).toFixed(2)} kr` : '–'}
+                    </td>
+                    <td className="py-2.5 px-2 text-right text-sm font-medium">
+                      {a.revenue != null ? `${parseFloat(a.revenue).toLocaleString('sv', { maximumFractionDigits: 0 })} kr` : '–'}
                     </td>
                   </tr>
                 ))}
@@ -343,6 +574,8 @@ export default function StatisticsPage() {
           </div>
         </div>
       )}
+
+      </>)}
     </div>
   );
 }

@@ -11,6 +11,7 @@ export default function CategoryPage() {
   const { slug } = useParams();
   const [articles, setArticles] = useState([]);
   const [category, setCategory] = useState(null);
+  const [topArticles, setTopArticles] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -21,15 +22,18 @@ export default function CategoryPage() {
     Promise.all([
       api.get(`/articles?category=${slug}&limit=${PER_PAGE}&offset=0`),
       api.get('/categories'),
-    ]).then(([artRes, catRes]) => {
+      api.get(`/articles?category=${slug}&sort=views&limit=5`),
+    ]).then(([artRes, catRes, topRes]) => {
       const arts = Array.isArray(artRes.data?.articles) ? artRes.data.articles : [];
       const cats = Array.isArray(catRes.data) ? catRes.data : [];
       setArticles(arts);
       setTotal(artRes.data?.total || 0);
       setCategory(cats.find(c => c.slug === slug) || null);
+      setTopArticles(Array.isArray(topRes.data?.articles) ? topRes.data.articles : []);
     }).catch(() => {
       setArticles([]);
       setTotal(0);
+      setTopArticles([]);
     }).finally(() => setLoading(false));
   }, [slug]);
 
@@ -109,7 +113,7 @@ export default function CategoryPage() {
                   <TrendingUp size={12} className="text-gold-400" />
                   <span className="eyebrow text-charcoal-800">Mest lästa</span>
                 </div>
-                {[...articles].sort((a, b) => b.views - a.views).slice(0, 5).map((a, i) => (
+                {topArticles.map((a, i) => (
                   <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
                     <span className="font-display text-4xl text-cream-200 leading-none w-8 shrink-0 select-none">{i + 1}</span>
                     <div className="min-w-0">

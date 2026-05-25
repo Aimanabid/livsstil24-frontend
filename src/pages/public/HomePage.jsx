@@ -11,6 +11,7 @@ export default function HomePage() {
   const [articles, setArticles] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [topArticles, setTopArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [total, setTotal] = useState(0);
@@ -23,15 +24,18 @@ export default function HomePage() {
       api.get('/articles?featured=true&limit=6'),
       api.get(`/articles?limit=${PER_PAGE}`),
       api.get('/categories'),
-    ]).then(([featRes, allRes, catRes]) => {
+      api.get('/articles?sort=views&limit=5'),
+    ]).then(([featRes, allRes, catRes, topRes]) => {
       setFeatured(Array.isArray(featRes.data?.articles) ? featRes.data.articles : []);
       setArticles(Array.isArray(allRes.data?.articles) ? allRes.data.articles : []);
       setTotal(allRes.data?.total || 0);
       setCategories(Array.isArray(catRes.data) ? catRes.data : []);
+      setTopArticles(Array.isArray(topRes.data?.articles) ? topRes.data.articles : []);
     }).catch(() => {
       setFeatured([]);
       setArticles([]);
       setCategories([]);
+      setTopArticles([]);
     }).finally(() => setLoading(false));
   }, []);
 
@@ -194,7 +198,7 @@ export default function HomePage() {
                   <TrendingUp size={12} className="text-gold-400" />
                   <span className="eyebrow text-charcoal-800">Mest lästa</span>
                 </div>
-                {[...articles].sort((a, b) => b.views - a.views).slice(0, 5).map((a, i) => (
+                {topArticles.map((a, i) => (
                   <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
                     <span className="font-display text-4xl text-cream-200 leading-none w-8 shrink-0 select-none">{i + 1}</span>
                     <div className="min-w-0">

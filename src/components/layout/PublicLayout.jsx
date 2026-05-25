@@ -1,6 +1,6 @@
 import { Outlet, Link, NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { Search, Menu, X, Download, Instagram, Facebook, Youtube, Linkedin } from 'lucide-react';
+import { Search, Menu, X, Download, Instagram, Facebook, Youtube, Linkedin, ChevronDown } from 'lucide-react';
 import AdBanner from '../public/AdBanner';
 import FooterBanner from '../public/FooterBanner';
 
@@ -22,7 +22,13 @@ export default function PublicLayout() {
   const [search, setSearch]       = useState('');
   const [categories, setCategories] = useState([]);
   const [settings, setSettings]   = useState({});
+  const [bannerVisible, setBannerVisible] = useState(true);
   const bannerRef = useRef(null);
+
+  useEffect(() => {
+    history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     api.get('/categories').then(r => setCategories(Array.isArray(r.data) ? r.data : [])).catch(() => {});
@@ -32,7 +38,13 @@ export default function PublicLayout() {
     if (!visitorId) {
       visitorId = crypto.randomUUID();
       localStorage.setItem('visitor_id', visitorId);
-      api.post('/articles/visit', { visitor_id: visitorId }).catch(() => {});
+    }
+    // session_id lives in sessionStorage — clears on browser close = new visit
+    let sessionId = sessionStorage.getItem('session_id');
+    if (!sessionId) {
+      sessionId = crypto.randomUUID();
+      sessionStorage.setItem('session_id', sessionId);
+      api.post('/articles/visit', { visitor_id: visitorId, session_id: sessionId }).catch(() => {});
     }
   }, []);
 
@@ -74,8 +86,26 @@ export default function PublicLayout() {
     <div className="min-h-screen bg-cream-50">
 
       {/* ── Hero banner — normal flow, scrolls away ── */}
-      <div ref={bannerRef} className="h-screen">
+      <div ref={bannerRef} className={`relative overflow-hidden transition-[height] duration-300 ${bannerVisible ? 'h-[78vh]' : 'h-0'}`}>
         <AdBanner placement="hero_banner" className="h-full border-b border-cream-200" hideLabel />
+
+        {/* Close button */}
+        <button
+          onClick={() => setBannerVisible(false)}
+          className="absolute top-3 right-3 z-10 w-8 h-8 bg-white hover:bg-white/90 text-charcoal-800 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
+          aria-label="Stäng annons"
+        >
+          <X size={15} />
+        </button>
+
+        {/* Scroll-to-navbar button */}
+        <button
+          onClick={() => window.scrollTo({ top: (bannerRef.current?.offsetHeight ?? 0) + 80, behavior: 'smooth' })}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 w-9 h-9 bg-white hover:bg-white/90 text-charcoal-800 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors animate-pulse"
+          aria-label="Visa navigering"
+        >
+          <ChevronDown size={18} style={{ animation: 'chevron-float 2s ease-in-out infinite' }} />
+        </button>
       </div>
 
       {/* ── Sticky header ── */}
@@ -276,7 +306,15 @@ export default function PublicLayout() {
           </div>
 
           <div className="border-t border-cream-300/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
-            <p className="text-[11px] text-cream-300/30">© 2026 Livsstil24 AB · Alla rättigheter förbehållna</p>
+            <div className="flex flex-col md:flex-row items-center gap-2 md:gap-5">
+              <p className="text-[11px] text-cream-300/30">© 2026 Livsstil24 AB · Alla rättigheter förbehållna</p>
+              {settings.chief_editor && (
+                <p className="text-[11px] text-cream-300/30">Chefredaktör: {settings.chief_editor}</p>
+              )}
+              {settings.responsible_publisher && (
+                <p className="text-[11px] text-cream-300/30">Ansvarig utgivare: {settings.responsible_publisher}</p>
+              )}
+            </div>
             <Link to="/admin" className="text-[11px] text-cream-300/20 hover:text-cream-300/50 transition-colors">Admin</Link>
           </div>
         </div>

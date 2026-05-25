@@ -25,6 +25,7 @@ import StatisticsPage from './pages/admin/StatisticsPage';
 import PlacementsPage from './pages/admin/PlacementsPage';
 import SettingsPage from './pages/admin/SettingsPage';
 import ProfilePage from './pages/admin/ProfilePage';
+import UsersPage from './pages/admin/UsersPage';
 
 function ProtectedRoute({ children }) {
   const { user, initialized } = useAuthStore();
@@ -70,7 +71,8 @@ export default function App() {
         <Route path="kunder" element={<CustomersPage />} />
         <Route path="statistik"     element={<StatisticsPage />} />
         <Route path="installningar" element={<SettingsPage />} />
-<Route path="profil" element={<ProfilePage />} />
+        <Route path="team" element={<UsersPage />} />
+        <Route path="profil" element={<ProfilePage />} />
       </Route>
     </Routes>
   );

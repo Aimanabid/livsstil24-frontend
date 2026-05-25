@@ -60,7 +60,8 @@ export default function ArticlePage() {
             visitorId = crypto.randomUUID();
             localStorage.setItem('visitor_id', visitorId);
           }
-          api.post(`/articles/${slug}/view`, { visitor_id: visitorId }).catch(() => {});
+          const sessionId = sessionStorage.getItem('session_id');
+          api.post(`/articles/${slug}/view`, { visitor_id: visitorId, session_id: sessionId }).catch(() => {});
           observer.disconnect();
         }
       },
@@ -72,9 +73,8 @@ export default function ArticlePage() {
   }, [article, slug]);
 
   useEffect(() => {
-    api.get('/articles?limit=6').then(({ data }) => {
-      const sorted = (data?.articles ?? []).sort((a, b) => (b.views ?? 0) - (a.views ?? 0));
-      setMostRead(sorted.slice(0, 5));
+    api.get('/articles?sort=views&limit=5').then(({ data }) => {
+      setMostRead(data?.articles ?? []);
     }).catch(() => {});
   }, []);
 
@@ -170,11 +170,11 @@ export default function ArticlePage() {
           />
         </div>
       ) : article.featured_image ? (
-        <div className="relative w-full overflow-hidden" style={{ height: 'min(62vh, 540px)' }}>
+        <div className="relative w-full">
           <img
             src={article.featured_image}
             alt={article.title}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="w-full h-auto block"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-cream-50 via-cream-50/10 to-transparent" />
         </div>
