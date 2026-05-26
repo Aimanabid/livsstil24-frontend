@@ -6,8 +6,8 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': { target: 'http://localhost:3001', changeOrigin: true },
-      '/uploads': { target: 'http://localhost:3001', changeOrigin: true }
+      '/api': { target: 'https://mg.isah.se', changeOrigin: true },
+      '/uploads': { target: 'https://mg.isah.se', changeOrigin: true }
     }
   },
   build: { outDir: 'dist' }
