@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Settings, Instagram, Facebook, Save, Upload, X } from 'lucide-react';
+import { Settings, Instagram, Facebook, Youtube, Linkedin, Save, Upload, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../utils/api';
 
@@ -78,12 +78,16 @@ function ImageUploadField({ label, hint, value, onChange, previewSize = 'h-20', 
 
 export default function SettingsPage() {
   const [form, setForm] = useState({
-    site_description: '',
-    instagram_url:    '',
-    facebook_url:     '',
-    tiktok_url:       '',
-    logo_url:         '',
-    favicon_url:      '',
+    site_description:      '',
+    instagram_url:         '',
+    facebook_url:          '',
+    tiktok_url:            '',
+    youtube_url:           '',
+    linkedin_url:          '',
+    logo_url:              '',
+    favicon_url:           '',
+    chief_editor:          '',
+    responsible_publisher: '',
   });
   const [loading, setLoading] = useState(true);
   const [saving,  setSaving]  = useState(false);
@@ -128,7 +132,7 @@ export default function SettingsPage() {
         <h1 className="text-xl font-semibold text-charcoal-800">Sidinställningar</h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6">
 
         {/* ── Left column ── */}
         <div className="space-y-6">
@@ -150,12 +154,34 @@ export default function SettingsPage() {
           </div>
 
           <div className="card p-6">
-            <h2 className="text-sm font-semibold text-charcoal-800 mb-4">Sociala medier</h2>
+            <h2 className="text-sm font-semibold text-charcoal-800 mb-1">Redaktion</h2>
+            <p className="text-xs text-gray-400 mb-4">Visas i footern. Ansvarig utgivare krävs enligt svensk presslag.</p>
             <div className="space-y-4">
+              <div>
+                <label className="label">Chefredaktör</label>
+                <input type="text" name="chief_editor" value={form.chief_editor} onChange={handleChange}
+                  className="input-field w-full" placeholder="Förnamn Efternamn" />
+              </div>
+              <div>
+                <label className="label">Ansvarig utgivare</label>
+                <input type="text" name="responsible_publisher" value={form.responsible_publisher} onChange={handleChange}
+                  className="input-field w-full" placeholder="Förnamn Efternamn" />
+              </div>
+            </div>
+          </div>
+
+          <div className="card p-6">
+            <h2 className="text-sm font-semibold text-charcoal-800 mb-4">Sociala medier</h2>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
               <div>
                 <label className="label flex items-center gap-2"><Instagram size={14} /> Instagram</label>
                 <input type="url" name="instagram_url" value={form.instagram_url} onChange={handleChange}
                   className="input-field w-full" placeholder="https://instagram.com/livsstil24" />
+              </div>
+              <div>
+                <label className="label flex items-center gap-2"><Youtube size={14} /> YouTube</label>
+                <input type="url" name="youtube_url" value={form.youtube_url} onChange={handleChange}
+                  className="input-field w-full" placeholder="https://youtube.com/livsstil24" />
               </div>
               <div>
                 <label className="label flex items-center gap-2"><Facebook size={14} /> Facebook</label>
@@ -163,9 +189,14 @@ export default function SettingsPage() {
                   className="input-field w-full" placeholder="https://facebook.com/livsstil24" />
               </div>
               <div>
+                <label className="label flex items-center gap-2"><Linkedin size={14} /> LinkedIn</label>
+                <input type="url" name="linkedin_url" value={form.linkedin_url} onChange={handleChange}
+                  className="input-field w-full" placeholder="https://linkedin.com/livsstil24" />
+              </div>
+              <div>
                 <label className="label flex items-center gap-2"><TikTokIcon size={14} /> TikTok</label>
                 <input type="url" name="tiktok_url" value={form.tiktok_url} onChange={handleChange}
-                  className="input-field w-full" placeholder="https://tiktok.com/@livsstil24" />
+                  className="input-field w-full" placeholder="https://tiktok.com/livsstil24" />
               </div>
             </div>
           </div>

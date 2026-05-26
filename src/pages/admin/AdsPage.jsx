@@ -12,7 +12,7 @@ export default function AdsPage() {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ title: '', ad_type: 'banner', image_url: '', video_url: '', link_url: '', alt_text: '', placement_id: '', customer_id: '', status: 'active', start_date: '', end_date: '', price_paid: '' });
+  const [form, setForm] = useState({ title: '', ad_type: 'image', image_url: '', video_url: '', link_url: '', alt_text: '', placement_id: '', customer_id: '', status: 'active', start_date: '', end_date: '', max_impressions: '', freq_cap: '', freq_cap_window: '24h' });
   const [uploading, setUploading] = useState({ image: false, video: false });
   const imageInputRef = useRef(null);
   const videoInputRef = useRef(null);
@@ -32,7 +32,7 @@ export default function AdsPage() {
 
   const openNew = () => {
     setEditing(null);
-    setForm({ title: '', ad_type: 'image', image_url: '', video_url: '', link_url: '', alt_text: '', placement_id: '', customer_id: '', status: 'active', start_date: '', end_date: '', price_paid: '' });
+    setForm({ title: '', ad_type: 'image', image_url: '', video_url: '', link_url: '', alt_text: '', placement_id: '', customer_id: '', status: 'active', start_date: '', end_date: '', max_impressions: '', freq_cap: '', freq_cap_window: '24h' });
     setModal(true);
   };
 
@@ -44,7 +44,7 @@ export default function AdsPage() {
       link_url: ad.link_url || '', alt_text: ad.alt_text || '',
       placement_id: ad.placement_id || '', customer_id: ad.customer_id || '',
       status: ad.status, start_date: ad.start_date || '',
-      end_date: ad.end_date || '', price_paid: ad.price_paid || ''
+      end_date: ad.end_date || '', max_impressions: ad.max_impressions || '', freq_cap: ad.freq_cap || '', freq_cap_window: ad.freq_cap_window || '24h'
     });
     setModal(true);
   };
@@ -99,7 +99,7 @@ export default function AdsPage() {
     finally { setUploading(u => ({ ...u, video: false })); }
   };
 
-  const totalRevenue = ads.reduce((s, a) => s + parseFloat(a.price_paid || 0), 0);
+  const totalRevenue = ads.reduce((s, a) => s + (parseInt(a.impressions || 0) * parseFloat(a.cpm_rate || 0) / 1000), 0);
   const totalClicks = ads.reduce((s, a) => s + parseInt(a.clicks || 0), 0);
   const totalImpressions = ads.reduce((s, a) => s + parseInt(a.impressions || 0), 0);
 
@@ -139,7 +139,7 @@ export default function AdsPage() {
                   <th className="text-left px-5 py-3 text-xs text-gray-400 font-medium">Annons</th>
                   <th className="text-left px-4 py-3 text-xs text-gray-400 font-medium">Kund</th>
                   <th className="text-left px-4 py-3 text-xs text-gray-400 font-medium">Plats</th>
-                  <th className="text-right px-4 py-3 text-xs text-gray-400 font-medium">Visningar</th>
+                  <th className="text-right px-4 py-3 text-xs text-gray-400 font-medium">Visningar / Cap</th>
                   <th className="text-right px-4 py-3 text-xs text-gray-400 font-medium">Klick</th>
                   <th className="text-right px-4 py-3 text-xs text-gray-400 font-medium">Intäkt</th>
                   <th className="text-center px-4 py-3 text-xs text-gray-400 font-medium">Status</th>
@@ -163,9 +163,18 @@ export default function AdsPage() {
                     </td>
                     <td className="px-4 py-3 text-sm text-gray-600">{ad.customer_name || '–'}</td>
                     <td className="px-4 py-3 text-xs text-gray-500">{ad.placement_name}</td>
-                    <td className="px-4 py-3 text-right text-sm">{parseInt(ad.impressions || 0).toLocaleString('sv')}</td>
+                    <td className="px-4 py-3 text-right text-sm">
+                      <div>{parseInt(ad.impressions || 0).toLocaleString('sv')}{ad.max_impressions ? ` / ${parseInt(ad.max_impressions).toLocaleString('sv')}` : ''}</div>
+                      {ad.max_impressions > 0 && (
+                        <div className="w-16 h-1 bg-gray-100 rounded-full ml-auto mt-1">
+                          <div className="h-1 rounded-full bg-gold-400" style={{ width: `${Math.min(100, Math.round((ad.impressions / ad.max_impressions) * 100))}%` }} />
+                        </div>
+                      )}
+                    </td>
                     <td className="px-4 py-3 text-right text-sm">{parseInt(ad.clicks || 0).toLocaleString('sv')}</td>
-                    <td className="px-4 py-3 text-right text-sm font-medium">{(ad.price_paid || 0).toLocaleString('sv')} kr</td>
+                    <td className="px-4 py-3 text-right text-sm font-medium">
+                      {ad.cpm_rate > 0 ? Math.round(parseInt(ad.impressions || 0) * parseFloat(ad.cpm_rate) / 1000).toLocaleString('sv') : '–'} {ad.cpm_rate > 0 ? 'kr' : ''}
+                    </td>
                     <td className="px-4 py-3 text-center">
                       <span className={`status-badge ${ad.status === 'active' ? 'status-active' : 'status-inactive'}`}>
                         {ad.status === 'active' ? 'Aktiv' : 'Inaktiv'}
@@ -256,7 +265,7 @@ export default function AdsPage() {
                 <label className="label">Annonsplats</label>
                 <select value={form.placement_id} onChange={e => set('placement_id', e.target.value)} className="input-field">
                   <option value="">Välj plats...</option>
-                  {placements.map(p => <option key={p.id} value={p.id}>{p.name} – {Number(p.price_monthly).toLocaleString('sv')} kr/mån</option>)}
+                  {placements.map(p => <option key={p.id} value={p.id}>{p.name} – {Number(p.cpm_rate || 0).toLocaleString('sv')} kr/1 000 vis.</option>)}
                 </select>
               </div>
               <div>
@@ -270,7 +279,29 @@ export default function AdsPage() {
                 <div><label className="label">Startdatum</label><input type="date" value={form.start_date} onChange={e => set('start_date', e.target.value)} className="input-field" /></div>
                 <div><label className="label">Slutdatum</label><input type="date" value={form.end_date} onChange={e => set('end_date', e.target.value)} className="input-field" /></div>
               </div>
-              <div><label className="label">Betalt belopp (kr)</label><input type="number" value={form.price_paid} onChange={e => set('price_paid', e.target.value)} className="input-field" /></div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="label">Visningstak (totalt)</label>
+                  <input type="number" min="0" value={form.max_impressions} onChange={e => set('max_impressions', e.target.value)} className="input-field" placeholder="Obegränsat" />
+                </div>
+                <div>
+                  <label className="label">Frekvenstak (per IP)</label>
+                  <select value={form.freq_cap} onChange={e => set('freq_cap', e.target.value)} className="input-field">
+                    <option value="">Obegränsat</option>
+                    <option value="1">1 gång</option>
+                    <option value="3">3 gånger</option>
+                    <option value="5">5 gånger</option>
+                    <option value="10">10 gånger</option>
+                    <option value="20">20 gånger</option>
+                  </select>
+                  {form.freq_cap && (
+                    <select value={form.freq_cap_window} onChange={e => set('freq_cap_window', e.target.value)} className="input-field mt-2">
+                      <option value="24h">Per 24 timmar (rekommenderat)</option>
+                      <option value="lifetime">Livstid</option>
+                    </select>
+                  )}
+                </div>
+              </div>
               <div>
                 <label className="label">Status</label>
                 <select value={form.status} onChange={e => set('status', e.target.value)} className="input-field">

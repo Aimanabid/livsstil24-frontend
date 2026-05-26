@@ -7,6 +7,7 @@ import PublicLayout from './components/layout/PublicLayout';
 import HomePage from './pages/public/HomePage';
 import ArticlePage from './pages/public/ArticlePage';
 import CategoryPage from './pages/public/CategoryPage';
+import TvPage from './pages/public/TvPage';
 import AppDownloadPage from './pages/public/AppDownloadPage';
 import TagPage from './pages/public/TagPage';
 import SearchPage from './pages/public/SearchPage';
@@ -24,6 +25,7 @@ import StatisticsPage from './pages/admin/StatisticsPage';
 import PlacementsPage from './pages/admin/PlacementsPage';
 import SettingsPage from './pages/admin/SettingsPage';
 import ProfilePage from './pages/admin/ProfilePage';
+import UsersPage from './pages/admin/UsersPage';
 
 function ProtectedRoute({ children }) {
   const { user, initialized } = useAuthStore();
@@ -41,6 +43,7 @@ export default function App() {
       {/* Public */}
       <Route path="/" element={<PublicLayout />}>
         <Route index element={<HomePage />} />
+        <Route path="kategori/livsstil24-tv" element={<TvPage />} />
         <Route path="kategori/:slug" element={<CategoryPage />} />
         <Route path="artikel/:slug" element={<ArticlePage />} />
         <Route path="tag/:tag" element={<TagPage />} />
@@ -68,7 +71,8 @@ export default function App() {
         <Route path="kunder" element={<CustomersPage />} />
         <Route path="statistik"     element={<StatisticsPage />} />
         <Route path="installningar" element={<SettingsPage />} />
-<Route path="profil" element={<ProfilePage />} />
+        <Route path="team" element={<UsersPage />} />
+        <Route path="profil" element={<ProfilePage />} />
       </Route>
     </Routes>
   );

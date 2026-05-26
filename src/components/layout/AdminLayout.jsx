@@ -3,20 +3,23 @@ import { useState } from 'react';
 import { useAuthStore } from '../../context/authStore';
 import {
   LayoutDashboard, FileText, Megaphone, Users, BarChart2,
-  MapPin, LogOut, Menu, X, Settings
+  MapPin, LogOut, Menu, X, Settings, Users2
 } from 'lucide-react';
 
-const navItems = [
-  { to: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/admin/artiklar', icon: FileText, label: 'Artiklar' },
-  { to: '/admin/annonser', icon: Megaphone, label: 'Annonser' },
-  { to: '/admin/platser', icon: MapPin, label: 'Annonsplatser' },
-  { to: '/admin/kunder', icon: Users, label: 'Kunder' },
-  { to: '/admin/statistik',     icon: BarChart2, label: 'Statistik' },
-{ to: '/admin/installningar', icon: Settings,  label: 'Inställningar' },
+const allNavItems = [
+  { to: '/admin/dashboard',    icon: LayoutDashboard, label: 'Dashboard',      roles: null },
+  { to: '/admin/artiklar',     icon: FileText,        label: 'Artiklar',       roles: ['admin', 'editor'] },
+  { to: '/admin/annonser',     icon: Megaphone,       label: 'Annonser',       roles: ['admin', 'ad_manager'] },
+  { to: '/admin/platser',      icon: MapPin,          label: 'Annonsplatser',  roles: ['admin', 'ad_manager'] },
+  { to: '/admin/kunder',       icon: Users,           label: 'Kunder',         roles: ['admin', 'ad_manager'] },
+  { to: '/admin/statistik',    icon: BarChart2,       label: 'Statistik',      roles: null },
+  { to: '/admin/installningar',icon: Settings,        label: 'Inställningar',  roles: ['admin'] },
+  { to: '/admin/team',         icon: Users2,          label: 'Team',           roles: ['admin'] },
 ];
 
 function Sidebar({ user, onLogout, onNavClick }) {
+  const visibleItems = allNavItems.filter(item => !item.roles || item.roles.includes(user?.role));
+
   return (
     <div className="flex flex-col h-full">
       {/* Logo */}
@@ -31,7 +34,7 @@ function Sidebar({ user, onLogout, onNavClick }) {
 
       {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-        {navItems.map(({ to, icon: Icon, label }) => (
+        {visibleItems.map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
             to={to}

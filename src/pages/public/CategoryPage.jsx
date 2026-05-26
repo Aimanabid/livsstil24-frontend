@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import ArticleCard from '../../components/public/ArticleCard';
 import AdBanner from '../../components/public/AdBanner';
+import { TrendingUp } from 'lucide-react';
 
 const PER_PAGE = 12;
 
@@ -10,6 +11,7 @@ export default function CategoryPage() {
   const { slug } = useParams();
   const [articles, setArticles] = useState([]);
   const [category, setCategory] = useState(null);
+  const [topArticles, setTopArticles] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -20,15 +22,18 @@ export default function CategoryPage() {
     Promise.all([
       api.get(`/articles?category=${slug}&limit=${PER_PAGE}&offset=0`),
       api.get('/categories'),
-    ]).then(([artRes, catRes]) => {
+      api.get(`/articles?category=${slug}&sort=views&limit=5`),
+    ]).then(([artRes, catRes, topRes]) => {
       const arts = Array.isArray(artRes.data?.articles) ? artRes.data.articles : [];
       const cats = Array.isArray(catRes.data) ? catRes.data : [];
       setArticles(arts);
       setTotal(artRes.data?.total || 0);
       setCategory(cats.find(c => c.slug === slug) || null);
+      setTopArticles(Array.isArray(topRes.data?.articles) ? topRes.data.articles : []);
     }).catch(() => {
       setArticles([]);
       setTotal(0);
+      setTopArticles([]);
     }).finally(() => setLoading(false));
   }, [slug]);
 
@@ -49,7 +54,7 @@ export default function CategoryPage() {
   return (
     <div>
       <div className="border-b border-cream-200">
-        <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 text-center">
+        <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 text-center">
           <div className="flex justify-center mb-4">
             <div className="w-6 h-px bg-gold-400" />
           </div>
@@ -63,12 +68,9 @@ export default function CategoryPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-12 pb-20">
-        <div className="mb-10">
-          <AdBanner placement="category_top" />
-        </div>
+      <section className="max-w-7xl mx-auto px-6 py-12 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-14">
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_256px] gap-14">
           <div>
             {loading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
@@ -103,13 +105,31 @@ export default function CategoryPage() {
           </div>
 
           <aside className="hidden lg:block">
-            <div className="sticky top-[120px] space-y-8">
+            <div className="sticky top-[120px] space-y-10">
               <AdBanner placement="sidebar_top" />
+
+              <div>
+                <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
+                  <TrendingUp size={12} className="text-gold-400" />
+                  <span className="eyebrow text-charcoal-800">Mest lästa</span>
+                </div>
+                {topArticles.map((a, i) => (
+                  <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
+                    <span className="font-display text-4xl text-cream-200 leading-none w-8 shrink-0 select-none">{i + 1}</span>
+                    <div className="min-w-0">
+                      <span className="eyebrow block mb-1" style={{ color: a.category_color }}>{a.category_name}</span>
+                      <h4 className="text-sm font-medium leading-snug group-hover:text-gold-500 transition-colors line-clamp-2">{a.title}</h4>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
               <AdBanner placement="sidebar_mid" />
             </div>
           </aside>
+
         </div>
-      </div>
+      </section>
     </div>
   );
 }

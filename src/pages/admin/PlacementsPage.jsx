@@ -26,7 +26,7 @@ export default function PlacementsPage() {
   const [showModal, setShowModal] = useState(false)
   const [editing, setEditing] = useState(null)
   const [form, setForm] = useState({
-    name: '', key: '', description: '', price_per_month: '', max_ads: 1, is_active: true
+    name: '', key: '', description: '', cpm_rate: '', max_ads: 1, is_active: true
   })
 
   useEffect(() => { fetchPlacements() }, [])
@@ -44,7 +44,7 @@ export default function PlacementsPage() {
 
   function openCreate() {
     setEditing(null)
-    setForm({ name: '', key: '', description: '', width: '', height: '', price_per_month: '', max_ads: 1, is_active: true })
+    setForm({ name: '', key: '', description: '', cpm_rate: '', max_ads: 1, is_active: true })
     setShowModal(true)
   }
 
@@ -52,7 +52,7 @@ export default function PlacementsPage() {
     setEditing(p)
     setForm({
       name: p.name, key: p.key, description: p.description || '',
-      price_per_month: p.price_per_month, max_ads: p.max_ads, is_active: p.is_active === 1 || p.is_active === true
+      cpm_rate: p.cpm_rate, max_ads: p.max_ads, is_active: p.is_active === 1 || p.is_active === true
     })
     setShowModal(true)
   }
@@ -76,7 +76,7 @@ export default function PlacementsPage() {
 
   async function toggleActive(p) {
     try {
-      await api.put(`/ads/placements/${p.id}`, { name: p.name, key: p.key || p.position_key, description: p.description, price_per_month: p.price_per_month || p.price_monthly, max_ads: p.max_ads, is_active: !p.is_active })
+      await api.put(`/ads/placements/${p.id}`, { name: p.name, key: p.key || p.position_key, description: p.description, cpm_rate: p.cpm_rate || 0, max_ads: p.max_ads, is_active: !p.is_active })
       fetchPlacements()
     } catch {
       toast.error('Kunde inte uppdatera status')
@@ -116,9 +116,9 @@ export default function PlacementsPage() {
           <p className="text-3xl font-display font-bold text-green-600 mt-1">{placements.filter(p => p.is_active).length}</p>
         </div>
         <div className="bg-white border border-gray-100 rounded-xl p-4">
-          <p className="text-xs text-gray-500 uppercase tracking-wider">Högsta pris/mån</p>
+          <p className="text-xs text-gray-500 uppercase tracking-wider">Högsta CPM</p>
           <p className="text-3xl font-display font-bold text-gold-500 mt-1">
-            {placements.length ? Math.max(...placements.map(p => p.price_per_month)).toLocaleString('sv-SE') : 0} kr
+            {placements.length ? Math.max(...placements.map(p => Number(p.cpm_rate || 0))).toLocaleString('sv-SE') : 0} kr
           </p>
         </div>
       </div>
@@ -156,9 +156,9 @@ export default function PlacementsPage() {
               <div className="mt-4 pt-4 border-t border-gray-50 flex items-center justify-between">
                 <div>
                   <span className="text-2xl font-display font-bold text-charcoal-800">
-                    {Number(p.price_per_month).toLocaleString('sv-SE')} kr
+                    {Number(p.cpm_rate || 0).toLocaleString('sv-SE')} kr
                   </span>
-                  <span className="text-sm text-gray-400">/månad</span>
+                  <span className="text-sm text-gray-400">/ 1 000 vis.</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -206,7 +206,7 @@ export default function PlacementsPage() {
             <tr>
               <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Placering</th>
               <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Max annonser</th>
-              <th className="text-right text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Pris/månad</th>
+              <th className="text-right text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">CPM (kr / 1 000 vis.)</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
@@ -217,7 +217,7 @@ export default function PlacementsPage() {
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">{p.max_ads}</td>
                 <td className="px-6 py-4 text-right font-semibold text-charcoal-800">
-                  {Number(p.price_per_month).toLocaleString('sv-SE')} kr
+                  {Number(p.cpm_rate || 0).toLocaleString('sv-SE')} kr
                 </td>
               </tr>
             ))}
@@ -260,8 +260,8 @@ export default function PlacementsPage() {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1.5">Pris/månad (kr) *</label>
-                  <input className="input-field" type="number" value={form.price_per_month} onChange={e => setForm({...form, price_per_month: e.target.value})} required placeholder="8900" />
+                  <label className="block text-xs font-medium text-gray-700 mb-1.5">CPM-pris (kr / 1 000 vis.) *</label>
+                  <input className="input-field" type="number" step="0.01" value={form.cpm_rate} onChange={e => setForm({...form, cpm_rate: e.target.value})} required placeholder="69.00" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1.5">Max annonser</label>
