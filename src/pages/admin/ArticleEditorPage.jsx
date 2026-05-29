@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+﻿import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
@@ -21,7 +21,7 @@ function EditorToolbar({ editor }) {
       title={title}
       disabled={disabled}
       onMouseDown={e => { e.preventDefault(); onClick(); }}
-      className={`p-1.5 rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${active ? 'bg-gold-400 text-white' : 'text-gray-600 hover:bg-cream-100 hover:text-charcoal-800'}`}
+      className={`p-1.5 rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${active ? 'bg-olive-500 text-white' : 'text-gray-600 hover:bg-cream-100 hover:text-charcoal-800'}`}
     >
       {children}
     </button>
@@ -230,7 +230,7 @@ export default function ArticleEditorPage() {
             <Save size={14} /> Spara utkast
           </button>
           <button onClick={() => handleSave('published')} disabled={saving}
-            className="btn-gold inline-flex items-center gap-1.5 text-xs py-2 px-4 disabled:opacity-50">
+            className="btn-primary inline-flex items-center gap-1.5 text-xs py-2 px-4 disabled:opacity-50">
             {saving ? 'Sparar...' : '✓ Publicera'}
           </button>
         </div>
@@ -424,3 +424,4 @@ export default function ArticleEditorPage() {
     </div>
   );
 }
+

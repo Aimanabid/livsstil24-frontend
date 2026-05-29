@@ -4,25 +4,34 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"DM Sans"', 'sans-serif'],
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        sans: ['"Inter"', 'sans-serif'],
+        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        secondary: ['"Glacial Indifference"', 'Arial', 'sans-serif'],
       },
       colors: {
         cream: {
-          50: '#FDFAF5',
-          100: '#F9F3E8',
-          200: '#F0E6D3',
-          300: '#E5D4B8',
+          50: '#FAFAF7',
+          100: '#F4F0EA',
+          200: '#E9E3DA',
+          300: '#D9D0C4',
         },
         gold: {
-          400: '#C9A96E',
-          500: '#B8943A',
-          600: '#9A7A2A',
+          400: '#C8AC82',
+          500: '#B89B72',
+          600: '#9A8262',
+        },
+        olive: {
+          500: '#5A5B46',
+          600: '#4A4B38',
+          700: '#3A3B2A',
+        },
+        mocha: {
+          400: '#B8A898',
+          500: '#A39284',
         },
         charcoal: {
-          800: '#1C1C1C',
-          900: '#0F0F0F',
+          800: '#0E0E0E',
+          900: '#000000',
         }
       },
       animation: {

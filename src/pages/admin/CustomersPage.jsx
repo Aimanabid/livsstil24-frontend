@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
 import { Plus, Edit, Trash2, Building2, Mail, Phone, X, Globe } from 'lucide-react';
@@ -162,7 +162,7 @@ export default function CustomersPage() {
             </div>
             <div className="px-6 py-4 border-t flex justify-end gap-3">
               <button onClick={() => setModal(false)} className="btn-outline text-xs py-2 px-4">Avbryt</button>
-              <button onClick={handleSave} className="btn-gold text-xs py-2 px-4">Spara</button>
+              <button onClick={handleSave} className="btn-primary text-xs py-2 px-4">Spara</button>
             </div>
           </div>
         </div>
@@ -170,3 +170,4 @@ export default function CustomersPage() {
     </div>
   );
 }
+

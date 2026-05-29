@@ -1,3 +1,27 @@
+@font-face {
+  font-family: 'Glacial Indifference';
+  src: url('/fonts/GlacialIndifference-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Glacial Indifference';
+  src: url('/fonts/GlacialIndifference-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Glacial Indifference';
+  src: url('/fonts/GlacialIndifference-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,33 +38,35 @@
 
 @layer base {
   :root {
-    --gold: #C9A96E;
-    --gold-dark: #9A7A2A;
-    --cream: #FDFAF5;
-    --charcoal: #1C1C1C;
+    --gold: #B89B72;
+    --gold-dark: #9A8262;
+    --cream: #F4F0EA;
+    --charcoal: #0E0E0E;
+    --olive: #5A5B46;
+    --mocha: #A39284;
   }
 
   * { -webkit-font-smoothing: antialiased; }
   html { scroll-behavior: smooth; }
-  body { @apply bg-cream-50 text-charcoal-800 font-sans; }
+  body { @apply bg-cream-100 text-charcoal-800 font-sans; }
   h1, h2, h3, h4 { @apply font-display; }
 
   ::selection {
-    background: rgba(201, 169, 110, 0.2);
-    color: #1C1C1C;
+    background: rgba(184, 155, 114, 0.2);
+    color: #0E0E0E;
   }
 }
 
 @layer components {
   .nav-link {
-    @apply relative text-[11px] font-sans font-medium tracking-[0.16em] uppercase text-charcoal-800 hover:text-gold-400 transition-colors duration-200 pb-0.5;
+    @apply relative text-[11px] font-sans font-medium tracking-[0.16em] uppercase text-charcoal-800 hover:text-olive-500 transition-colors duration-200 pb-0.5;
   }
   .nav-link::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-0 h-px bg-gold-400 transition-all duration-300;
+    @apply absolute bottom-0 left-0 w-0 h-px bg-olive-500 transition-all duration-300;
   }
   .nav-link:hover::after { @apply w-full; }
-  .nav-link.active { @apply text-gold-400; }
+  .nav-link.active { @apply text-olive-500; }
   .nav-link.active::after { @apply w-full; }
 
   .eyebrow {
@@ -63,33 +89,33 @@
   }
 
   .btn-primary {
-    @apply bg-charcoal-800 text-cream-50 text-[11px] tracking-[0.16em] uppercase font-medium px-6 py-3 hover:bg-charcoal-900 transition-colors duration-200;
+    @apply bg-olive-500 text-cream-50 text-[11px] tracking-[0.16em] uppercase font-medium px-6 py-3 hover:bg-olive-600 transition-colors duration-200;
   }
   .btn-outline {
-    @apply border border-charcoal-800 text-charcoal-800 text-[11px] tracking-[0.16em] uppercase font-medium px-6 py-3 hover:bg-charcoal-800 hover:text-cream-50 transition-colors duration-200;
+    @apply border border-olive-500 text-olive-500 text-[11px] tracking-[0.16em] uppercase font-medium px-6 py-3 hover:bg-olive-500 hover:text-cream-50 transition-colors duration-200;
   }
   .btn-gold {
     @apply bg-gold-400 text-white text-[11px] tracking-[0.16em] uppercase font-medium px-6 py-3 hover:bg-gold-500 transition-colors duration-200;
   }
 
   .admin-sidebar-link {
-    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-cream-100 hover:text-charcoal-800 transition-all duration-200;
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-mocha-500 hover:bg-mocha-500/10 hover:text-charcoal-800 transition-all duration-200;
   }
   .admin-sidebar-link.active {
-    @apply bg-cream-200 text-charcoal-800 font-medium;
+    @apply bg-mocha-500/15 text-charcoal-800 font-medium;
   }
 
   .status-badge { @apply text-xs font-medium px-2.5 py-1 rounded-full; }
   .status-published { @apply bg-green-100 text-green-700; }
   .status-draft { @apply bg-amber-100 text-amber-700; }
   .status-active { @apply bg-green-100 text-green-700; }
-  .status-inactive { @apply bg-gray-100 text-gray-500; }
+  .status-inactive { @apply bg-mocha-500/10 text-mocha-500; }
 
   .input-field {
-    @apply w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-charcoal-800 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-transparent placeholder-gray-400 bg-white transition-all;
+    @apply w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-charcoal-800 focus:outline-none focus:ring-2 focus:ring-olive-500 focus:border-transparent placeholder-mocha-400 bg-white transition-all;
   }
   .label {
-    @apply block text-xs font-medium text-gray-500 mb-1.5 tracking-wide uppercase;
+    @apply block text-xs font-medium text-mocha-500 mb-1.5 tracking-wide uppercase;
   }
   .card {
     @apply bg-white rounded-xl border border-gray-100 shadow-sm;
@@ -108,20 +134,20 @@
 .ProseMirror {
   min-height: 300px;
   outline: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 15px;
   line-height: 1.75;
-  color: #1C1C1C;
+  color: #0E0E0E;
 }
 .ProseMirror > * + * { margin-top: 0.5rem; }
 .ProseMirror p { margin-bottom: 0.5rem; }
-.ProseMirror h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 500; margin: 1.5rem 0 0.5rem; }
-.ProseMirror h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 500; margin: 1.25rem 0 0.5rem; }
+.ProseMirror h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 500; margin: 1.5rem 0 0.5rem; }
+.ProseMirror h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 500; margin: 1.25rem 0 0.5rem; }
 .ProseMirror ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
 .ProseMirror ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 0.75rem; }
 .ProseMirror li { margin-bottom: 0.25rem; }
-.ProseMirror blockquote { border-left: 2px solid #C9A96E; padding-left: 1rem; margin: 1rem 0; font-style: italic; color: #555; }
-.ProseMirror a { color: #B8943A; text-decoration: underline; }
+.ProseMirror blockquote { border-left: 2px solid #B89B72; padding-left: 1rem; margin: 1rem 0; font-style: italic; color: #A39284; }
+.ProseMirror a { color: #9A8262; text-decoration: underline; }
 .ProseMirror img { max-width: 100%; height: auto; margin: 1rem 0; }
 .ProseMirror p.is-empty:first-child::before {
   content: attr(data-placeholder);
@@ -129,8 +155,15 @@
 }
 
 /* ── Article body ── */
+/* Override for health/food/wellness categories (Glacial Indifference) */
+.article-body--secondary h2,
+.article-body--secondary h3,
+.article-body--secondary > p:first-of-type::first-letter {
+  font-family: 'Glacial Indifference', Arial, sans-serif;
+}
+
 .article-body h2 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.75rem;
   font-weight: 500;
   margin-top: 2.75rem;
@@ -138,7 +171,7 @@
   letter-spacing: 0.01em;
 }
 .article-body h3 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.375rem;
   font-weight: 500;
   margin-top: 2rem;
@@ -148,16 +181,16 @@
   font-size: 1.0625rem;
   line-height: 1.9;
   margin-bottom: 1.5rem;
-  color: #2a2a2a;
+  color: #0E0E0E;
 }
-.article-body a { color: #B8943A; text-decoration: underline; }
+.article-body a { color: #9A8262; text-decoration: underline; }
 .article-body blockquote {
-  border-left: 2px solid #C9A96E;
+  border-left: 2px solid #B89B72;
   padding: 0.5rem 0 0.5rem 1.5rem;
   font-style: italic;
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.25rem;
-  color: #555;
+  color: #A39284;
   margin: 2.5rem 0;
 }
 .article-body ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; }
@@ -167,19 +200,19 @@
 
 /* Drop cap */
 .article-body > p:first-of-type::first-letter {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 5.4em;
   font-weight: 700;
   float: left;
   line-height: 0.78;
   margin-right: 0.08em;
   margin-top: -0.02em;
-  color: #1C1C1C;
+  color: #0E0E0E;
   text-transform: uppercase;
 }
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #ddd4c0; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #c9a96e; }
+::-webkit-scrollbar-thumb { background: #D9D0C4; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #B89B72; }

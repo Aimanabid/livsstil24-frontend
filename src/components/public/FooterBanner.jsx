@@ -149,7 +149,7 @@ function ArticleOverlay({ article }) {
     <div className="absolute bottom-0 left-0 right-0 px-5 pb-10 z-10">
       <span
         className="text-[10px] tracking-[0.18em] uppercase font-medium block mb-1.5"
-        style={{ color: article.category_color || '#C9A96E' }}
+        style={{ color: article.category_color || '#B89B72' }}
       >
         {article.category_name}
       </span>

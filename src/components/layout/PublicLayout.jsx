@@ -94,7 +94,7 @@ export default function PublicLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-cream-100">
 
       {/* ── Hero banner — normal flow, scrolls away ── */}
       <div ref={bannerRef} style={bannerVisible ? { height: `calc(100vh - ${headerHeight}px)` } : { height: 0 }} className="relative overflow-hidden transition-[height] duration-300">
@@ -120,27 +120,7 @@ export default function PublicLayout() {
       </div>
 
       {/* ── Sticky header ── */}
-      <header ref={headerRef} className={`sticky top-0 z-50 bg-cream-50 transition-shadow duration-300 ${scrolled ? 'shadow-[0_1px_0_#F0E6D3]' : ''}`}>
-
-        {/* Top microbar — hidden when scrolled to keep header compact */}
-        {/* {!scrolled && (
-          <div className="hidden md:block border-b border-cream-200">
-            <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
-              <p className="text-[11px] text-gray-400 tracking-wide capitalize">{today}</p>
-              <Link to="#newsletter"
-                className="text-[11px] tracking-[0.18em] uppercase font-medium text-charcoal-800 hover:text-gold-400 transition-colors">
-                Prenumerera på nyhetsbrevet →
-              </Link>
-              <div className="flex items-center gap-4">
-                {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-gray-400 hover:text-charcoal-800 transition-colors"><Instagram size={14} /></a>}
-                {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="text-gray-400 hover:text-charcoal-800 transition-colors"><Facebook  size={14} /></a>}
-                {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="text-gray-400 hover:text-charcoal-800 transition-colors"><TikTokIcon size={14} /></a>}
-                {settings.youtube_url   && <a href={settings.youtube_url}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="text-gray-400 hover:text-charcoal-800 transition-colors"><Youtube    size={14} /></a>}
-                {settings.linkedin_url  && <a href={settings.linkedin_url}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  className="text-gray-400 hover:text-charcoal-800 transition-colors"><Linkedin   size={14} /></a>}
-              </div>
-            </div>
-          </div>
-        )} */}
+      <header ref={headerRef} className={`sticky top-0 z-50 bg-cream-100 transition-shadow duration-300 ${scrolled ? 'shadow-[0_1px_0_#E9E3DA]' : ''}`}>
 
         {/* Logo row */}
         <div className={`flex items-center px-6 md:px-16 transition-all duration-300 ${scrolled ? 'py-2 md:py-3' : 'py-5 md:py-6'}`}>
@@ -148,7 +128,7 @@ export default function PublicLayout() {
           {/* Left: search + mobile menu */}
           <div className="flex items-center gap-4 flex-1">
             <button onClick={() => setSearchOpen(s => !s)}
-              className="text-charcoal-800 hover:text-gold-400 transition-colors" aria-label="Sök">
+              className="text-charcoal-800 hover:text-olive-500 transition-colors" aria-label="Sök">
               <Search size={17} />
             </button>
             <button className="md:hidden" onClick={() => setMenuOpen(s => !s)} aria-label="Meny">
@@ -180,33 +160,13 @@ export default function PublicLayout() {
           </div>
         </div>
 
-        {/* Search bar */}
-        {searchOpen && (
-          <div className="border-t border-cream-200 bg-cream-50 px-6 py-3 animate-slide-down">
-            <form onSubmit={handleSearch} className="max-w-lg mx-auto flex items-center gap-3">
-              <Search size={14} className="text-gray-400 shrink-0" />
-              <input
-                autoFocus
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                placeholder="Sök i Livsstil24..."
-                className="flex-1 bg-transparent text-sm py-1 focus:outline-none placeholder-gray-400 text-charcoal-800"
-              />
-              <button type="submit"
-                className="text-[11px] tracking-[0.18em] uppercase font-medium hover:text-gold-400 transition-colors shrink-0">
-                Sök
-              </button>
-            </form>
-          </div>
-        )}
-
         {/* Desktop nav */}
         <nav className="hidden md:block border-t border-cream-200">
-          <div className="max-w-screen-2xl mx-auto px-16">
-            <div className="flex items-center justify-center gap-14 py-4">
+          <div className="max-w-screen-2xl mx-auto px-6 md:px-10 xl:px-16">
+            <div className="flex items-center justify-center gap-6 md:gap-8 lg:gap-10 xl:gap-14 py-4 overflow-hidden">
               {categories.map(cat => (
                 <NavLink key={cat.id} to={`/kategori/${cat.slug}`}
-                  className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                  className={({ isActive }) => `nav-link whitespace-nowrap ${isActive ? 'active' : ''}`}>
                   {cat.name}
                 </NavLink>
               ))}
@@ -214,15 +174,35 @@ export default function PublicLayout() {
           </div>
         </nav>
 
+        {/* Search bar */}
+        {searchOpen && (
+          <div className="border-t border-cream-200 bg-cream-100 px-6 py-3 animate-slide-down">
+            <form onSubmit={handleSearch} className="max-w-lg mx-auto flex items-center gap-3">
+              <Search size={14} className="text-mocha-500 shrink-0" />
+              <input
+                autoFocus
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Sök i Livsstil24..."
+                className="flex-1 bg-transparent text-sm py-1 focus:outline-none placeholder-mocha-400 text-charcoal-800"
+              />
+              <button type="submit"
+                className="text-[11px] tracking-[0.18em] uppercase font-medium hover:text-olive-500 transition-colors shrink-0">
+                Sök
+              </button>
+            </form>
+          </div>
+        )}
+
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden border-t border-cream-200 bg-cream-50 animate-slide-down">
+          <div className="md:hidden border-t border-cream-200 bg-cream-100 animate-slide-down">
             <div className="px-6 py-2">
               {categories.map(cat => (
                 <NavLink key={cat.id} to={`/kategori/${cat.slug}`}
                   onClick={() => setMenuOpen(false)}
                   className={({ isActive }) =>
-                    `block py-4 font-display text-base border-b border-cream-100 transition-colors ${isActive ? 'text-gold-400' : 'hover:text-gold-400'}`
+                    `block py-4 font-display text-base border-b border-cream-200 transition-colors ${isActive ? 'text-olive-500' : 'hover:text-olive-500'}`
                   }>
                   {cat.name}
                 </NavLink>
@@ -273,7 +253,7 @@ export default function PublicLayout() {
                 {categories.slice(0, 6).map(cat => (
                   <li key={cat.id}>
                     <Link to={`/kategori/${cat.slug}`}
-                      className="text-xs text-cream-300/50 hover:text-cream-50 transition-colors">
+                      className="text-xs text-cream-300/50 hover:text-gold-400 transition-colors">
                       {cat.name}
                     </Link>
                   </li>
@@ -284,9 +264,9 @@ export default function PublicLayout() {
             <div>
               <h3 className="eyebrow text-gold-400 mb-5">Juridiskt</h3>
               <ul className="space-y-3 text-xs text-cream-300/50">
-                <li><a href="#" className="hover:text-cream-50 transition-colors">Integritetspolicy</a></li>
-                <li><a href="#" className="hover:text-cream-50 transition-colors">Cookiepolicy</a></li>
-                <li><a href="#" className="hover:text-cream-50 transition-colors">Användarvillkor</a></li>
+                <li><a href="#" className="hover:text-gold-400 transition-colors">Integritetspolicy</a></li>
+                <li><a href="#" className="hover:text-gold-400 transition-colors">Cookiepolicy</a></li>
+                <li><a href="#" className="hover:text-gold-400 transition-colors">Användarvillkor</a></li>
               </ul>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import api from '../../utils/api';
@@ -7,6 +7,7 @@ import ArticleCard from '../../components/public/ArticleCard';
 import { ArrowLeft, Share2, TrendingUp } from 'lucide-react';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
+import { getCategoryFont } from '../../utils/categoryFont';
 
 export default function ArticlePage() {
   const { slug } = useParams();
@@ -111,7 +112,7 @@ export default function ArticlePage() {
     <div className="max-w-3xl mx-auto px-6 py-24 text-center">
       <p className="eyebrow text-gold-400 mb-3">404</p>
       <h1 className="font-display italic text-5xl mb-6">Artikel hittades inte</h1>
-      <Link to="/" className="btn-outline inline-block">← Tillbaka till start</Link>
+      <Link to="/" className="btn-outline inline-block">â† Tillbaka till start</Link>
     </div>
   );
 
@@ -119,7 +120,7 @@ export default function ArticlePage() {
     ? format(new Date(article.published_at), 'd MMMM yyyy', { locale: sv })
     : '';
 
-  const html = article.content || '<p>Innehåll saknas.</p>';
+  const html = article.content || '<p>InnehÃ¥ll saknas.</p>';
   const [contentTop, contentBottom] = (() => {
     if (html.length < 600) return [html, null];
     const mid = Math.floor(html.length / 2);
@@ -138,7 +139,7 @@ export default function ArticlePage() {
   return (
     <div>
       <Helmet>
-        <title>{seoTitle} – Livsstil24</title>
+        <title>{seoTitle} â€“ Livsstil24</title>
         <meta name="description" content={seoDescription} />
         {seoKeywords && <meta name="keywords" content={seoKeywords} />}
         <link rel="canonical" href={canonicalUrl} />
@@ -197,11 +198,11 @@ export default function ArticlePage() {
             )}
           </div>
 
-          <span className="eyebrow block mb-3" style={{ color: article.category_color || '#C9A96E' }}>
+          <span className="eyebrow block mb-3" style={{ color: article.category_color || '#B89B72' }}>
             {article.category_name}
           </span>
 
-          <h1 className="font-display italic text-4xl md:text-5xl lg:text-[3.25rem] leading-[1.06] tracking-tight mb-5 uppercase">
+          <h1 className={`${getCategoryFont(article.category_slug)} italic text-4xl md:text-5xl lg:text-[3.25rem] leading-[1.06] tracking-tight mb-5 uppercase`}>
             {article.title}
           </h1>
 
@@ -212,9 +213,9 @@ export default function ArticlePage() {
           )}
 
           <div className="flex items-center justify-between py-5 border-y border-cream-200 mb-12">
-            <div className="flex items-center gap-3 text-xs text-gray-500 flex-wrap">
+            <div className="flex items-center gap-3 text-xs text-mocha-500 flex-wrap">
               <span className="font-semibold text-charcoal-800">{article.author_name}</span>
-              <span className="text-gray-300">·</span>
+              <span className="text-gray-300">Â·</span>
               <span>{publishDate}</span>
             </div>
             <button
@@ -230,14 +231,16 @@ export default function ArticlePage() {
       <div className="max-w-7xl mx-auto px-6 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_256px] gap-16">
           <article className="max-w-2xl">
-            <div ref={articleBodyRef} className="article-body"
+            <div ref={articleBodyRef}
+              className={`article-body${getCategoryFont(article.category_slug) === 'font-secondary' ? ' article-body--secondary' : ''}`}
               dangerouslySetInnerHTML={{ __html: contentTop }} />
             {contentBottom && (
               <>
                 <div className="my-10">
                   <AdBanner placement="article_mid" />
                 </div>
-                <div className="article-body"
+                <div
+                  className={`article-body${getCategoryFont(article.category_slug) === 'font-secondary' ? ' article-body--secondary' : ''}`}
                   dangerouslySetInnerHTML={{ __html: contentBottom }} />
               </>
             )}
@@ -245,6 +248,7 @@ export default function ArticlePage() {
             <div className="my-12">
               <AdBanner placement="article_inline" />
             </div>
+
           </article>
 
           <aside className="hidden lg:block">
@@ -255,14 +259,14 @@ export default function ArticlePage() {
                 <div>
                   <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
                     <TrendingUp size={12} className="text-gold-400" />
-                    <span className="eyebrow text-charcoal-800">Mest lästa</span>
+                    <span className="eyebrow text-charcoal-800">Mest lÃ¤sta</span>
                   </div>
                   {mostRead.map((a, i) => (
                     <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }}
                       className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
                       <span className="font-display text-4xl text-cream-200 leading-none w-8 shrink-0 select-none">{i + 1}</span>
                       <div className="min-w-0">
-                        <span className="eyebrow block mb-1" style={{ color: a.category_color || '#C9A96E' }}>{a.category_name}</span>
+                        <span className="eyebrow block mb-1" style={{ color: a.category_color || '#B89B72' }}>{a.category_name}</span>
                         <h4 className="text-sm font-medium leading-snug group-hover:text-gold-500 transition-colors line-clamp-2">{a.title}</h4>
                       </div>
                     </Link>
@@ -277,7 +281,7 @@ export default function ArticlePage() {
       </div>
 
       {related.length > 0 && (
-        <div className="border-t border-cream-200 bg-cream-100 py-16">
+        <div className="border-t border-cream-200 bg-mocha-500/5 py-16">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center gap-6 mb-10">
               <div className="flex-1 h-px bg-cream-200" />
@@ -294,3 +298,4 @@ export default function ArticlePage() {
     </div>
   );
 }
+

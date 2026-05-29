@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../utils/api';
 import ArticleCard from '../../components/public/ArticleCard';
@@ -47,7 +47,7 @@ export default function TagPage() {
           <h1 className="font-display italic text-5xl md:text-7xl tracking-tight mb-4">
             {tag}
           </h1>
-          <p className="text-xs text-gray-400 tracking-widest">{total} artiklar</p>
+          <p className="text-xs text-mocha-500 tracking-widest">{total} artiklar</p>
         </div>
       </div>
 
@@ -72,7 +72,7 @@ export default function TagPage() {
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
                 <p className="font-display italic text-3xl text-gray-300 mb-3">Inga artiklar med denna tagg</p>
-                <p className="text-sm text-gray-400">Prova att söka efter något annat.</p>
+                <p className="text-sm text-gray-400">Prova att sÃ¶ka efter nÃ¥got annat.</p>
               </div>
             ) : (
               <>
@@ -102,3 +102,4 @@ export default function TagPage() {
     </div>
   );
 }
+

@@ -33,7 +33,7 @@ function ImageUploadField({ label, hint, value, onChange, previewSize = 'h-20', 
   return (
     <div>
       <label className="label">{label}</label>
-      <div className="border border-dashed border-cream-200 rounded-lg p-4 bg-cream-50">
+      <div className="border border-dashed border-cream-200 rounded-lg p-4 bg-cream-100">
         {value ? (
           <div className="relative inline-block">
             <img src={value} alt={label} className={`${previewSize} w-auto object-contain rounded`} />

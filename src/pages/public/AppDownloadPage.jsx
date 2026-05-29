@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Download, Smartphone, Zap, Star, Bell, Wifi } from 'lucide-react';
 
 export default function AppDownloadPage() {
@@ -67,7 +67,7 @@ export default function AppDownloadPage() {
               </ol>
             </div>
           ) : deferredPrompt ? (
-            <button onClick={handleInstall} className="btn-gold inline-flex items-center gap-2 text-base px-10 py-4">
+            <button onClick={handleInstall} className="btn-primary inline-flex items-center gap-2 text-base px-10 py-4">
               <Download size={18} /> Installera appen gratis
             </button>
           ) : (
@@ -115,7 +115,7 @@ export default function AppDownloadPage() {
         <div className="mt-20 text-center">
           <div className="inline-block relative">
             <div className="w-56 h-96 bg-charcoal-800 rounded-3xl shadow-2xl mx-auto overflow-hidden border-4 border-charcoal-800">
-              <div className="bg-cream-50 h-full pt-8 px-4">
+              <div className="bg-cream-100 h-full pt-8 px-4">
                 <div className="text-center mb-4">
                   <p className="font-display text-xl text-charcoal-800">LIVSSTIL<span className="text-gold-400">24</span></p>
                 </div>
@@ -123,7 +123,7 @@ export default function AppDownloadPage() {
                 {[
                   { cat: 'Mode', h: 'h-16', color: '#D4A5A5' },
                   { cat: 'Skönhet', h: 'h-12', color: '#E8C4B8' },
-                  { cat: 'Mat & Dryck', h: 'h-12', color: '#C9A96E' },
+                  { cat: 'Mat & Dryck', h: 'h-12', color: '#B89B72' },
                 ].map((item, i) => (
                   <div key={i} className="mb-2">
                     <div className={`${item.h} bg-cream-200 rounded-lg mb-1`} />
@@ -144,3 +144,4 @@ export default function AppDownloadPage() {
     </div>
   );
 }
+
