@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../../utils/api';
 
 const SLIDE_DURATION  = 700;  // transition ms
-const SLIDE_INTERVAL  = 4000; // pause between slides ms
+const SLIDE_INTERVAL  = 3000; // pause between slides ms
 
 export default function FooterBanner() {
   const [articles, setArticles] = useState([]);

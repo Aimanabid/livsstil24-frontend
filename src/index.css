@@ -7,6 +7,11 @@
   50% { transform: translateY(5px); }
 }
 
+@keyframes editors-progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
 @layer base {
   :root {
     --gold: #C9A96E;
