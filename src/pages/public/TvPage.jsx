@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Play, TrendingUp } from 'lucide-react';
 import { format } from 'date-fns';
@@ -65,7 +65,7 @@ export default function TvPage() {
   return (
     <div className="min-h-screen">
 
-      {/* ── Page header ── */}
+      {/* â”€â”€ Page header â”€â”€ */}
       <div className="border-b border-cream-200">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 text-center">
           <div className="flex justify-center mb-4">
@@ -82,7 +82,7 @@ export default function TvPage() {
       <section className="max-w-7xl mx-auto px-6 py-12 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-14">
 
-          {/* ── Main content ── */}
+          {/* â”€â”€ Main content â”€â”€ */}
           <div className="max-w-[680px] mx-auto">
             {loading ? (
               <div className="space-y-10">
@@ -97,7 +97,7 @@ export default function TvPage() {
               </div>
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display italic text-3xl text-gray-300 mb-3">Inga videor ännu</p>
+                <p className="font-display italic text-3xl text-gray-300 mb-3">Inga videor Ã¤nnu</p>
                 <p className="text-sm text-gray-400">Kom tillbaka snart!</p>
               </div>
             ) : (
@@ -178,7 +178,7 @@ export default function TvPage() {
             )}
           </div>
 
-          {/* ── Sidebar ── */}
+          {/* â”€â”€ Sidebar â”€â”€ */}
           <aside className="hidden lg:block">
             <div className="sticky top-[120px] space-y-10">
               <AdBanner placement="sidebar_top" />
@@ -208,3 +208,4 @@ export default function TvPage() {
     </div>
   );
 }
+

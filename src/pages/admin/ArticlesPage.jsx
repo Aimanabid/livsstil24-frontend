@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
@@ -13,7 +13,7 @@ const toSlug = (str) =>
     .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 const PRESET_COLORS = [
-  '#C9A96E', '#D4A5A5', '#A8C5A0', '#B8C4D4',
+  '#B89B72', '#D4A5A5', '#A8C5A0', '#B8C4D4',
   '#C4A5C9', '#A5C4C9', '#E8C4B8', '#B8A5C4',
 ];
 
@@ -24,7 +24,7 @@ function CategoriesTab() {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ name: '', slug: '', color: '#C9A96E' });
+  const [form, setForm] = useState({ name: '', slug: '', color: '#B89B72' });
 
   const fetchCategories = async () => {
     setLoading(true);
@@ -40,13 +40,13 @@ function CategoriesTab() {
 
   const openNew = () => {
     setEditing(null);
-    setForm({ name: '', slug: '', color: '#C9A96E' });
+    setForm({ name: '', slug: '', color: '#B89B72' });
     setModal(true);
   };
 
   const openEdit = (c) => {
     setEditing(c);
-    setForm({ name: c.name, slug: c.slug, color: c.color || '#C9A96E' });
+    setForm({ name: c.name, slug: c.slug, color: c.color || '#B89B72' });
     setModal(true);
   };
 
@@ -169,7 +169,7 @@ function CategoriesTab() {
                   {PRESET_COLORS.map(color => (
                     <button key={color} type="button" onClick={() => setField('color', color)}
                       className="w-7 h-7 rounded-full border-2 transition-transform hover:scale-110"
-                      style={{ background: color, borderColor: form.color === color ? '#1C1C1C' : 'transparent' }} />
+                      style={{ background: color, borderColor: form.color === color ? '#0E0E0E' : 'transparent' }} />
                   ))}
                   <input type="color" value={form.color} onChange={e => setField('color', e.target.value)}
                     className="w-7 h-7 rounded-full border border-gray-200 cursor-pointer bg-transparent p-0" title="Anpassad färg" />
@@ -184,7 +184,7 @@ function CategoriesTab() {
             </div>
             <div className="px-6 py-4 border-t flex justify-end gap-3">
               <button onClick={() => setModal(false)} className="btn-outline text-xs py-2 px-4">Avbryt</button>
-              <button onClick={handleSave} className="btn-gold text-xs py-2 px-4">Spara</button>
+              <button onClick={handleSave} className="btn-primary text-xs py-2 px-4">Spara</button>
             </div>
           </div>
         </div>
@@ -389,7 +389,7 @@ export default function ArticlesPage() {
             onClick={() => setTab(key)}
             className={`px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors ${
               tab === key
-                ? 'border-gold-400 text-charcoal-800'
+                ? 'border-olive-500 text-charcoal-800'
                 : 'border-transparent text-gray-400 hover:text-charcoal-800'
             }`}
           >
@@ -402,3 +402,4 @@ export default function ArticlesPage() {
     </div>
   );
 }
+

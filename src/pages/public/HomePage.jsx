@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+﻿import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../utils/api';
 import AdBanner from '../../components/public/AdBanner';
@@ -6,6 +6,7 @@ import ArticleCard from '../../components/public/ArticleCard';
 import { TrendingUp, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
+import { getCategoryFont } from '../../utils/categoryFont';
 
 export default function HomePage() {
   const [articles, setArticles] = useState([]);
@@ -83,7 +84,7 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* ══ HERO ══ */}
+      {/* â•â• HERO â•â• */}
       {hero && (
         <section>
           <Link to={`/artikel/${hero.slug}`} state={{ fromApp: true }} className="group block relative">
@@ -95,10 +96,10 @@ export default function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/25 to-black/5" />
               <div className="absolute bottom-0 left-0 px-8 md:px-16 pb-10 md:pb-16 max-w-3xl">
-                <span className="eyebrow block mb-3" style={{ color: hero.category_color || '#C9A96E' }}>
+                <span className="eyebrow block mb-3" style={{ color: hero.category_color || '#B89B72' }}>
                   {hero.category_name}
                 </span>
-                <h2 className="font-display italic text-white text-4xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight mb-4">
+                <h2 className={`${getCategoryFont(hero.category_slug || hero.category_name)} italic text-white text-4xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight mb-4`}>
                   {hero.title}
                 </h2>
                 <p className="text-white/65 text-sm hidden md:block mb-5 max-w-lg leading-relaxed font-light">
@@ -113,7 +114,7 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* ══ 3-COL SECONDARY FEATURED ══ */}
+      {/* â•â• 3-COL SECONDARY FEATURED â•â• */}
       {subFeatured.length > 0 && (
         <section className="max-w-7xl mx-auto px-6 py-12 border-b border-cream-200">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -126,20 +127,20 @@ export default function HomePage() {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
-                <span className="eyebrow block mb-1.5" style={{ color: a.category_color || '#C9A96E' }}>
+                <span className="eyebrow block mb-1.5" style={{ color: a.category_color || '#B89B72' }}>
                   {a.category_name}
                 </span>
-                <h3 className="font-display text-xl md:text-2xl leading-snug group-hover:text-gold-500 transition-colors mb-2">
+                <h3 className={`${getCategoryFont(a.category_slug || a.category_name)} text-xl md:text-2xl leading-snug group-hover:text-gold-500 transition-colors mb-2`}>
                   {a.title}
                 </h3>
-                <p className="text-xs text-gray-400 line-clamp-2 font-light leading-relaxed">{a.excerpt}</p>
+                <p className="text-xs text-mocha-500 line-clamp-2 font-light leading-relaxed">{a.excerpt}</p>
               </Link>
             ))}
           </div>
         </section>
       )}
 
-      {/* ══ EDITOR'S PICK (dark carousel) ══ */}
+      {/* â•â• EDITOR'S PICK (dark carousel) â•â• */}
       {editorsPick.length > 0 && (
         <section className="bg-charcoal-800 py-10 max-h-screen overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
@@ -181,15 +182,15 @@ export default function HomePage() {
                         />
                       </div>
                       <div className="md:w-[55%] px-0 md:px-10 pt-6 md:pt-0 flex flex-col justify-center">
-                        <span className="eyebrow block mb-3" style={{ color: a.category_color || '#C9A96E' }}>{a.category_name}</span>
-                        <h3 className="font-display italic text-3xl md:text-4xl lg:text-5xl text-cream-50 leading-snug group-hover:text-gold-400 transition-colors mb-4">
+                        <span className="eyebrow block mb-3" style={{ color: a.category_color || '#B89B72' }}>{a.category_name}</span>
+                        <h3 className={`${getCategoryFont(a.category_slug || a.category_name)} italic text-3xl md:text-4xl lg:text-5xl text-cream-50 leading-snug group-hover:text-gold-400 transition-colors mb-4`}>
                           {a.title}
                         </h3>
                         {a.excerpt && (
                           <p className="text-sm text-cream-300/55 line-clamp-3 font-light leading-relaxed mb-6">{a.excerpt}</p>
                         )}
                         <span className="text-xs text-gold-500 tracking-[0.15em] uppercase font-medium flex items-center gap-2">
-                          Läs mer <ArrowRight size={12} />
+                          LÃ¤s mer <ArrowRight size={12} />
                         </span>
                       </div>
                     </Link>
@@ -223,7 +224,7 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* ══ SENASTE DIVIDER ══ */}
+      {/* â•â• SENASTE DIVIDER â•â• */}
       <div className="max-w-7xl mx-auto px-6 pt-14 pb-6">
         <div className="flex items-center gap-6">
           <div className="flex-1 h-px bg-cream-200" />
@@ -232,7 +233,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ══ MAIN GRID + SIDEBAR ══ */}
+      {/* â•â• MAIN GRID + SIDEBAR â•â• */}
       <section className="max-w-7xl mx-auto px-6 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-14">
 
@@ -268,7 +269,7 @@ export default function HomePage() {
               <div>
                 <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
                   <TrendingUp size={12} className="text-gold-400" />
-                  <span className="eyebrow text-charcoal-800">Mest lästa</span>
+                  <span className="eyebrow text-charcoal-800">Mest lÃ¤sta</span>
                 </div>
                 {topArticles.map((a, i) => (
                   <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
@@ -301,3 +302,4 @@ function LoadingDots() {
     </div>
   );
 }
+

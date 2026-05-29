@@ -54,7 +54,7 @@ export default function DashboardPage() {
     { label: 'Annonsintäkter', value: `${Number(stats.adRevenue).toLocaleString('sv')} kr`, icon: DollarSign, color: 'text-gold-500', bg: 'bg-cream-100' },
   ];
 
-  const chartColors = ['#C9A96E', '#D4A5A5', '#A8C5A0', '#B8C4D4', '#C4A5C9', '#A5C4C9'];
+  const chartColors = ['#B89B72', '#D4A5A5', '#A8C5A0', '#B8C4D4', '#C4A5C9', '#A5C4C9'];
 
   return (
     <div className="space-y-6 max-w-7xl">
@@ -91,8 +91,8 @@ export default function DashboardPage() {
             <AreaChart data={viewsByDay}>
               <defs>
                 <linearGradient id="viewGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#C9A96E" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#C9A96E" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#B89B72" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="#B89B72" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0ebe0" />
@@ -104,7 +104,7 @@ export default function DashboardPage() {
                 labelFormatter={d => { try { return format(parseISO(d), 'd MMMM', { locale: sv }); } catch { return d; } }}
                 contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e5e7eb' }}
               />
-              <Area type="monotone" dataKey="views" stroke="#C9A96E" strokeWidth={2} fill="url(#viewGrad)" />
+              <Area type="monotone" dataKey="views" stroke="#B89B72" strokeWidth={2} fill="url(#viewGrad)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>

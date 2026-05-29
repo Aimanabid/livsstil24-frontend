@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../../context/authStore';
@@ -96,7 +96,7 @@ export default function ProfilePage() {
           />
         </div>
         <div className="flex justify-end">
-          <button onClick={saveProfile} disabled={savingProfile} className="btn-gold text-xs py-2 px-4 inline-flex items-center gap-2">
+          <button onClick={saveProfile} disabled={savingProfile} className="btn-primary text-xs py-2 px-4 inline-flex items-center gap-2">
             <Save size={14} /> {savingProfile ? 'Sparar...' : 'Spara profil'}
           </button>
         </div>
@@ -120,7 +120,7 @@ export default function ProfilePage() {
           <PasswordInput value={pw.confirm} onChange={e => setPw(p => ({ ...p, confirm: e.target.value }))} />
         </div>
         <div className="flex justify-end">
-          <button onClick={savePassword} disabled={savingPw} className="btn-gold text-xs py-2 px-4 inline-flex items-center gap-2">
+          <button onClick={savePassword} disabled={savingPw} className="btn-primary text-xs py-2 px-4 inline-flex items-center gap-2">
             <Lock size={14} /> {savingPw ? 'Sparar...' : 'Uppdatera lösenord'}
           </button>
         </div>
@@ -128,3 +128,4 @@ export default function ProfilePage() {
     </div>
   );
 }
+

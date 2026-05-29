@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import ArticleCard from '../../components/public/ArticleCard';
 import AdBanner from '../../components/public/AdBanner';
 import { TrendingUp } from 'lucide-react';
+import { getCategoryFont } from '../../utils/categoryFont';
 
 const PER_PAGE = 12;
 
@@ -59,10 +60,10 @@ export default function CategoryPage() {
             <div className="w-6 h-px bg-gold-400" />
           </div>
           <p className="eyebrow text-gold-400 mb-4">Kategori</p>
-          <h1 className="font-display italic text-5xl md:text-7xl tracking-tight mb-4">
+          <h1 className={`${getCategoryFont(slug)} italic text-5xl md:text-7xl tracking-tight mb-4`}>
             {category?.name || slug}
           </h1>
-          <p className="text-xs text-gray-400 tracking-widest">
+          <p className="text-xs text-mocha-500 tracking-widest">
             {total} artiklar
           </p>
         </div>
@@ -85,7 +86,7 @@ export default function CategoryPage() {
               </div>
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display italic text-3xl text-gray-300 mb-3">Inga artiklar ännu</p>
+                <p className="font-display italic text-3xl text-gray-300 mb-3">Inga artiklar Ã¤nnu</p>
                 <p className="text-sm text-gray-400">Kom tillbaka snart!</p>
               </div>
             ) : (
@@ -111,7 +112,7 @@ export default function CategoryPage() {
               <div>
                 <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
                   <TrendingUp size={12} className="text-gold-400" />
-                  <span className="eyebrow text-charcoal-800">Mest lästa</span>
+                  <span className="eyebrow text-charcoal-800">Mest lÃ¤sta</span>
                 </div>
                 {topArticles.map((a, i) => (
                   <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
@@ -133,3 +134,4 @@ export default function CategoryPage() {
     </div>
   );
 }
+

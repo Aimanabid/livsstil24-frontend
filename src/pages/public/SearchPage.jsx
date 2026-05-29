@@ -32,7 +32,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-[60vh]">
       {/* Header */}
-      <div className="border-b border-cream-200 bg-cream-50">
+      <div className="border-b border-cream-200 bg-cream-100">
         <div className="max-w-2xl mx-auto px-6 py-16 md:py-20">
           <p className="eyebrow text-gold-400 mb-5 text-center">Sök</p>
           <form onSubmit={handleSearch} className="flex items-center gap-3 border-b-2 border-charcoal-800 pb-3">

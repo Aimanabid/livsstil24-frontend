@@ -87,7 +87,7 @@ export default function StatisticsPage() {
     win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8">
       <title>Livsstil24 – Statistik ${from} till ${to}</title>
       <style>
-        body{font-family:sans-serif;color:#1C1C1C;padding:40px;font-size:13px}
+        body{font-family:sans-serif;color:#0E0E0E;padding:40px;font-size:13px}
         h1{font-size:22px;margin:0 0 4px}
         .period{color:#9ca3af;font-size:12px;margin-bottom:32px}
         h2{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#9ca3af;margin:28px 0 10px;border-bottom:1px solid #e5e7eb;padding-bottom:5px}
@@ -191,7 +191,7 @@ export default function StatisticsPage() {
     link.click();
     URL.revokeObjectURL(url);
   };
-  const colors = ['#C9A96E', '#D4A5A5', '#A8C5A0', '#B8C4D4', '#C4A5C9', '#A5C4C9', '#E8C4B8'];
+  const colors = ['#B89B72', '#D4A5A5', '#A8C5A0', '#B8C4D4', '#C4A5C9', '#A5C4C9', '#E8C4B8'];
   const totalImpressions = adStats.reduce((s, a) => s + Number(a.impressions || 0), 0);
   const totalClicks      = adStats.reduce((s, a) => s + Number(a.clicks || 0), 0);
   const avgCTR = totalImpressions > 0 ? (totalClicks / totalImpressions * 100).toFixed(2) : 0;
@@ -278,8 +278,8 @@ export default function StatisticsPage() {
           <AreaChart data={viewsByDay}>
             <defs>
               <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#C9A96E" stopOpacity={0.2} />
-                <stop offset="95%" stopColor="#C9A96E" stopOpacity={0} />
+                <stop offset="5%" stopColor="#B89B72" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#B89B72" stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0ebe0" />
@@ -289,7 +289,7 @@ export default function StatisticsPage() {
             <Tooltip formatter={v => [`${v} visningar`]}
               labelFormatter={d => { try { return format(parseISO(d), 'd MMMM', { locale: sv }); } catch { return d; } }}
               contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e5e7eb' }} />
-            <Area type="monotone" dataKey="views" stroke="#C9A96E" strokeWidth={2.5} fill="url(#g1)" />
+            <Area type="monotone" dataKey="views" stroke="#B89B72" strokeWidth={2.5} fill="url(#g1)" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
@@ -371,8 +371,8 @@ export default function StatisticsPage() {
               <AreaChart data={customerAdsByDay}>
                 <defs>
                   <linearGradient id="impGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#C9A96E" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#C9A96E" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#B89B72" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#B89B72" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0ebe0" />
@@ -384,7 +384,7 @@ export default function StatisticsPage() {
                   labelFormatter={d => { try { return format(parseISO(d), 'd MMMM', { locale: sv }); } catch { return d; } }}
                   formatter={v => [v.toLocaleString('sv'), 'Visningar']}
                   contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e5e7eb' }} />
-                <Area type="monotone" dataKey="impressions" stroke="#C9A96E" strokeWidth={2}
+                <Area type="monotone" dataKey="impressions" stroke="#B89B72" strokeWidth={2}
                   fill="url(#impGrad)" dot={false} activeDot={{ r: 4 }} />
               </AreaChart>
             </ResponsiveContainer>
@@ -465,7 +465,7 @@ export default function StatisticsPage() {
                   <tr key={i} className="border-b border-gray-50 hover:bg-cream-50">
                     <td className="py-2.5 px-2 text-sm font-medium max-w-[220px] truncate">{a.title}</td>
                     <td className="py-2.5 px-2">
-                      <span className="text-xs px-1.5 py-0.5 rounded" style={{ background: (a.category_color || '#C9A96E') + '25', color: a.category_color || '#C9A96E' }}>
+                      <span className="text-xs px-1.5 py-0.5 rounded" style={{ background: (a.category_color || '#B89B72') + '25', color: a.category_color || '#B89B72' }}>
                         {a.category_name || '–'}
                       </span>
                     </td>
