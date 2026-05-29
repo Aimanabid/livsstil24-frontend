@@ -23,7 +23,9 @@ export default function PublicLayout() {
   const [categories, setCategories] = useState([]);
   const [settings, setSettings]   = useState({});
   const [bannerVisible, setBannerVisible] = useState(true);
+  const [headerHeight, setHeaderHeight] = useState(140);
   const bannerRef = useRef(null);
+  const headerRef = useRef(null);
 
   useEffect(() => {
     history.scrollRestoration = 'manual';
@@ -57,6 +59,15 @@ export default function PublicLayout() {
   }, [settings.favicon_url]);
 
   useEffect(() => {
+    const measure = () => {
+      if (headerRef.current) setHeaderHeight(headerRef.current.offsetHeight);
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [categories, settings]);
+
+  useEffect(() => {
     const onScroll = () => {
       const bannerH = bannerRef.current?.offsetHeight ?? 0;
       setScrolled(prev => {
@@ -86,7 +97,7 @@ export default function PublicLayout() {
     <div className="min-h-screen bg-cream-50">
 
       {/* ── Hero banner — normal flow, scrolls away ── */}
-      <div ref={bannerRef} className={`relative overflow-hidden transition-[height] duration-300 ${bannerVisible ? 'h-[78vh]' : 'h-0'}`}>
+      <div ref={bannerRef} style={bannerVisible ? { height: `calc(100vh - ${headerHeight}px)` } : { height: 0 }} className="relative overflow-hidden transition-[height] duration-300">
         <AdBanner placement="hero_banner" className="h-full border-b border-cream-200" hideLabel />
 
         {/* Close button */}
@@ -109,7 +120,7 @@ export default function PublicLayout() {
       </div>
 
       {/* ── Sticky header ── */}
-      <header className={`sticky top-0 z-50 bg-cream-50 transition-shadow duration-300 ${scrolled ? 'shadow-[0_1px_0_#F0E6D3]' : ''}`}>
+      <header ref={headerRef} className={`sticky top-0 z-50 bg-cream-50 transition-shadow duration-300 ${scrolled ? 'shadow-[0_1px_0_#F0E6D3]' : ''}`}>
 
         {/* Top microbar — hidden when scrolled to keep header compact */}
         {/* {!scrolled && (
@@ -132,7 +143,7 @@ export default function PublicLayout() {
         )} */}
 
         {/* Logo row */}
-        <div className={`flex items-center px-6 md:px-12 transition-all duration-300 ${scrolled ? 'py-2 md:py-3' : 'py-5 md:py-6'}`}>
+        <div className={`flex items-center px-6 md:px-16 transition-all duration-300 ${scrolled ? 'py-2 md:py-3' : 'py-5 md:py-6'}`}>
 
           {/* Left: search + mobile menu */}
           <div className="flex items-center gap-4 flex-1">
@@ -191,8 +202,8 @@ export default function PublicLayout() {
 
         {/* Desktop nav */}
         <nav className="hidden md:block border-t border-cream-200">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex items-center justify-center gap-10 py-3">
+          <div className="max-w-screen-2xl mx-auto px-16">
+            <div className="flex items-center justify-center gap-14 py-4">
               {categories.map(cat => (
                 <NavLink key={cat.id} to={`/kategori/${cat.slug}`}
                   className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
@@ -230,31 +241,6 @@ export default function PublicLayout() {
       </main>
 
       <FooterBanner />
-
-      {/* ── Newsletter ── */}
-      <section className="bg-charcoal-800 py-16" id="newsletter">
-        <div className="max-w-md mx-auto px-6 text-center">
-          <div className="flex justify-center mb-5">
-            <div className="w-8 h-px bg-gold-400" />
-          </div>
-          <h2 className="font-display italic text-3xl md:text-4xl text-cream-50 mb-3 tracking-wide">
-            Håll dig inspirerad
-          </h2>
-          <p className="text-xs text-cream-300/60 mb-8 tracking-wide leading-relaxed">
-            Mode,  livsstil & trender – direkt i din inkorg varje vecka.
-          </p>
-          <form className="flex" onSubmit={e => e.preventDefault()}>
-            <input
-              type="email"
-              placeholder="Din e-postadress"
-              className="flex-1 bg-transparent border border-cream-300/20 border-r-0 px-4 py-3 text-sm text-cream-50 placeholder-cream-300/40 focus:outline-none focus:border-gold-400/50 transition-colors"
-            />
-            <button className="bg-gold-400 text-white text-[11px] tracking-[0.18em] uppercase font-medium px-5 py-3 hover:bg-gold-500 transition-colors whitespace-nowrap">
-              Ja, tack
-            </button>
-          </form>
-        </div>
-      </section>
 
       {/* ── Footer ── */}
       <footer className="bg-charcoal-900 text-cream-50">

@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../utils/api';
 import AdBanner from '../../components/public/AdBanner';
 import ArticleCard from '../../components/public/ArticleCard';
-import { TrendingUp } from 'lucide-react';
+import { TrendingUp, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
 
@@ -15,13 +15,15 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [total, setTotal] = useState(0);
+  const [pickIndex, setPickIndex] = useState(0);
+  const pickTimerRef = useRef(null);
 
   const PER_PAGE = 24;
 
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      api.get('/articles?featured=true&limit=6'),
+      api.get('/articles?featured=true&limit=10'),
       api.get(`/articles?limit=${PER_PAGE}`),
       api.get('/categories'),
       api.get('/articles?sort=views&limit=5'),
@@ -38,6 +40,24 @@ export default function HomePage() {
       setTopArticles([]);
     }).finally(() => setLoading(false));
   }, []);
+
+  const startPickTimer = (count) => {
+    clearInterval(pickTimerRef.current);
+    if (count <= 1) return;
+    pickTimerRef.current = setInterval(() => setPickIndex(i => (i + 1) % count), 3000);
+  };
+
+  useEffect(() => {
+    const count = Math.max(0, featured.length - 4);
+    setPickIndex(0);
+    startPickTimer(count);
+    return () => clearInterval(pickTimerRef.current);
+  }, [featured.length]);
+
+  const goToPick = (index) => {
+    setPickIndex(index);
+    startPickTimer(Math.max(0, featured.length - 4));
+  };
 
   const loadMore = async () => {
     setLoadingMore(true);
@@ -56,7 +76,7 @@ export default function HomePage() {
 
   const hero = featured[0];
   const subFeatured = featured.slice(1, 4);
-  const editorsPick = featured.slice(4, 6);
+  const editorsPick = featured.slice(4);
 
   const chunks = [];
   for (let i = 0; i < articles.length; i += 4) chunks.push(articles.slice(i, i + 4));
@@ -119,34 +139,86 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* ══ EDITOR'S PICK (dark band) ══ */}
+      {/* ══ EDITOR'S PICK (dark carousel) ══ */}
       {editorsPick.length > 0 && (
-        <section className="bg-charcoal-800 py-10">
+        <section className="bg-charcoal-800 py-10 max-h-screen overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
+            {/* Header */}
             <div className="flex items-center gap-5 mb-8">
               <div className="flex-1 h-px bg-cream-300/15" />
               <span className="eyebrow text-gold-400">Redaktionens val</span>
               <div className="flex-1 h-px bg-cream-300/15" />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {editorsPick.map(a => (
-                <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-5 items-start">
-                  <div className="overflow-hidden w-32 md:w-40 shrink-0 aspect-[4/3]">
-                    <img
-                      src={a.featured_image}
-                      alt={a.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="py-1 min-w-0">
-                    <span className="eyebrow block mb-2" style={{ color: a.category_color || '#C9A96E' }}>{a.category_name}</span>
-                    <h3 className="font-display text-lg md:text-xl text-cream-50 leading-snug group-hover:text-gold-400 transition-colors mb-2">
-                      {a.title}
-                    </h3>
-                  </div>
-                </Link>
-              ))}
+
+            {/* Sliding track */}
+            <div className="relative">
+              {editorsPick.length > 1 && (
+                <button
+                  onClick={() => goToPick((pickIndex - 1 + editorsPick.length) % editorsPick.length)}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full z-10 w-9 h-9 flex items-center justify-center text-cream-300/60 hover:text-gold-400 transition-colors"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+              )}
+
+              <div className="overflow-hidden">
+                <div
+                  className="flex transition-transform duration-700 ease-in-out"
+                  style={{ transform: `translateX(-${pickIndex * 100}%)` }}
+                >
+                  {editorsPick.map(a => (
+                    <Link
+                      key={a.id}
+                      to={`/artikel/${a.slug}`}
+                      state={{ fromApp: true }}
+                      className="group w-full shrink-0 flex flex-col md:flex-row gap-0"
+                    >
+                      <div className="overflow-hidden w-full md:w-[45%] aspect-[16/9] md:aspect-[4/3]">
+                        <img
+                          src={a.featured_image}
+                          alt={a.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="md:w-[55%] px-0 md:px-10 pt-6 md:pt-0 flex flex-col justify-center">
+                        <span className="eyebrow block mb-3" style={{ color: a.category_color || '#C9A96E' }}>{a.category_name}</span>
+                        <h3 className="font-display italic text-3xl md:text-4xl lg:text-5xl text-cream-50 leading-snug group-hover:text-gold-400 transition-colors mb-4">
+                          {a.title}
+                        </h3>
+                        {a.excerpt && (
+                          <p className="text-sm text-cream-300/55 line-clamp-3 font-light leading-relaxed mb-6">{a.excerpt}</p>
+                        )}
+                        <span className="text-xs text-gold-500 tracking-[0.15em] uppercase font-medium flex items-center gap-2">
+                          Läs mer <ArrowRight size={12} />
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {editorsPick.length > 1 && (
+                <button
+                  onClick={() => goToPick((pickIndex + 1) % editorsPick.length)}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full z-10 w-9 h-9 flex items-center justify-center text-cream-300/60 hover:text-gold-400 transition-colors"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              )}
             </div>
+
+            {/* Dot indicators */}
+            {editorsPick.length > 1 && (
+              <div className="flex justify-center items-center gap-2 mt-6">
+                {editorsPick.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goToPick(i)}
+                    className={`rounded-full transition-all duration-300 ${i === pickIndex ? 'w-4 h-1.5 bg-gold-400' : 'w-1.5 h-1.5 bg-cream-300/30 hover:bg-cream-300/60'}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </section>
       )}
