@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../utils/api';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { FileText, TrendingUp, Megaphone, Users, DollarSign, Eye, Plus, ArrowRight, BarChart2 } from 'lucide-react';
+import { FileText, TrendingUp, Megaphone, Users, DollarSign, Eye, Plus, ArrowRight } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { sv } from 'date-fns/locale';
 
@@ -38,13 +38,7 @@ export default function DashboardPage() {
     </div>
   );
 
-  const { stats, topArticles, recentArticles, adStats, viewsByDay, categoryBreakdown, sovStats } = data;
-
-  const sovByPlacement = (sovStats || []).reduce((acc, row) => {
-    if (!acc[row.placement_name]) acc[row.placement_name] = [];
-    acc[row.placement_name].push(row);
-    return acc;
-  }, {});
+  const { stats, topArticles, recentArticles, adStats, viewsByDay, categoryBreakdown } = data;
 
   const statCards = [
     { label: 'Publicerade artiklar', value: stats.publishedArticles, icon: FileText, color: 'text-blue-500', bg: 'bg-blue-50' },
@@ -188,42 +182,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Share of Voice */}
-      {Object.keys(sovByPlacement).length > 0 && (
-        <div className="card p-5">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-sm font-medium text-charcoal-800 flex items-center gap-2">
-              <BarChart2 size={15} className="text-gold-400" /> Share of Voice
-            </h2>
-            <Link to="/admin/statistik" className="text-xs text-gold-400 hover:text-gold-500 flex items-center gap-1">
-              Detaljer <ArrowRight size={12} />
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {Object.entries(sovByPlacement).map(([placement, rows]) => (
-              <div key={placement}>
-                <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-2">{placement}</p>
-                <div className="space-y-2">
-                  {rows.map((row, i) => (
-                    <div key={row.ad_id}>
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-gray-600 truncate max-w-[160px]">{row.customer_name || row.ad_title}</span>
-                        <span className="text-xs font-semibold text-charcoal-800 ml-2">{parseFloat(row.sov).toFixed(1)}%</span>
-                      </div>
-                      <div className="h-1.5 bg-cream-100 rounded-full overflow-hidden">
-                        <div
-                          className="h-full rounded-full"
-                          style={{ width: `${row.sov}%`, backgroundColor: chartColors[i % chartColors.length] }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Ad performance */}
       {adStats.length > 0 && (
