@@ -230,7 +230,7 @@ export default function ArticlePage() {
 
       <div className="max-w-7xl mx-auto px-6 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_256px] gap-16">
-          <article className="max-w-2xl">
+          <article className="max-w-7xl">
             <div ref={articleBodyRef}
               className={`article-body${getCategoryFont(article.category_slug) === 'font-secondary' ? ' article-body--secondary' : ''}`}
               dangerouslySetInnerHTML={{ __html: contentTop }} />
