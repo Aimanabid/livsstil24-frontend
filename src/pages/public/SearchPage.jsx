@@ -43,7 +43,7 @@ export default function SearchPage() {
               value={input}
               onChange={e => setInput(e.target.value)}
               placeholder="Sök i Livsstil24..."
-              className="flex-1 bg-transparent text-lg focus:outline-none placeholder-gray-300 text-charcoal-800 font-display"
+              className="flex-1 bg-transparent text-lg focus:outline-none placeholder-gray-300 text-charcoal-800 font-sans"
             />
             <button
               type="submit"
