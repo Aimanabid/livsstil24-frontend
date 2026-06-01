@@ -58,7 +58,7 @@ export default function SearchPage() {
       <div className="max-w-7xl mx-auto px-6 py-12 pb-20">
         {!q ? (
           <div className="text-center py-16">
-            <p className="font-display italic text-2xl text-gray-300">Skriv något för att söka</p>
+            <p className="font-display text-2xl text-gray-300">Skriv något för att söka</p>
           </div>
         ) : loading ? (
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
@@ -74,7 +74,7 @@ export default function SearchPage() {
         ) : (
           <>
             <div className="mb-10 pb-6 border-b border-cream-200">
-              <p className="font-display italic text-3xl md:text-4xl">
+              <p className="font-display text-3xl md:text-4xl">
                 "{q}"
               </p>
               <p className="text-xs text-gray-400 mt-2 tracking-wide">
@@ -84,7 +84,7 @@ export default function SearchPage() {
 
             {articles.length === 0 ? (
               <div className="text-center py-16">
-                <p className="font-display italic text-3xl text-gray-300 mb-3">Inga resultat</p>
+                <p className="font-display text-3xl text-gray-300 mb-3">Inga resultat</p>
                 <p className="text-sm text-gray-400">Prova ett annat sökord.</p>
               </div>
             ) : (

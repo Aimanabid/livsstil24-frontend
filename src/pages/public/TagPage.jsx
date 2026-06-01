@@ -44,7 +44,7 @@ export default function TagPage() {
             <div className="w-6 h-px bg-gold-400" />
           </div>
           <p className="eyebrow text-gold-400 mb-4">Tagg</p>
-          <h1 className="font-display italic text-5xl md:text-7xl tracking-tight mb-4">
+          <h1 className="font-display text-5xl md:text-7xl tracking-tight mb-4">
             {tag}
           </h1>
           <p className="text-xs text-mocha-500 tracking-widest">{total} artiklar</p>
@@ -71,7 +71,7 @@ export default function TagPage() {
               </div>
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display italic text-3xl text-gray-300 mb-3">Inga artiklar med denna tagg</p>
+                <p className="font-display text-3xl text-gray-300 mb-3">Inga artiklar med denna tagg</p>
                 <p className="text-sm text-gray-400">Prova att sÃ¶ka efter nÃ¥got annat.</p>
               </div>
             ) : (

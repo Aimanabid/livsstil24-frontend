@@ -223,7 +223,7 @@ export default function PublicLayout() {
       <FooterBanner />
 
       {/* ── Footer ── */}
-      <footer className="bg-charcoal-900 text-cream-50">
+      <footer className="bg-mocha-500 text-charcoal-800">
         <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mb-14">
 
@@ -235,25 +235,25 @@ export default function PublicLayout() {
                   LIVSSTIL<span className="text-gold-400">24</span>
                 </span>
               )}
-              <p className="text-xs text-cream-300/50 leading-relaxed mb-6 max-w-[200px]">
+              <p className="text-xs text-charcoal-800 leading-relaxed mb-6 max-w-[200px]">
                 {settings.site_description || 'Din digitala livsstilstidning för mode, skönhet och det moderna livet.'}
               </p>
               <div className="flex gap-4">
-                {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-cream-300/40 hover:text-gold-400 transition-colors"><Instagram size={16} /></a>}
-                {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="text-cream-300/40 hover:text-gold-400 transition-colors"><Facebook  size={16} /></a>}
-                {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="text-cream-300/40 hover:text-gold-400 transition-colors"><TikTokIcon size={16} /></a>}
-                {settings.youtube_url   && <a href={settings.youtube_url}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="text-cream-300/40 hover:text-gold-400 transition-colors"><Youtube    size={16} /></a>}
-                {settings.linkedin_url  && <a href={settings.linkedin_url}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  className="text-cream-300/40 hover:text-gold-400 transition-colors"><Linkedin   size={16} /></a>}
+                {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-charcoal-800 hover:text-gold-500 transition-colors"><Instagram size={16} /></a>}
+                {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="text-charcoal-800 hover:text-gold-500 transition-colors"><Facebook  size={16} /></a>}
+                {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="text-charcoal-800 hover:text-gold-500 transition-colors"><TikTokIcon size={16} /></a>}
+                {settings.youtube_url   && <a href={settings.youtube_url}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="text-charcoal-800 hover:text-gold-500 transition-colors"><Youtube    size={16} /></a>}
+                {settings.linkedin_url  && <a href={settings.linkedin_url}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  className="text-charcoal-800 hover:text-gold-500 transition-colors"><Linkedin   size={16} /></a>}
               </div>
             </div>
 
             <div>
-              <h3 className="eyebrow text-gold-400 mb-5">Kategorier</h3>
+              <h3 className="eyebrow text-charcoal-800 mb-5">Kategorier</h3>
               <ul className="space-y-3">
                 {categories.slice(0, 6).map(cat => (
                   <li key={cat.id}>
                     <Link to={`/kategori/${cat.slug}`}
-                      className="text-xs text-cream-300/50 hover:text-gold-400 transition-colors">
+                      className="text-xs text-charcoal-800 hover:text-gold-500 transition-colors">
                       {cat.name}
                     </Link>
                   </li>
@@ -262,26 +262,26 @@ export default function PublicLayout() {
             </div>
 
             <div>
-              <h3 className="eyebrow text-gold-400 mb-5">Juridiskt</h3>
-              <ul className="space-y-3 text-xs text-cream-300/50">
-                <li><a href="#" className="hover:text-gold-400 transition-colors">Integritetspolicy</a></li>
-                <li><a href="#" className="hover:text-gold-400 transition-colors">Cookiepolicy</a></li>
-                <li><a href="#" className="hover:text-gold-400 transition-colors">Användarvillkor</a></li>
+              <h3 className="eyebrow text-charcoal-800 mb-5">Juridiskt</h3>
+              <ul className="space-y-3 text-xs text-charcoal-800">
+                <li><a href="#" className="hover:text-gold-500 transition-colors">Integritetspolicy</a></li>
+                <li><a href="#" className="hover:text-gold-500 transition-colors">Cookiepolicy</a></li>
+                <li><a href="#" className="hover:text-gold-500 transition-colors">Användarvillkor</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-cream-300/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
+          <div className="border-t border-charcoal-800/15 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
             <div className="flex flex-col md:flex-row items-center gap-2 md:gap-5">
-              <p className="text-[11px] text-cream-300/30">© 2026 Livsstil24 AB · Alla rättigheter förbehållna</p>
+              <p className="text-[11px] text-charcoal-800">© 2026 Livsstil24 AB · Alla rättigheter förbehållna</p>
               {settings.chief_editor && (
-                <p className="text-[11px] text-cream-300/30">Chefredaktör: {settings.chief_editor}</p>
+                <p className="text-[11px] text-charcoal-800">Chefredaktör: {settings.chief_editor}</p>
               )}
               {settings.responsible_publisher && (
-                <p className="text-[11px] text-cream-300/30">Ansvarig utgivare: {settings.responsible_publisher}</p>
+                <p className="text-[11px] text-charcoal-800">Ansvarig utgivare: {settings.responsible_publisher}</p>
               )}
             </div>
-            <Link to="/admin" className="text-[11px] text-cream-300/20 hover:text-cream-300/50 transition-colors">Admin</Link>
+            <Link to="/admin" className="text-[11px] text-charcoal-800 hover:text-gold-500 transition-colors">Admin</Link>
           </div>
         </div>
       </footer>

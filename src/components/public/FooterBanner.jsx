@@ -44,12 +44,12 @@ export default function FooterBanner() {
     'Din digitala livsstilstidning för mode, skönhet och det moderna livet.';
 
   if (!articles.length) return (
-    <div className="bg-charcoal-900 border-t border-white/5 mx-auto mb-6 flex items-center justify-center py-8" style={{ width: '70%' }}>
+    <div className="bg-mocha-500 border-t border-charcoal-800/15 mx-auto mb-6 flex items-center justify-center py-8" style={{ width: '70%' }}>
       <div className="text-center">
-        <span className="font-display text-3xl tracking-[0.1em] text-white block mb-3">
-          LIVSSTIL<span className="text-gold-400">24</span>
+        <span className="font-display text-3xl tracking-[0.1em] text-charcoal-800 block mb-3">
+          LIVSSTIL<span className="text-gold-500">24</span>
         </span>
-        <p className="text-sm text-cream-300/55 leading-relaxed max-w-xs">{description}</p>
+        <p className="text-sm text-charcoal-800 leading-relaxed max-w-xs">{description}</p>
       </div>
     </div>
   );
@@ -57,7 +57,7 @@ export default function FooterBanner() {
   const article = articles[current];
 
   return (
-    <div className="bg-charcoal-900 border-t border-white/5 mx-auto mb-6" style={{ width: '70%' }}>
+    <div className="bg-mocha-500 border-t border-charcoal-800/15 mx-auto mb-6" style={{ width: '70%' }}>
       <div className="px-6 py-5">
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 lg:gap-12 items-center">
 
@@ -120,7 +120,7 @@ export default function FooterBanner() {
           </div>
 
           {/* ── Right: branding ── */}
-          <div className="lg:pl-4 lg:border-l lg:border-white/10">
+          <div className="lg:pl-4 lg:border-l lg:border-charcoal-800/15">
             {settings.logo_url ? (
               <img
                 src={settings.logo_url}
@@ -128,12 +128,12 @@ export default function FooterBanner() {
                 className="h-10 object-contain mb-4"
               />
             ) : (
-              <span className="font-display text-3xl md:text-4xl tracking-[0.1em] text-white block mb-4">
-                LIVSSTIL<span className="text-gold-400">24</span>
+              <span className="font-display text-3xl md:text-4xl tracking-[0.1em] text-charcoal-800 block mb-4">
+                LIVSSTIL<span className="text-gold-500">24</span>
               </span>
             )}
 
-            <p className="text-sm text-cream-300/55 leading-relaxed max-w-xs">
+            <p className="text-sm text-charcoal-800 leading-relaxed max-w-xs">
               {description}
             </p>
           </div>
@@ -156,7 +156,7 @@ function ArticleOverlay({ article }) {
       <Link
         to={`/artikel/${article.slug}`}
         state={{ fromApp: true }}
-        className="font-display italic text-white text-xl md:text-2xl leading-snug hover:text-gold-300 transition-colors line-clamp-2 block"
+        className="font-display text-white text-xl md:text-2xl leading-snug hover:text-gold-300 transition-colors line-clamp-2 block"
       >
         {article.title}
       </Link>

@@ -99,7 +99,7 @@ export default function HomePage() {
                 <span className="eyebrow block mb-3" style={{ color: hero.category_color || '#B89B72' }}>
                   {hero.category_name}
                 </span>
-                <h2 className={`${getCategoryFont(hero.category_slug || hero.category_name)} italic text-white text-4xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight mb-4`}>
+                <h2 className={`${getCategoryFont(hero.category_slug || hero.category_name)} text-white text-4xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight mb-4`}>
                   {hero.title}
                 </h2>
                 <p className="text-white/65 text-sm hidden md:block mb-5 max-w-lg leading-relaxed font-light">
@@ -183,7 +183,7 @@ export default function HomePage() {
                       </div>
                       <div className="md:w-[55%] px-0 md:px-10 pt-6 md:pt-0 flex flex-col justify-center">
                         <span className="eyebrow block mb-3" style={{ color: a.category_color || '#B89B72' }}>{a.category_name}</span>
-                        <h3 className={`${getCategoryFont(a.category_slug || a.category_name)} italic text-3xl md:text-4xl lg:text-5xl text-cream-50 leading-snug group-hover:text-gold-400 transition-colors mb-4`}>
+                        <h3 className={`${getCategoryFont(a.category_slug || a.category_name)} text-3xl md:text-4xl lg:text-5xl text-cream-50 leading-snug group-hover:text-gold-400 transition-colors mb-4`}>
                           {a.title}
                         </h3>
                         {a.excerpt && (

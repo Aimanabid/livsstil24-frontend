@@ -201,12 +201,12 @@
 /* Drop cap */
 .article-body > p:first-of-type::first-letter {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 5.4em;
+  font-size: 3.9em;
   font-weight: 700;
   float: left;
-  line-height: 0.78;
+  line-height: 0.82;
   margin-right: 0.08em;
-  margin-top: -0.02em;
+  margin-top: 0.04em;
   color: #0E0E0E;
   text-transform: uppercase;
 }

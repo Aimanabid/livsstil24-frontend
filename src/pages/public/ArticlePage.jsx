@@ -111,7 +111,7 @@ export default function ArticlePage() {
   if (!article) return (
     <div className="max-w-3xl mx-auto px-6 py-24 text-center">
       <p className="eyebrow text-gold-400 mb-3">404</p>
-      <h1 className="font-display italic text-5xl mb-6">Artikel hittades inte</h1>
+      <h1 className="font-display text-5xl mb-6">Artikel hittades inte</h1>
       <Link to="/" className="btn-outline inline-block">â† Tillbaka till start</Link>
     </div>
   );
@@ -130,6 +130,9 @@ export default function ArticlePage() {
     const splitAt = (before === -1 ? after : after === -1 ? before : (mid - before < after - mid ? before : after)) + 4;
     return [html.slice(0, splitAt), html.slice(splitAt)];
   })();
+
+  const catFont = getCategoryFont(article.category_slug);
+  const isSecondary = catFont === 'font-secondary';
 
   const seoTitle = article.seo_title || article.title;
   const seoDescription = article.seo_description || article.excerpt || '';
@@ -202,7 +205,7 @@ export default function ArticlePage() {
             {article.category_name}
           </span>
 
-          <h1 className={`${getCategoryFont(article.category_slug)} italic text-4xl md:text-5xl lg:text-[3.25rem] leading-[1.06] tracking-tight mb-5 uppercase`}>
+          <h1 className={`${catFont} ${isSecondary ? 'uppercase' : ''} text-4xl md:text-5xl lg:text-[3.25rem] leading-[1.06] tracking-tight mb-5`}>
             {article.title}
           </h1>
 
@@ -232,7 +235,7 @@ export default function ArticlePage() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_256px] gap-16">
           <article className="max-w-7xl">
             <div ref={articleBodyRef}
-              className={`article-body${getCategoryFont(article.category_slug) === 'font-secondary' ? ' article-body--secondary' : ''}`}
+              className={`article-body${isSecondary ? ' article-body--secondary' : ''}`}
               dangerouslySetInnerHTML={{ __html: contentTop }} />
             {contentBottom && (
               <>
@@ -240,7 +243,7 @@ export default function ArticlePage() {
                   <AdBanner placement="article_mid" />
                 </div>
                 <div
-                  className={`article-body${getCategoryFont(article.category_slug) === 'font-secondary' ? ' article-body--secondary' : ''}`}
+                  className={`article-body${isSecondary ? ' article-body--secondary' : ''}`}
                   dangerouslySetInnerHTML={{ __html: contentBottom }} />
               </>
             )}
@@ -285,7 +288,7 @@ export default function ArticlePage() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center gap-6 mb-10">
               <div className="flex-1 h-px bg-cream-200" />
-              <h2 className="font-display italic text-2xl tracking-wide">Fler artiklar</h2>
+              <h2 className="font-display text-2xl tracking-wide">Fler artiklar</h2>
               <div className="flex-1 h-px bg-cream-200" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">

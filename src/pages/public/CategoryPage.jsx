@@ -18,6 +18,7 @@ export default function CategoryPage() {
   const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setLoading(true);
     setArticles([]);
     Promise.all([
@@ -51,6 +52,8 @@ export default function CategoryPage() {
   };
 
   const hasMore = articles.length < total;
+  const catFont = getCategoryFont(slug);
+  const isSecondary = catFont === 'font-secondary';
 
   return (
     <div>
@@ -60,7 +63,7 @@ export default function CategoryPage() {
             <div className="w-6 h-px bg-gold-400" />
           </div>
           <p className="eyebrow text-gold-400 mb-4">Kategori</p>
-          <h1 className={`${getCategoryFont(slug)} italic text-5xl md:text-7xl tracking-tight mb-4`}>
+          <h1 className={`${catFont} ${isSecondary ? 'uppercase' : ''} text-5xl md:text-7xl tracking-tight mb-4`}>
             {category?.name || slug}
           </h1>
           <p className="text-xs text-mocha-500 tracking-widest">
@@ -86,7 +89,7 @@ export default function CategoryPage() {
               </div>
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display italic text-3xl text-gray-300 mb-3">Inga artiklar Ã¤nnu</p>
+                <p className="font-display text-3xl text-gray-300 mb-3">Inga artiklar Ã¤nnu</p>
                 <p className="text-sm text-gray-400">Kom tillbaka snart!</p>
               </div>
             ) : (

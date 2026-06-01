@@ -7,7 +7,7 @@ export default function NotFoundPage() {
         <div className="w-8 h-px bg-gold-400" />
       </div>
       <p className="eyebrow text-gold-400 mb-4">404</p>
-      <h1 className="font-display italic text-5xl md:text-7xl tracking-tight text-charcoal-800 mb-4">
+      <h1 className="font-display text-5xl md:text-7xl tracking-tight text-charcoal-800 mb-4">
         Sidan hittades inte
       </h1>
       <p className="text-sm text-gray-400 mb-10 max-w-sm leading-relaxed">

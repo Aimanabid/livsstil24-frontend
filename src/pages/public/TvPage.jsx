@@ -72,7 +72,7 @@ export default function TvPage() {
             <div className="w-6 h-px bg-red-500" />
           </div>
           <p className="eyebrow text-red-500 mb-4">Kanal</p>
-          <h1 className="font-display italic text-5xl md:text-7xl tracking-tight text-charcoal-800 mb-3">
+          <h1 className="font-display text-5xl md:text-7xl tracking-tight text-charcoal-800 mb-3">
             Livsstil24 TV
           </h1>
           <p className="text-xs text-gray-400 tracking-widest">{total} videor</p>
@@ -97,7 +97,7 @@ export default function TvPage() {
               </div>
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display italic text-3xl text-gray-300 mb-3">Inga videor Ã¤nnu</p>
+                <p className="font-display text-3xl text-gray-300 mb-3">Inga videor Ã¤nnu</p>
                 <p className="text-sm text-gray-400">Kom tillbaka snart!</p>
               </div>
             ) : (
@@ -145,7 +145,7 @@ export default function TvPage() {
                         <span className="text-[10px] tracking-widest uppercase text-red-400 font-medium block mb-1">
                           {article.category_name || 'Livsstil24 TV'}
                         </span>
-                        <h2 className="font-display italic text-xl md:text-2xl text-white leading-snug group-hover:text-gold-300 transition-colors line-clamp-2">
+                        <h2 className="font-display text-xl md:text-2xl text-white leading-snug group-hover:text-gold-300 transition-colors line-clamp-2">
                           {article.title}
                         </h2>
                       </div>
