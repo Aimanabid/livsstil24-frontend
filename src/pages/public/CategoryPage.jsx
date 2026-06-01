@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import ArticleCard from '../../components/public/ArticleCard';
@@ -18,6 +18,7 @@ export default function CategoryPage() {
   const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setLoading(true);
     setArticles([]);
     Promise.all([
@@ -51,19 +52,21 @@ export default function CategoryPage() {
   };
 
   const hasMore = articles.length < total;
+  const catFont = getCategoryFont(slug);
+  const isSecondary = catFont === 'font-secondary';
 
   return (
     <div>
       <div className="border-b border-cream-200">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 text-center">
           <div className="flex justify-center mb-4">
-            <div className="w-6 h-px bg-gold-400" />
+            <div className="w-6 h-px" style={{ backgroundColor: '#B89B72' }} />
           </div>
-          <p className="eyebrow text-gold-400 mb-4">Kategori</p>
-          <h1 className={`${getCategoryFont(slug)} italic text-5xl md:text-7xl tracking-tight mb-4`}>
+          <p className="eyebrow mb-4" style={{ color: '#B89B72' }}>Kategori</p>
+          <h1 className={`${catFont} ${isSecondary ? 'uppercase' : ''} text-5xl md:text-7xl tracking-tight mb-4`} style={{ color: '#0e0e0e' }}>
             {category?.name || slug}
           </h1>
-          <p className="text-xs text-mocha-500 tracking-widest">
+          <p className="text-xs tracking-widest" style={{ color: '#A39284' }}>
             {total} artiklar
           </p>
         </div>
@@ -86,8 +89,8 @@ export default function CategoryPage() {
               </div>
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display italic text-3xl text-gray-300 mb-3">Inga artiklar Ã¤nnu</p>
-                <p className="text-sm text-gray-400">Kom tillbaka snart!</p>
+                <p className="font-display text-3xl mb-3" style={{ color: '#A39284' }}>Inga artiklar ännu</p>
+                <p className="text-sm" style={{ color: '#A39284' }}>Kom tillbaka snart!</p>
               </div>
             ) : (
               <>
@@ -111,15 +114,15 @@ export default function CategoryPage() {
 
               <div>
                 <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
-                  <TrendingUp size={12} className="text-gold-400" />
-                  <span className="eyebrow text-charcoal-800">Mest lÃ¤sta</span>
+                  <TrendingUp size={12} style={{ color: '#B89B72' }} />
+                  <span className="eyebrow" style={{ color: '#0e0e0e' }}>Mest lästa</span>
                 </div>
                 {topArticles.map((a, i) => (
                   <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
-                    <span className="font-display text-4xl text-cream-200 leading-none w-8 shrink-0 select-none">{i + 1}</span>
+                    <span className="font-display text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#A39284' }}>{i + 1}</span>
                     <div className="min-w-0">
                       <span className="eyebrow block mb-1" style={{ color: a.category_color }}>{a.category_name}</span>
-                      <h4 className="text-sm font-medium leading-snug group-hover:text-gold-500 transition-colors line-clamp-2">{a.title}</h4>
+                      <h4 className="text-sm font-medium leading-snug transition-colors line-clamp-2 text-[#0e0e0e] group-hover:text-[#B89B72]">{a.title}</h4>
                     </div>
                   </Link>
                 ))}
@@ -134,4 +137,3 @@ export default function CategoryPage() {
     </div>
   );
 }
-

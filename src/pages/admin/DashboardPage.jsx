@@ -25,7 +25,7 @@ export default function DashboardPage() {
 
   if (!loading && !data) return (
     <div className="flex items-center justify-center h-64">
-      <p className="text-gray-400 text-sm">Kunde inte ladda dashboard. Kontrollera backend-loggen.</p>
+      <p className="text-[#A39284] text-sm">Kunde inte ladda dashboard. Kontrollera backend-loggen.</p>
     </div>
   );
 
@@ -41,11 +41,11 @@ export default function DashboardPage() {
   const { stats, topArticles, recentArticles, adStats, viewsByDay, categoryBreakdown } = data;
 
   const statCards = [
-    { label: 'Publicerade artiklar', value: stats.publishedArticles, icon: FileText, color: 'text-blue-500', bg: 'bg-blue-50' },
-    { label: 'Totala visningar', value: Number(stats.totalViews).toLocaleString('sv'), icon: Eye, color: 'text-purple-500', bg: 'bg-purple-50' },
-    { label: 'Aktiva annonser', value: stats.totalAds, icon: Megaphone, color: 'text-amber-500', bg: 'bg-amber-50' },
-    { label: 'Kunder', value: stats.totalCustomers, icon: Users, color: 'text-green-500', bg: 'bg-green-50' },
-    { label: 'Annonsintäkter', value: `${Number(stats.adRevenue).toLocaleString('sv')} kr`, icon: DollarSign, color: 'text-gold-500', bg: 'bg-cream-100' },
+    { label: 'Publicerade artiklar', value: stats.publishedArticles, icon: FileText, color: 'text-[#B89B72]', bg: 'bg-[#5A5B46]/10' },
+    { label: 'Totala visningar', value: Number(stats.totalViews).toLocaleString('sv'), icon: Eye, color: 'text-[#5A5B46]', bg: 'bg-[#5A5B46]/10' },
+    { label: 'Aktiva annonser', value: stats.totalAds, icon: Megaphone, color: 'text-[#B89B72]', bg: 'bg-[#B89B72]/10' },
+    { label: 'Kunder', value: stats.totalCustomers, icon: Users, color: 'text-[#5A5B46]', bg: 'bg-[#5A5B46]/10' },
+    { label: 'Annonsintäkter', value: `${Number(stats.adRevenue).toLocaleString('sv')} kr`, icon: DollarSign, color: 'text-[#B89B72]', bg: 'bg-cream-100' },
   ];
 
   const chartColors = ['#B89B72', '#D4A5A5', '#A8C5A0', '#B8C4D4', '#C4A5C9', '#A5C4C9'];
@@ -56,7 +56,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-2xl text-charcoal-800">Dashboard</h1>
-          <p className="text-sm text-gray-400 mt-0.5">{format(new Date(), 'EEEE d MMMM yyyy', { locale: sv })}</p>
+          <p className="text-sm text-[#A39284] mt-0.5">{format(new Date(), 'EEEE d MMMM yyyy', { locale: sv })}</p>
         </div>
         <Link to="/admin/artiklar/ny" className="btn-primary inline-flex items-center gap-2 text-xs">
           <Plus size={14} /> Ny artikel
@@ -71,7 +71,7 @@ export default function DashboardPage() {
               <Icon size={17} />
             </div>
             <p className="text-2xl font-semibold text-charcoal-800">{value}</p>
-            <p className="text-xs text-gray-400 mt-0.5">{label}</p>
+            <p className="text-xs text-[#A39284] mt-0.5">{label}</p>
           </div>
         ))}
       </div>
@@ -122,7 +122,7 @@ export default function DashboardPage() {
               <div key={c.name} className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: chartColors[i % chartColors.length] }} />
-                  <span className="text-gray-600">{c.name}</span>
+                  <span className="text-[#A39284]">{c.name}</span>
                 </div>
                 <span className="font-medium">{c.article_count}</span>
               </div>
@@ -139,19 +139,19 @@ export default function DashboardPage() {
             <h2 className="text-sm font-medium text-charcoal-800 flex items-center gap-2">
               <TrendingUp size={15} className="text-gold-400" /> Mest lästa
             </h2>
-            <Link to="/admin/statistik" className="text-xs text-gold-400 hover:text-gold-500 flex items-center gap-1">
+            <Link to="/admin/statistik" className="text-xs text-gold-400 hover:text-[#B89B72] flex items-center gap-1">
               Mer <ArrowRight size={12} />
             </Link>
           </div>
           <div className="space-y-3">
             {topArticles.map((a, i) => (
               <div key={i} className="flex items-center gap-3">
-                <span className="font-display text-2xl text-cream-200 w-6 text-center leading-none">{i + 1}</span>
+                <span className="font-display text-2xl text-[#A39284] w-6 text-center leading-none">{i + 1}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-gold-400 uppercase tracking-wide">{a.category_name}</p>
                   <p className="text-sm font-medium truncate">{a.title}</p>
                 </div>
-                <span className="text-xs text-gray-400 flex-shrink-0">{Number(a.views).toLocaleString('sv')} vy</span>
+                <span className="text-xs text-[#A39284] flex-shrink-0">{Number(a.views).toLocaleString('sv')} vy</span>
               </div>
             ))}
           </div>
@@ -161,7 +161,7 @@ export default function DashboardPage() {
         <div className="card p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-medium text-charcoal-800">Senaste artiklar</h2>
-            <Link to="/admin/artiklar" className="text-xs text-gold-400 hover:text-gold-500 flex items-center gap-1">
+            <Link to="/admin/artiklar" className="text-xs text-gold-400 hover:text-[#B89B72] flex items-center gap-1">
               Alla <ArrowRight size={12} />
             </Link>
           </div>
@@ -171,7 +171,7 @@ export default function DashboardPage() {
                 className="flex items-center gap-3 hover:bg-cream-50 rounded-lg p-2 -mx-2 transition-colors">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{a.title}</p>
-                  <p className="text-xs text-gray-400">{a.category_name}</p>
+                  <p className="text-xs text-[#A39284]">{a.category_name}</p>
                 </div>
                 <span className={`status-badge ${a.status === 'published' ? 'status-published' : 'status-draft'}`}>
                   {a.status === 'published' ? 'Publicerad' : 'Utkast'}
@@ -188,7 +188,7 @@ export default function DashboardPage() {
         <div className="card p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-medium text-charcoal-800">Annonsprestation</h2>
-            <Link to="/admin/annonser" className="text-xs text-gold-400 hover:text-gold-500 flex items-center gap-1">
+            <Link to="/admin/annonser" className="text-xs text-gold-400 hover:text-[#B89B72] flex items-center gap-1">
               Hantera <ArrowRight size={12} />
             </Link>
           </div>
@@ -196,25 +196,25 @@ export default function DashboardPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-100">
-                  <th className="text-left py-2 text-xs text-gray-400 font-medium">Annons</th>
-                  <th className="text-left py-2 text-xs text-gray-400 font-medium">Kund</th>
-                  <th className="text-left py-2 text-xs text-gray-400 font-medium">Plats</th>
-                  <th className="text-right py-2 text-xs text-gray-400 font-medium">Visningar</th>
-                  <th className="text-right py-2 text-xs text-gray-400 font-medium">Klick</th>
-                  <th className="text-right py-2 text-xs text-gray-400 font-medium">CTR</th>
-                  <th className="text-right py-2 text-xs text-gray-400 font-medium">CPM</th>
+                  <th className="text-left py-2 text-xs text-[#A39284] font-medium">Annons</th>
+                  <th className="text-left py-2 text-xs text-[#A39284] font-medium">Kund</th>
+                  <th className="text-left py-2 text-xs text-[#A39284] font-medium">Plats</th>
+                  <th className="text-right py-2 text-xs text-[#A39284] font-medium">Visningar</th>
+                  <th className="text-right py-2 text-xs text-[#A39284] font-medium">Klick</th>
+                  <th className="text-right py-2 text-xs text-[#A39284] font-medium">CTR</th>
+                  <th className="text-right py-2 text-xs text-[#A39284] font-medium">CPM</th>
                 </tr>
               </thead>
               <tbody>
                 {adStats.map((a, i) => (
                   <tr key={i} className="border-b border-gray-50 hover:bg-cream-50">
                     <td className="py-2.5 text-sm font-medium max-w-[200px] truncate">{a.title}</td>
-                    <td className="py-2.5 text-sm text-gray-500">{a.customer_name || '–'}</td>
-                    <td className="py-2.5 text-xs text-gray-400">{a.placement_name}</td>
+                    <td className="py-2.5 text-sm text-[#A39284]">{a.customer_name || '–'}</td>
+                    <td className="py-2.5 text-xs text-[#A39284]">{a.placement_name}</td>
                     <td className="py-2.5 text-right text-sm">{Number(a.impressions).toLocaleString('sv')}</td>
                     <td className="py-2.5 text-right text-sm">{a.clicks}</td>
-                    <td className="py-2.5 text-right text-sm font-medium text-gold-500">{parseFloat(a.ctr || 0).toFixed(2)}%</td>
-                    <td className="py-2.5 text-right text-sm text-gray-500">{a.cpm_rate != null ? `${parseFloat(a.cpm_rate).toFixed(2)} kr` : '–'}</td>
+                    <td className="py-2.5 text-right text-sm font-medium text-[#B89B72]">{parseFloat(a.ctr || 0).toFixed(2)}%</td>
+                    <td className="py-2.5 text-right text-sm text-[#A39284]">{a.cpm_rate != null ? `${parseFloat(a.cpm_rate).toFixed(2)} kr` : '–'}</td>
                   </tr>
                 ))}
               </tbody>

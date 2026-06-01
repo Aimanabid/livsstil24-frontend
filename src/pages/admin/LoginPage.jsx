@@ -24,24 +24,25 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-100 flex">
+    <div className="min-h-screen flex" style={{ backgroundColor: '#F4F0EA' }}>
       {/* Left decorative panel */}
-      <div className="hidden lg:flex w-1/2 bg-charcoal-800 flex-col items-center justify-center p-12 relative overflow-hidden">
+      <div className="hidden lg:flex w-1/2 flex-col items-center justify-center p-12 relative overflow-hidden"
+        style={{ backgroundColor: '#5A5B46' }}>
         <div className="absolute inset-0 opacity-5">
           {[...Array(20)].map((_, i) => (
-            <div key={i} className="absolute text-cream-50 font-display text-6xl opacity-20"
-              style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%`, transform: 'rotate(-15deg)' }}>
+            <div key={i} className="absolute font-display text-6xl opacity-20"
+              style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%`, transform: 'rotate(-15deg)', color: '#F4F0EA' }}>
               ✦
             </div>
           ))}
         </div>
-        <div className="relative text-center text-white">
-          <h1 className="font-display text-5xl tracking-wide mb-4">
-            LIVSSTIL<span className="text-gold-400">24</span>
+        <div className="relative text-center">
+          <h1 className="font-display text-5xl tracking-wide mb-4" style={{ color: '#F4F0EA' }}>
+            LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
           </h1>
-          <div className="w-12 h-px bg-gold-400 mx-auto mb-4" />
-          <p className="text-cream-200 text-sm tracking-widest uppercase">Adminpanel</p>
-          <p className="text-cream-300/60 text-xs mt-8 max-w-xs leading-relaxed">
+          <div className="w-12 h-px mx-auto mb-4" style={{ backgroundColor: '#B89B72' }} />
+          <p className="text-sm tracking-widest uppercase" style={{ color: '#B89B72' }}>Adminpanel</p>
+          <p className="text-xs mt-8 max-w-xs leading-relaxed" style={{ color: '#A39284' }}>
             Hantera artiklar, annonser, kunder och statistik på ett och samma ställe.
           </p>
         </div>
@@ -51,13 +52,15 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="lg:hidden text-center mb-10">
-            <h1 className="font-display text-3xl">LIVSSTIL<span className="text-gold-400">24</span></h1>
-            <p className="text-sm text-gray-400 mt-1">Adminpanel</p>
+            <h1 className="font-display text-3xl" style={{ color: '#0e0e0e' }}>
+              LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
+            </h1>
+            <p className="text-sm mt-1" style={{ color: '#A39284' }}>Adminpanel</p>
           </div>
 
           <div className="mb-8">
-            <h2 className="font-display text-3xl text-charcoal-800">Välkommen</h2>
-            <p className="text-gray-500 text-sm mt-1">Logga in för att fortsätta</p>
+            <h2 className="font-display text-3xl" style={{ color: '#0e0e0e' }}>Välkommen</h2>
+            <p className="text-sm mt-1" style={{ color: '#A39284' }}>Logga in för att fortsätta</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -85,7 +88,8 @@ export default function LoginPage() {
                   required
                 />
                 <button type="button" onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                  className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
+                  style={{ color: '#A39284' }}>
                   {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
@@ -100,7 +104,8 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <Link to="/" className="block text-center text-xs text-gray-400 mt-4 hover:text-gold-400 transition-colors">
+          <Link to="/" className="block text-center text-xs mt-4 transition-colors hover:text-[#B89B72]"
+            style={{ color: '#A39284' }}>
             ← Tillbaka till sajten
           </Link>
         </div>

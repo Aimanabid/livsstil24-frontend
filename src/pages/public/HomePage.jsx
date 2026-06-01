@@ -94,18 +94,18 @@ export default function HomePage() {
                 alt={hero.title}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.04]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/25 to-black/5" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/25 to-transparent" />
               <div className="absolute bottom-0 left-0 px-8 md:px-16 pb-10 md:pb-16 max-w-3xl">
                 <span className="eyebrow block mb-3" style={{ color: hero.category_color || '#B89B72' }}>
                   {hero.category_name}
                 </span>
-                <h2 className={`${getCategoryFont(hero.category_slug || hero.category_name)} italic text-white text-4xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight mb-4`}>
+                <h2 className={`${getCategoryFont(hero.category_slug || hero.category_name)} text-4xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight mb-4`} style={{ color: '#0e0e0e' }}>
                   {hero.title}
                 </h2>
-                <p className="text-white/65 text-sm hidden md:block mb-5 max-w-lg leading-relaxed font-light">
+                <p className="text-sm hidden md:block mb-5 max-w-lg leading-relaxed font-light" style={{ color: '#0e0e0e' }}>
                   {hero.excerpt}
                 </p>
-                <div className="flex items-center gap-3 text-xs text-white/45">
+                <div className="flex items-center gap-3 text-xs" style={{ color: '#0e0e0e' }}>
                   <span>{format(new Date(hero.published_at), 'd MMM yyyy', { locale: sv })}</span>
                 </div>
               </div>
@@ -130,10 +130,10 @@ export default function HomePage() {
                 <span className="eyebrow block mb-1.5" style={{ color: a.category_color || '#B89B72' }}>
                   {a.category_name}
                 </span>
-                <h3 className={`${getCategoryFont(a.category_slug || a.category_name)} text-xl md:text-2xl leading-snug group-hover:text-gold-500 transition-colors mb-2`}>
+                <h3 className={`${getCategoryFont(a.category_slug || a.category_name)} text-xl md:text-2xl leading-snug transition-colors mb-2 text-[#0e0e0e] group-hover:text-[#B89B72]`}>
                   {a.title}
                 </h3>
-                <p className="text-xs text-mocha-500 line-clamp-2 font-light leading-relaxed">{a.excerpt}</p>
+                <p className="text-xs line-clamp-2 font-light leading-relaxed" style={{ color: '#A39284' }}>{a.excerpt}</p>
               </Link>
             ))}
           </div>
@@ -142,13 +142,13 @@ export default function HomePage() {
 
       {/* â•â• EDITOR'S PICK (dark carousel) â•â• */}
       {editorsPick.length > 0 && (
-        <section className="bg-charcoal-800 py-10 max-h-screen overflow-hidden">
+        <section className="py-10 max-h-screen overflow-hidden" style={{ backgroundColor: '#5A5B46' }}>
           <div className="max-w-7xl mx-auto px-6">
             {/* Header */}
             <div className="flex items-center gap-5 mb-8">
-              <div className="flex-1 h-px bg-cream-300/15" />
-              <span className="eyebrow text-gold-400">Redaktionens val</span>
-              <div className="flex-1 h-px bg-cream-300/15" />
+              <div className="flex-1 h-px" style={{ backgroundColor: '#A39284' }} />
+              <span className="eyebrow" style={{ color: '#B89B72' }}>Redaktionens val</span>
+              <div className="flex-1 h-px" style={{ backgroundColor: '#A39284' }} />
             </div>
 
             {/* Sliding track */}
@@ -156,7 +156,7 @@ export default function HomePage() {
               {editorsPick.length > 1 && (
                 <button
                   onClick={() => goToPick((pickIndex - 1 + editorsPick.length) % editorsPick.length)}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full z-10 w-9 h-9 flex items-center justify-center text-cream-300/60 hover:text-gold-400 transition-colors"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full z-10 w-9 h-9 flex items-center justify-center transition-colors text-[#0e0e0e] hover:text-[#B89B72]"
                 >
                   <ChevronLeft size={20} />
                 </button>
@@ -183,14 +183,14 @@ export default function HomePage() {
                       </div>
                       <div className="md:w-[55%] px-0 md:px-10 pt-6 md:pt-0 flex flex-col justify-center">
                         <span className="eyebrow block mb-3" style={{ color: a.category_color || '#B89B72' }}>{a.category_name}</span>
-                        <h3 className={`${getCategoryFont(a.category_slug || a.category_name)} italic text-3xl md:text-4xl lg:text-5xl text-cream-50 leading-snug group-hover:text-gold-400 transition-colors mb-4`}>
+                        <h3 className={`${getCategoryFont(a.category_slug || a.category_name)} text-3xl md:text-4xl lg:text-5xl leading-snug transition-colors mb-4 text-[#0e0e0e] group-hover:text-[#B89B72]`}>
                           {a.title}
                         </h3>
                         {a.excerpt && (
-                          <p className="text-sm text-cream-300/55 line-clamp-3 font-light leading-relaxed mb-6">{a.excerpt}</p>
+                          <p className="text-sm line-clamp-3 font-light leading-relaxed mb-6" style={{ color: '#0e0e0e' }}>{a.excerpt}</p>
                         )}
-                        <span className="text-xs text-gold-500 tracking-[0.15em] uppercase font-medium flex items-center gap-2">
-                          LÃ¤s mer <ArrowRight size={12} />
+                        <span className="text-xs tracking-[0.15em] uppercase font-medium flex items-center gap-2" style={{ color: '#B89B72' }}>
+                          Läs mer <ArrowRight size={12} />
                         </span>
                       </div>
                     </Link>
@@ -201,7 +201,7 @@ export default function HomePage() {
               {editorsPick.length > 1 && (
                 <button
                   onClick={() => goToPick((pickIndex + 1) % editorsPick.length)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full z-10 w-9 h-9 flex items-center justify-center text-cream-300/60 hover:text-gold-400 transition-colors"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full z-10 w-9 h-9 flex items-center justify-center transition-colors text-[#0e0e0e] hover:text-[#B89B72]"
                 >
                   <ChevronRight size={20} />
                 </button>
@@ -215,7 +215,12 @@ export default function HomePage() {
                   <button
                     key={i}
                     onClick={() => goToPick(i)}
-                    className={`rounded-full transition-all duration-300 ${i === pickIndex ? 'w-4 h-1.5 bg-gold-400' : 'w-1.5 h-1.5 bg-cream-300/30 hover:bg-cream-300/60'}`}
+                    className="rounded-full transition-all duration-300"
+                    style={{
+                      width: i === pickIndex ? '1rem' : '0.375rem',
+                      height: '0.375rem',
+                      backgroundColor: i === pickIndex ? '#B89B72' : '#A39284',
+                    }}
                   />
                 ))}
               </div>
@@ -228,7 +233,7 @@ export default function HomePage() {
       <div className="max-w-7xl mx-auto px-6 pt-14 pb-6">
         <div className="flex items-center gap-6">
           <div className="flex-1 h-px bg-cream-200" />
-          <span className="eyebrow text-gold-400">Senaste</span>
+          <span className="eyebrow" style={{ color: '#B89B72' }}>Senaste</span>
           <div className="flex-1 h-px bg-cream-200" />
         </div>
       </div>
@@ -268,15 +273,15 @@ export default function HomePage() {
               {/* Trending */}
               <div>
                 <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
-                  <TrendingUp size={12} className="text-gold-400" />
-                  <span className="eyebrow text-charcoal-800">Mest lÃ¤sta</span>
+                  <TrendingUp size={12} style={{ color: '#B89B72' }} />
+                  <span className="eyebrow" style={{ color: '#0e0e0e' }}>Mest lästa</span>
                 </div>
                 {topArticles.map((a, i) => (
                   <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
-                    <span className="font-display text-4xl text-cream-200 leading-none w-8 shrink-0 select-none">{i + 1}</span>
+                    <span className="font-display text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#A39284' }}>{i + 1}</span>
                     <div className="min-w-0">
                       <span className="eyebrow block mb-1" style={{ color: a.category_color }}>{a.category_name}</span>
-                      <h4 className="text-sm font-medium leading-snug group-hover:text-gold-500 transition-colors line-clamp-2">{a.title}</h4>
+                      <h4 className="text-sm font-medium leading-snug transition-colors line-clamp-2 text-[#0e0e0e] group-hover:text-[#B89B72]">{a.title}</h4>
                     </div>
                   </Link>
                 ))}
@@ -296,8 +301,8 @@ function LoadingDots() {
   return (
     <div className="flex gap-2">
       {[0, 1, 2].map(i => (
-        <div key={i} className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-bounce"
-          style={{ animationDelay: `${i * 0.15}s` }} />
+        <div key={i} className="w-1.5 h-1.5 rounded-full animate-bounce"
+          style={{ backgroundColor: '#B89B72', animationDelay: `${i * 0.15}s` }} />
       ))}
     </div>
   );

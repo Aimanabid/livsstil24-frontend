@@ -18,7 +18,7 @@ function PasswordInput({ value, onChange, placeholder }) {
       <button
         type="button"
         onClick={() => setShow(s => !s)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-charcoal-800 transition-colors"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A39284] hover:text-charcoal-800 transition-colors"
       >
         {show ? <EyeOff size={15} /> : <Eye size={15} />}
       </button>
@@ -61,18 +61,18 @@ export default function ProfilePage() {
     <div className="space-y-6 max-w-xl">
       <div>
         <h1 className="font-display text-2xl text-charcoal-800">Mitt konto</h1>
-        <p className="text-sm text-gray-400 mt-0.5">Hantera din profil och lösenord</p>
+        <p className="text-sm text-[#A39284] mt-0.5">Hantera din profil och lösenord</p>
       </div>
 
       {/* Profile card */}
       <div className="card p-6 space-y-4">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-12 h-12 rounded-full bg-gold-400 flex items-center justify-center text-white font-display text-xl">
+          <div className="w-12 h-12 rounded-full flex items-center justify-center font-display text-xl" style={{ backgroundColor: '#B89B72', color: '#F4F0EA' }}>
             {user?.name?.charAt(0) || 'A'}
           </div>
           <div>
             <p className="font-medium text-sm">{user?.name}</p>
-            <span className={`text-xs px-2 py-0.5 rounded-full ${user?.role === 'admin' ? 'bg-gold-100 text-gold-600' : 'bg-cream-100 text-charcoal-800'}`}>
+            <span className={`text-xs px-2 py-0.5 rounded-full ${user?.role === 'admin' ? 'bg-[#B89B72]/10 text-[#B89B72]' : 'bg-cream-100 text-charcoal-800'}`}>
               {user?.role === 'admin' ? 'Administratör' : 'Redaktör'}
             </span>
           </div>

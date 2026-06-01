@@ -94,7 +94,7 @@ export default function PublicLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-100">
+    <div className="min-h-screen" style={{ backgroundColor: '#F4F0EA' }}>
 
       {/* ── Hero banner — normal flow, scrolls away ── */}
       <div ref={bannerRef} style={bannerVisible ? { height: `calc(100vh - ${headerHeight}px)` } : { height: 0 }} className="relative overflow-hidden transition-[height] duration-300">
@@ -120,7 +120,7 @@ export default function PublicLayout() {
       </div>
 
       {/* ── Sticky header ── */}
-      <header ref={headerRef} className={`sticky top-0 z-50 bg-cream-100 transition-shadow duration-300 ${scrolled ? 'shadow-[0_1px_0_#E9E3DA]' : ''}`}>
+      <header ref={headerRef} className={`sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? 'shadow-[0_1px_0_#E9E3DA]' : ''}`} style={{ backgroundColor: '#F4F0EA' }}>
 
         {/* Logo row */}
         <div className={`flex items-center px-6 md:px-16 transition-all duration-300 ${scrolled ? 'py-2 md:py-3' : 'py-5 md:py-6'}`}>
@@ -128,7 +128,7 @@ export default function PublicLayout() {
           {/* Left: search + mobile menu */}
           <div className="flex items-center gap-4 flex-1">
             <button onClick={() => setSearchOpen(s => !s)}
-              className="text-charcoal-800 hover:text-olive-500 transition-colors" aria-label="Sök">
+              className="transition-colors text-[#0e0e0e] hover:text-[#B89B72]" aria-label="Sök">
               <Search size={17} />
             </button>
             <button className="md:hidden" onClick={() => setMenuOpen(s => !s)} aria-label="Meny">
@@ -137,7 +137,7 @@ export default function PublicLayout() {
           </div>
 
           {/* Center: masthead */}
-          <Link to="/" className="flex-shrink-0">
+          <Link to="/" className="flex-shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             {settings.logo_url ? (
               <img
                 src={settings.logo_url}
@@ -145,8 +145,8 @@ export default function PublicLayout() {
                 className={`object-contain transition-all duration-300 ${scrolled ? 'h-7 md:h-8' : 'h-10 md:h-14'}`}
               />
             ) : (
-              <span className={`font-display tracking-[0.12em] text-charcoal-800 transition-all duration-300 block ${scrolled ? 'text-xl md:text-2xl' : 'text-3xl md:text-5xl'}`}>
-                LIVSSTIL<span className="text-gold-400">24</span>
+              <span className={`font-display tracking-[0.12em] transition-all duration-300 block ${scrolled ? 'text-xl md:text-2xl' : 'text-3xl md:text-5xl'}`} style={{ color: '#0e0e0e' }}>
+                LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
               </span>
             )}
           </Link>
@@ -154,7 +154,7 @@ export default function PublicLayout() {
           {/* Right: app link */}
           <div className="flex-1 flex justify-end">
             <Link to="/app"
-              className="hidden md:flex items-center gap-1.5 text-[11px] tracking-[0.18em] uppercase font-medium text-gold-500 hover:text-gold-600 transition-colors">
+              className="hidden md:flex items-center gap-1.5 text-[11px] tracking-[0.18em] uppercase font-medium transition-colors text-[#B89B72] hover:text-[#5A5B46]">
               <Download size={12} /> App
             </Link>
           </div>
@@ -176,18 +176,19 @@ export default function PublicLayout() {
 
         {/* Search bar */}
         {searchOpen && (
-          <div className="border-t border-cream-200 bg-cream-100 px-6 py-3 animate-slide-down">
+          <div className="border-t border-cream-200 px-6 py-3 animate-slide-down" style={{ backgroundColor: '#F4F0EA' }}>
             <form onSubmit={handleSearch} className="max-w-lg mx-auto flex items-center gap-3">
-              <Search size={14} className="text-mocha-500 shrink-0" />
+              <Search size={14} className="shrink-0" style={{ color: '#A39284' }} />
               <input
                 autoFocus
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder="Sök i Livsstil24..."
-                className="flex-1 bg-transparent text-sm py-1 focus:outline-none placeholder-mocha-400 text-charcoal-800"
+                className="flex-1 bg-transparent text-sm py-1 focus:outline-none"
+                style={{ color: '#0e0e0e' }}
               />
               <button type="submit"
-                className="text-[11px] tracking-[0.18em] uppercase font-medium hover:text-olive-500 transition-colors shrink-0">
+                className="text-[11px] tracking-[0.18em] uppercase font-medium transition-colors shrink-0 text-[#0e0e0e] hover:text-[#B89B72]">
                 Sök
               </button>
             </form>
@@ -196,19 +197,20 @@ export default function PublicLayout() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden border-t border-cream-200 bg-cream-100 animate-slide-down">
+          <div className="md:hidden border-t border-cream-200 animate-slide-down" style={{ backgroundColor: '#F4F0EA' }}>
             <div className="px-6 py-2">
               {categories.map(cat => (
                 <NavLink key={cat.id} to={`/kategori/${cat.slug}`}
                   onClick={() => setMenuOpen(false)}
                   className={({ isActive }) =>
-                    `block py-4 font-display text-base border-b border-cream-200 transition-colors ${isActive ? 'text-olive-500' : 'hover:text-olive-500'}`
+                    `block py-4 font-sans text-base border-b border-cream-200 transition-colors ${isActive ? 'text-[#B89B72]' : 'text-[#0e0e0e] hover:text-[#B89B72]'}`
                   }>
                   {cat.name}
                 </NavLink>
               ))}
               <Link to="/app" onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-2 py-4 text-sm font-medium text-gold-500">
+                className="flex items-center gap-2 py-4 text-sm font-medium"
+                style={{ color: '#B89B72' }}>
                 <Download size={13} /> Ladda ner appen
               </Link>
             </div>
@@ -223,7 +225,7 @@ export default function PublicLayout() {
       <FooterBanner />
 
       {/* ── Footer ── */}
-      <footer className="bg-charcoal-900 text-cream-50">
+      <footer className="bg-mocha-500 text-charcoal-800">
         <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mb-14">
 
@@ -235,25 +237,25 @@ export default function PublicLayout() {
                   LIVSSTIL<span className="text-gold-400">24</span>
                 </span>
               )}
-              <p className="text-xs text-cream-300/50 leading-relaxed mb-6 max-w-[200px]">
+              <p className="text-xs text-charcoal-800 leading-relaxed mb-6 max-w-[200px]">
                 {settings.site_description || 'Din digitala livsstilstidning för mode, skönhet och det moderna livet.'}
               </p>
               <div className="flex gap-4">
-                {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-cream-300/40 hover:text-gold-400 transition-colors"><Instagram size={16} /></a>}
-                {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="text-cream-300/40 hover:text-gold-400 transition-colors"><Facebook  size={16} /></a>}
-                {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="text-cream-300/40 hover:text-gold-400 transition-colors"><TikTokIcon size={16} /></a>}
-                {settings.youtube_url   && <a href={settings.youtube_url}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="text-cream-300/40 hover:text-gold-400 transition-colors"><Youtube    size={16} /></a>}
-                {settings.linkedin_url  && <a href={settings.linkedin_url}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  className="text-cream-300/40 hover:text-gold-400 transition-colors"><Linkedin   size={16} /></a>}
+                {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-charcoal-800 transition-colors"><Instagram size={16} /></a>}
+                {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="text-charcoal-800 transition-colors"><Facebook  size={16} /></a>}
+                {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="text-charcoal-800 transition-colors"><TikTokIcon size={16} /></a>}
+                {settings.youtube_url   && <a href={settings.youtube_url}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="text-charcoal-800 transition-colors"><Youtube    size={16} /></a>}
+                {settings.linkedin_url  && <a href={settings.linkedin_url}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  className="text-charcoal-800 transition-colors"><Linkedin   size={16} /></a>}
               </div>
             </div>
 
             <div>
-              <h3 className="eyebrow text-gold-400 mb-5">Kategorier</h3>
+              <h3 className="eyebrow text-charcoal-800 mb-5">Kategorier</h3>
               <ul className="space-y-3">
                 {categories.slice(0, 6).map(cat => (
                   <li key={cat.id}>
                     <Link to={`/kategori/${cat.slug}`}
-                      className="text-xs text-cream-300/50 hover:text-gold-400 transition-colors">
+                      className="text-xs text-charcoal-800 transition-colors">
                       {cat.name}
                     </Link>
                   </li>
@@ -262,26 +264,26 @@ export default function PublicLayout() {
             </div>
 
             <div>
-              <h3 className="eyebrow text-gold-400 mb-5">Juridiskt</h3>
-              <ul className="space-y-3 text-xs text-cream-300/50">
-                <li><a href="#" className="hover:text-gold-400 transition-colors">Integritetspolicy</a></li>
-                <li><a href="#" className="hover:text-gold-400 transition-colors">Cookiepolicy</a></li>
-                <li><a href="#" className="hover:text-gold-400 transition-colors">Användarvillkor</a></li>
+              <h3 className="eyebrow text-charcoal-800 mb-5">Juridiskt</h3>
+              <ul className="space-y-3 text-xs text-charcoal-800">
+                <li><a href="#" className="transition-colors">Integritetspolicy</a></li>
+                <li><a href="#" className="transition-colors">Cookiepolicy</a></li>
+                <li><a href="#" className="transition-colors">Användarvillkor</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-cream-300/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
+          <div className="border-t border-charcoal-800/15 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
             <div className="flex flex-col md:flex-row items-center gap-2 md:gap-5">
-              <p className="text-[11px] text-cream-300/30">© 2026 Livsstil24 AB · Alla rättigheter förbehållna</p>
+              <p className="text-[11px] text-charcoal-800">© 2026 Livsstil24 AB · Alla rättigheter förbehållna</p>
               {settings.chief_editor && (
-                <p className="text-[11px] text-cream-300/30">Chefredaktör: {settings.chief_editor}</p>
+                <p className="text-[11px] text-charcoal-800">Chefredaktör: {settings.chief_editor}</p>
               )}
               {settings.responsible_publisher && (
-                <p className="text-[11px] text-cream-300/30">Ansvarig utgivare: {settings.responsible_publisher}</p>
+                <p className="text-[11px] text-charcoal-800">Ansvarig utgivare: {settings.responsible_publisher}</p>
               )}
             </div>
-            <Link to="/admin" className="text-[11px] text-cream-300/20 hover:text-cream-300/50 transition-colors">Admin</Link>
+            <Link to="/admin" className="text-[11px] text-charcoal-800 transition-colors">Admin</Link>
           </div>
         </div>
       </footer>

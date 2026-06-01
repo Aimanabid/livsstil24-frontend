@@ -23,13 +23,13 @@ export default function ArticleCard({ article }) {
         <span className="eyebrow block mb-2" style={{ color: category_color || '#B89B72' }}>
           {category_name}
         </span>
-        <h3 className={`${titleFont} text-xl md:text-2xl leading-snug mb-2 group-hover:text-gold-500 transition-colors duration-200`}>
+        <h3 className={`${titleFont} text-xl md:text-2xl leading-snug mb-2 transition-colors duration-200 text-[#0e0e0e] group-hover:text-[#B89B72]`}>
           {title}
         </h3>
         {excerpt && (
-          <p className="text-sm text-mocha-500 leading-relaxed line-clamp-2 mb-3 font-light">{excerpt}</p>
+          <p className="text-sm leading-relaxed line-clamp-2 mb-3 font-light" style={{ color: '#A39284' }}>{excerpt}</p>
         )}
-        <div className="flex items-center gap-2 text-[11px] text-mocha-500">
+        <div className="flex items-center gap-2 text-[11px]" style={{ color: '#A39284' }}>
           <span>{date}</span>
         </div>
       </div>

@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../utils/api';
 import ArticleCard from '../../components/public/ArticleCard';
@@ -41,13 +41,13 @@ export default function TagPage() {
       <div className="border-b border-cream-200">
         <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 text-center">
           <div className="flex justify-center mb-4">
-            <div className="w-6 h-px bg-gold-400" />
+            <div className="w-6 h-px" style={{ backgroundColor: '#B89B72' }} />
           </div>
-          <p className="eyebrow text-gold-400 mb-4">Tagg</p>
-          <h1 className="font-display italic text-5xl md:text-7xl tracking-tight mb-4">
+          <p className="eyebrow mb-4" style={{ color: '#B89B72' }}>Tagg</p>
+          <h1 className="font-display text-5xl md:text-7xl tracking-tight mb-4" style={{ color: '#0e0e0e' }}>
             {tag}
           </h1>
-          <p className="text-xs text-mocha-500 tracking-widest">{total} artiklar</p>
+          <p className="text-xs tracking-widest" style={{ color: '#A39284' }}>{total} artiklar</p>
         </div>
       </div>
 
@@ -71,8 +71,8 @@ export default function TagPage() {
               </div>
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display italic text-3xl text-gray-300 mb-3">Inga artiklar med denna tagg</p>
-                <p className="text-sm text-gray-400">Prova att sÃ¶ka efter nÃ¥got annat.</p>
+                <p className="font-display text-3xl mb-3" style={{ color: '#A39284' }}>Inga artiklar med denna tagg</p>
+                <p className="text-sm" style={{ color: '#A39284' }}>Prova att söka efter något annat.</p>
               </div>
             ) : (
               <>
@@ -102,4 +102,3 @@ export default function TagPage() {
     </div>
   );
 }
-

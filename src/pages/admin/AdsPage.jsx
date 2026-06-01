@@ -108,7 +108,7 @@ export default function AdsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-2xl text-charcoal-800">Annonser</h1>
-          <p className="text-sm text-gray-400 mt-0.5">{ads.length} annonser</p>
+          <p className="text-sm text-[#A39284] mt-0.5">{ads.length} annonser</p>
         </div>
         <button onClick={openNew} className="btn-primary inline-flex items-center gap-2 text-xs">
           <Plus size={14} /> Ny annons
@@ -124,25 +124,25 @@ export default function AdsPage() {
         ].map(({ label, value }) => (
           <div key={label} className="card p-4">
             <p className="text-2xl font-semibold">{value}</p>
-            <p className="text-xs text-gray-400 mt-0.5">{label}</p>
+            <p className="text-xs text-[#A39284] mt-0.5">{label}</p>
           </div>
         ))}
       </div>
 
       {/* Ads table */}
       <div className="card overflow-hidden">
-        {loading ? <div className="p-8 text-center text-gray-400 text-sm">Laddar...</div> : (
+        {loading ? <div className="p-8 text-center text-[#A39284] text-sm">Laddar...</div> : (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="border-b border-gray-100">
                 <tr>
-                  <th className="text-left px-5 py-3 text-xs text-gray-400 font-medium">Annons</th>
-                  <th className="text-left px-4 py-3 text-xs text-gray-400 font-medium">Kund</th>
-                  <th className="text-left px-4 py-3 text-xs text-gray-400 font-medium">Plats</th>
-                  <th className="text-right px-4 py-3 text-xs text-gray-400 font-medium">Visningar / Cap</th>
-                  <th className="text-right px-4 py-3 text-xs text-gray-400 font-medium">Klick</th>
-                  <th className="text-right px-4 py-3 text-xs text-gray-400 font-medium">Intäkt</th>
-                  <th className="text-center px-4 py-3 text-xs text-gray-400 font-medium">Status</th>
+                  <th className="text-left px-5 py-3 text-xs text-[#A39284] font-medium">Annons</th>
+                  <th className="text-left px-4 py-3 text-xs text-[#A39284] font-medium">Kund</th>
+                  <th className="text-left px-4 py-3 text-xs text-[#A39284] font-medium">Plats</th>
+                  <th className="text-right px-4 py-3 text-xs text-[#A39284] font-medium">Visningar / Cap</th>
+                  <th className="text-right px-4 py-3 text-xs text-[#A39284] font-medium">Klick</th>
+                  <th className="text-right px-4 py-3 text-xs text-[#A39284] font-medium">Intäkt</th>
+                  <th className="text-center px-4 py-3 text-xs text-[#A39284] font-medium">Status</th>
                   <th className="px-5 py-3" />
                 </tr>
               </thead>
@@ -151,22 +151,22 @@ export default function AdsPage() {
                   <tr key={ad.id} className="border-b border-gray-50 hover:bg-cream-50/50 transition-colors">
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
-                        {ad.image_url && <img src={ad.image_url} alt="" className="w-12 h-8 object-cover rounded flex-shrink-0 bg-gray-100" />}
+                        {ad.image_url && <img src={ad.image_url} alt="" className="w-12 h-8 object-cover rounded flex-shrink-0 bg-[#F4F0EA]" />}
                         <div>
                           <p className="text-sm font-medium">{ad.title}</p>
                           {ad.link_url && <a href={ad.link_url} target="_blank" rel="noopener noreferrer"
-                            className="text-xs text-blue-400 flex items-center gap-0.5 hover:underline">
+                            className="text-xs text-[#B89B72] flex items-center gap-0.5 hover:underline">
                             <ExternalLink size={10} /> {ad.link_url.slice(0, 30)}...
                           </a>}
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-600">{ad.customer_name || '–'}</td>
-                    <td className="px-4 py-3 text-xs text-gray-500">{ad.placement_name}</td>
+                    <td className="px-4 py-3 text-sm text-[#A39284]">{ad.customer_name || '–'}</td>
+                    <td className="px-4 py-3 text-xs text-[#A39284]">{ad.placement_name}</td>
                     <td className="px-4 py-3 text-right text-sm">
                       <div>{parseInt(ad.impressions || 0).toLocaleString('sv')}{ad.max_impressions ? ` / ${parseInt(ad.max_impressions).toLocaleString('sv')}` : ''}</div>
                       {ad.max_impressions > 0 && (
-                        <div className="w-16 h-1 bg-gray-100 rounded-full ml-auto mt-1">
+                        <div className="w-16 h-1 bg-[#F4F0EA] rounded-full ml-auto mt-1">
                           <div className="h-1 rounded-full bg-gold-400" style={{ width: `${Math.min(100, Math.round((ad.impressions / ad.max_impressions) * 100))}%` }} />
                         </div>
                       )}
@@ -182,10 +182,10 @@ export default function AdsPage() {
                     </td>
                     <td className="px-5 py-3">
                       <div className="flex items-center justify-end gap-1">
-                        <button onClick={() => openEdit(ad)} className="p-1.5 rounded text-gray-400 hover:text-charcoal-800 hover:bg-cream-100 transition-colors">
+                        <button onClick={() => openEdit(ad)} className="p-1.5 rounded text-[#A39284] hover:text-charcoal-800 hover:bg-cream-100 transition-colors">
                           <Edit size={15} />
                         </button>
-                        <button onClick={() => handleDelete(ad.id)} className="p-1.5 rounded text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors">
+                        <button onClick={() => handleDelete(ad.id)} className="p-1.5 rounded text-[#A39284] hover:text-red-500 hover:bg-red-50 transition-colors">
                           <Trash2 size={15} />
                         </button>
                       </div>
@@ -204,7 +204,7 @@ export default function AdsPage() {
           <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between px-6 py-4 border-b">
               <h2 className="font-display text-lg">{editing ? 'Redigera annons' : 'Ny annons'}</h2>
-              <button onClick={() => setModal(false)} className="text-gray-400 hover:text-charcoal-800"><X size={18} /></button>
+              <button onClick={() => setModal(false)} className="text-[#A39284] hover:text-charcoal-800"><X size={18} /></button>
             </div>
             <div className="p-6 space-y-4">
               <div><label className="label">Titel</label><input value={form.title} onChange={e => set('title', e.target.value)} className="input-field" placeholder="Annonsens namn" /></div>
@@ -223,15 +223,15 @@ export default function AdsPage() {
                     onChange={e => uploadImage(e.target.files[0])} />
                   <button type="button" onClick={() => imageInputRef.current.click()}
                     disabled={uploading.image}
-                    className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-lg py-3 text-sm text-gray-400 hover:border-gold-400 hover:text-gold-400 transition-colors disabled:opacity-50">
+                    className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-lg py-3 text-sm text-[#A39284] hover:border-gold-400 hover:text-gold-400 transition-colors disabled:opacity-50">
                     <Upload size={15} />
                     {uploading.image ? 'Laddar upp...' : 'Välj bild från datorn'}
                   </button>
                   {form.image_url && (
                     <div className="mt-2 relative">
-                      <img src={form.image_url} alt="" className="w-full h-24 object-contain bg-gray-50 rounded-lg" />
+                      <img src={form.image_url} alt="" className="w-full h-24 object-contain bg-[#F4F0EA] rounded-lg" />
                       <button type="button" onClick={() => set('image_url', '')}
-                        className="absolute top-1 right-1 bg-white rounded-full p-0.5 text-gray-400 hover:text-red-500 shadow">
+                        className="absolute top-1 right-1 bg-white rounded-full p-0.5 text-[#A39284] hover:text-red-500 shadow">
                         <X size={12} />
                       </button>
                     </div>
@@ -244,7 +244,7 @@ export default function AdsPage() {
                     onChange={e => uploadVideo(e.target.files[0])} />
                   <button type="button" onClick={() => videoInputRef.current.click()}
                     disabled={uploading.video}
-                    className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-lg py-3 text-sm text-gray-400 hover:border-gold-400 hover:text-gold-400 transition-colors disabled:opacity-50">
+                    className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-lg py-3 text-sm text-[#A39284] hover:border-gold-400 hover:text-gold-400 transition-colors disabled:opacity-50">
                     <Upload size={15} />
                     {uploading.video ? 'Laddar upp...' : 'Välj video från datorn'}
                   </button>
@@ -252,7 +252,7 @@ export default function AdsPage() {
                     <div className="mt-2 relative">
                       <video src={form.video_url} className="w-full h-24 rounded-lg bg-black object-contain" controls />
                       <button type="button" onClick={() => set('video_url', '')}
-                        className="absolute top-1 right-1 bg-white rounded-full p-0.5 text-gray-400 hover:text-red-500 shadow">
+                        className="absolute top-1 right-1 bg-white rounded-full p-0.5 text-[#A39284] hover:text-red-500 shadow">
                         <X size={12} />
                       </button>
                     </div>

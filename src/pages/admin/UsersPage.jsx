@@ -11,9 +11,9 @@ const ROLES = [
 ];
 
 const roleBadge = role => {
-  const map = { admin: 'bg-purple-100 text-purple-700', editor: 'bg-blue-100 text-blue-700', ad_manager: 'bg-amber-100 text-amber-700' };
+  const map = { admin: 'bg-[#5A5B46]/10 text-[#5A5B46]', editor: 'bg-[#B89B72]/10 text-[#B89B72]', ad_manager: 'bg-[#A39284]/15 text-[#A39284]' };
   const label = ROLES.find(r => r.value === role)?.label || role;
-  return <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${map[role] || 'bg-gray-100 text-gray-600'}`}>{label}</span>;
+  return <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${map[role] || 'bg-[#F4F0EA] text-[#A39284]'}`}>{label}</span>;
 };
 
 const emptyForm = { name: '', email: '', password: '', role: 'editor' };
@@ -76,7 +76,7 @@ export default function UsersPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="font-display text-2xl text-charcoal-800">Team</h1>
-          <p className="text-sm text-gray-400 mt-0.5">Hantera användare och roller</p>
+          <p className="text-sm text-[#A39284] mt-0.5">Hantera användare och roller</p>
         </div>
         <button onClick={openCreate} className="btn-primary inline-flex items-center gap-2 text-xs">
           <UserPlus size={14} /> Ny användare
@@ -88,7 +88,7 @@ export default function UsersPage() {
         {ROLES.map(r => (
           <div key={r.value} className="card p-4">
             <div className="mb-1">{roleBadge(r.value)}</div>
-            <p className="text-xs text-gray-500 mt-1">{r.desc}</p>
+            <p className="text-xs text-[#A39284] mt-1">{r.desc}</p>
           </div>
         ))}
       </div>
@@ -96,13 +96,13 @@ export default function UsersPage() {
       {/* Users table */}
       <div className="card">
         {loading ? (
-          <div className="p-8 text-center text-sm text-gray-400">Laddar...</div>
+          <div className="p-8 text-center text-sm text-[#A39284]">Laddar...</div>
         ) : (
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-100">
                 {['Namn', 'E-post', 'Roll', 'Skapad', ''].map(h => (
-                  <th key={h} className="text-left py-3 px-4 text-xs text-gray-400 font-medium">{h}</th>
+                  <th key={h} className="text-left py-3 px-4 text-xs text-[#A39284] font-medium">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -111,25 +111,25 @@ export default function UsersPage() {
                 <tr key={u.id} className="border-b border-gray-50 hover:bg-cream-50">
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gold-400 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ backgroundColor: '#B89B72', color: '#F4F0EA' }}>
                         {u.name?.charAt(0) || '?'}
                       </div>
                       <span className="text-sm font-medium">{u.name}</span>
-                      {u.id === me?.id && <span className="text-[10px] text-gray-400">(du)</span>}
+                      {u.id === me?.id && <span className="text-[10px] text-[#A39284]">(du)</span>}
                     </div>
                   </td>
-                  <td className="py-3 px-4 text-sm text-gray-500">{u.email}</td>
+                  <td className="py-3 px-4 text-sm text-[#A39284]">{u.email}</td>
                   <td className="py-3 px-4">{roleBadge(u.role)}</td>
-                  <td className="py-3 px-4 text-xs text-gray-400">
+                  <td className="py-3 px-4 text-xs text-[#A39284]">
                     {u.created_at ? new Date(u.created_at).toLocaleDateString('sv') : '–'}
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-2 justify-end">
-                      <button onClick={() => openEdit(u)} className="text-gray-400 hover:text-charcoal-800 transition-colors">
+                      <button onClick={() => openEdit(u)} className="text-[#A39284] hover:text-charcoal-800 transition-colors">
                         <Pencil size={14} />
                       </button>
                       {u.id !== me?.id && (
-                        <button onClick={() => handleDelete(u)} className="text-gray-400 hover:text-red-500 transition-colors">
+                        <button onClick={() => handleDelete(u)} className="text-[#A39284] hover:text-red-500 transition-colors">
                           <Trash2 size={14} />
                         </button>
                       )}
@@ -150,7 +150,7 @@ export default function UsersPage() {
               <h2 className="font-semibold text-charcoal-800">
                 {modal === 'create' ? 'Ny användare' : `Redigera ${modal.name}`}
               </h2>
-              <button onClick={closeModal} className="text-gray-400 hover:text-charcoal-800"><X size={18} /></button>
+              <button onClick={closeModal} className="text-[#A39284] hover:text-charcoal-800"><X size={18} /></button>
             </div>
             <div className="space-y-4">
               <div>
@@ -165,7 +165,7 @@ export default function UsersPage() {
                 <label className="label">{modal === 'create' ? 'Lösenord' : 'Nytt lösenord (lämna tomt för oförändrat)'}</label>
                 <div className="relative">
                   <input className="input-field w-full pr-10" type={showPw ? 'text' : 'password'} value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} placeholder="••••••••" />
-                  <button type="button" onClick={() => setShowPw(v => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-charcoal-800">
+                  <button type="button" onClick={() => setShowPw(v => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A39284] hover:text-charcoal-800">
                     {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
                   </button>
                 </div>

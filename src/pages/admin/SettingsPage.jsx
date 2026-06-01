@@ -39,7 +39,7 @@ function ImageUploadField({ label, hint, value, onChange, previewSize = 'h-20', 
             <img src={value} alt={label} className={`${previewSize} w-auto object-contain rounded`} />
             <button
               onClick={() => onChange('')}
-              className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+              className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-[#F4F0EA] rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
             >
               <X size={11} />
             </button>
@@ -49,7 +49,7 @@ function ImageUploadField({ label, hint, value, onChange, previewSize = 'h-20', 
             {defaultPreview}
           </div>
         ) : (
-          <div className={`${previewSize} flex items-center justify-center text-xs text-gray-300`}>
+          <div className={`${previewSize} flex items-center justify-center text-xs text-[#A39284]`}>
             Ingen bild vald
           </div>
         )}
@@ -64,14 +64,14 @@ function ImageUploadField({ label, hint, value, onChange, previewSize = 'h-20', 
           <button
             onClick={() => inputRef.current?.click()}
             disabled={uploading}
-            className="flex items-center gap-2 text-xs px-3 py-1.5 border border-cream-200 rounded hover:border-gold-400 hover:text-gold-500 transition-colors text-gray-500"
+            className="flex items-center gap-2 text-xs px-3 py-1.5 border border-cream-200 rounded hover:border-gold-400 hover:text-[#B89B72] transition-colors text-[#A39284]"
           >
             <Upload size={12} />
             {uploading ? 'Laddar upp...' : value ? 'Byt bild' : 'Välj bild'}
           </button>
         </div>
       </div>
-      {hint && <p className="text-xs text-gray-400 mt-1">{hint}</p>}
+      {hint && <p className="text-xs text-[#A39284] mt-1">{hint}</p>}
     </div>
   );
 }
@@ -118,8 +118,8 @@ export default function SettingsPage() {
     <div className="flex items-center justify-center h-64">
       <div className="flex gap-2">
         {[0,1,2].map(i => (
-          <div key={i} className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-bounce"
-            style={{ animationDelay: `${i * 0.15}s` }} />
+          <div key={i} className="w-1.5 h-1.5 rounded-full animate-bounce"
+            style={{ backgroundColor: '#B89B72', animationDelay: `${i * 0.15}s` }} />
         ))}
       </div>
     </div>
@@ -149,13 +149,13 @@ export default function SettingsPage() {
                 className="input-field w-full resize-none"
                 placeholder="Din digitala livsstilstidning..."
               />
-              <p className="text-xs text-gray-400 mt-1">Visas i footern under LIVSSTIL24-logotypen.</p>
+              <p className="text-xs text-[#A39284] mt-1">Visas i footern under LIVSSTIL24-logotypen.</p>
             </div>
           </div>
 
           <div className="card p-6">
             <h2 className="text-sm font-semibold text-charcoal-800 mb-1">Redaktion</h2>
-            <p className="text-xs text-gray-400 mb-4">Visas i footern. Ansvarig utgivare krävs enligt svensk presslag.</p>
+            <p className="text-xs text-[#A39284] mb-4">Visas i footern. Ansvarig utgivare krävs enligt svensk presslag.</p>
             <div className="space-y-4">
               <div>
                 <label className="label">Chefredaktör</label>
