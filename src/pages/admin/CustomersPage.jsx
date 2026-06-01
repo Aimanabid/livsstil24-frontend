@@ -63,7 +63,7 @@ export default function CustomersPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-2xl text-charcoal-800">Kunder</h1>
-          <p className="text-sm text-gray-400 mt-0.5">{customers.length} kunder totalt</p>
+          <p className="text-sm text-[#A39284] mt-0.5">{customers.length} kunder totalt</p>
         </div>
         <button onClick={openNew} className="btn-primary inline-flex items-center gap-2 text-xs">
           <Plus size={14} /> Ny kund
@@ -79,7 +79,7 @@ export default function CustomersPage() {
         ].map(({ label, value }) => (
           <div key={label} className="card p-4">
             <p className="text-2xl font-semibold">{value}</p>
-            <p className="text-xs text-gray-400 mt-0.5">{label}</p>
+            <p className="text-xs text-[#A39284] mt-0.5">{label}</p>
           </div>
         ))}
       </div>
@@ -92,7 +92,7 @@ export default function CustomersPage() {
       ) : customers.length === 0 ? (
         <div className="card p-12 text-center">
           <Building2 size={32} className="mx-auto text-gray-200 mb-3" />
-          <p className="font-display text-xl text-gray-400 mb-2">Inga kunder ännu</p>
+          <p className="font-display text-xl text-[#A39284] mb-2">Inga kunder ännu</p>
           <button onClick={openNew} className="btn-primary inline-flex items-center gap-2 text-xs mt-4">
             <Plus size={14} /> Lägg till kund
           </button>
@@ -103,33 +103,33 @@ export default function CustomersPage() {
             <div key={c.id} className="card p-5">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-cream-100 flex items-center justify-center text-gold-500 font-display text-lg flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-cream-100 flex items-center justify-center text-[#B89B72] font-display text-lg flex-shrink-0">
                     {c.company.charAt(0)}
                   </div>
                   <div>
                     <h3 className="font-medium text-sm">{c.company}</h3>
-                    {c.contact_name && <p className="text-xs text-gray-400">{c.contact_name}</p>}
+                    {c.contact_name && <p className="text-xs text-[#A39284]">{c.contact_name}</p>}
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
-                  <button onClick={() => openEdit(c)} className="p-1.5 rounded text-gray-400 hover:text-charcoal-800 hover:bg-cream-100 transition-colors">
+                  <button onClick={() => openEdit(c)} className="p-1.5 rounded text-[#A39284] hover:text-charcoal-800 hover:bg-cream-100 transition-colors">
                     <Edit size={14} />
                   </button>
-                  <button onClick={() => handleDelete(c.id, c.company)} className="p-1.5 rounded text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors">
+                  <button onClick={() => handleDelete(c.id, c.company)} className="p-1.5 rounded text-[#A39284] hover:text-red-500 hover:bg-red-50 transition-colors">
                     <Trash2 size={14} />
                   </button>
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <div className="flex items-center gap-2 text-xs text-gray-500">
+                <div className="flex items-center gap-2 text-xs text-[#A39284]">
                   <Mail size={12} className="flex-shrink-0" /> {c.email}
                 </div>
-                {c.phone && <div className="flex items-center gap-2 text-xs text-gray-500"><Phone size={12} /> {c.phone}</div>}
-                {c.website && <div className="flex items-center gap-2 text-xs text-blue-400"><Globe size={12} /><a href={c.website} target="_blank" rel="noopener noreferrer" className="hover:underline">{c.website}</a></div>}
+                {c.phone && <div className="flex items-center gap-2 text-xs text-[#A39284]"><Phone size={12} /> {c.phone}</div>}
+                {c.website && <div className="flex items-center gap-2 text-xs text-[#B89B72]"><Globe size={12} /><a href={c.website} target="_blank" rel="noopener noreferrer" className="hover:underline">{c.website}</a></div>}
               </div>
 
-              <div className="flex items-center gap-4 mt-3 pt-3 border-t border-cream-100 text-xs text-gray-500">
+              <div className="flex items-center gap-4 mt-3 pt-3 border-t border-cream-100 text-xs text-[#A39284]">
                 <span>{c.ad_count} annonser</span>
                 <span>·</span>
                 <span className="font-medium text-charcoal-800">{(c.total_revenue || 0).toLocaleString('sv')} kr</span>
@@ -148,7 +148,7 @@ export default function CustomersPage() {
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between px-6 py-4 border-b">
               <h2 className="font-display text-lg">{editing ? 'Redigera kund' : 'Ny kund'}</h2>
-              <button onClick={() => setModal(false)} className="text-gray-400 hover:text-charcoal-800"><X size={18} /></button>
+              <button onClick={() => setModal(false)} className="text-[#A39284] hover:text-charcoal-800"><X size={18} /></button>
             </div>
             <div className="p-6 space-y-4">
               <div><label className="label">Företagsnamn *</label><input value={form.company} onChange={e => set('company', e.target.value)} className="input-field" /></div>

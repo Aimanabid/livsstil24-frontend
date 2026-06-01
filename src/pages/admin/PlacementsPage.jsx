@@ -95,7 +95,7 @@ export default function PlacementsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-display font-bold text-charcoal-800">Annonsplatser</h1>
-          <p className="text-sm text-gray-500 mt-1">Hantera tillgängliga platser för annonsering</p>
+          <p className="text-sm text-[#A39284] mt-1">Hantera tillgängliga platser för annonsering</p>
         </div>
         <button onClick={openCreate} className="btn-primary flex items-center gap-2">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,16 +108,16 @@ export default function PlacementsPage() {
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-white border border-gray-100 rounded-xl p-4">
-          <p className="text-xs text-gray-500 uppercase tracking-wider">Totalt platser</p>
+          <p className="text-xs text-[#A39284] uppercase tracking-wider">Totalt platser</p>
           <p className="text-3xl font-display font-bold text-charcoal-800 mt-1">{placements.length}</p>
         </div>
         <div className="bg-white border border-gray-100 rounded-xl p-4">
-          <p className="text-xs text-gray-500 uppercase tracking-wider">Aktiva platser</p>
-          <p className="text-3xl font-display font-bold text-green-600 mt-1">{placements.filter(p => p.is_active).length}</p>
+          <p className="text-xs text-[#A39284] uppercase tracking-wider">Aktiva platser</p>
+          <p className="text-3xl font-display font-bold text-[#5A5B46] mt-1">{placements.filter(p => p.is_active).length}</p>
         </div>
         <div className="bg-white border border-gray-100 rounded-xl p-4">
-          <p className="text-xs text-gray-500 uppercase tracking-wider">Högsta CPM</p>
-          <p className="text-3xl font-display font-bold text-gold-500 mt-1">
+          <p className="text-xs text-[#A39284] uppercase tracking-wider">Högsta CPM</p>
+          <p className="text-3xl font-display font-bold text-[#B89B72] mt-1">
             {placements.length ? Math.max(...placements.map(p => Number(p.cpm_rate || 0))).toLocaleString('sv-SE') : 0} kr
           </p>
         </div>
@@ -135,21 +135,21 @@ export default function PlacementsPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-charcoal-800">{p.name}</h3>
-                    <code className="text-xs text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded">{p.key}</code>
+                    <code className="text-xs text-[#A39284] bg-[#F4F0EA] px-1.5 py-0.5 rounded">{p.key}</code>
                   </div>
                 </div>
-                <span className={`text-xs px-2 py-1 rounded-full font-medium ${p.is_active ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                <span className={`text-xs px-2 py-1 rounded-full font-medium ${p.is_active ? 'bg-[#5A5B46]/10 text-[#5A5B46]' : 'bg-[#F4F0EA] text-[#A39284]'}`}>
                   {p.is_active ? 'Aktiv' : 'Inaktiv'}
                 </span>
               </div>
 
               {p.description && (
-                <p className="text-sm text-gray-500 mt-3">{p.description}</p>
+                <p className="text-sm text-[#A39284] mt-3">{p.description}</p>
               )}
 
               <div className="mt-4 flex items-center gap-4 text-sm">
-                <span className="text-gray-500">
-                  <span className="text-gray-400">Max annonser:</span> {p.max_ads}
+                <span className="text-[#A39284]">
+                  <span className="text-[#A39284]">Max annonser:</span> {p.max_ads}
                 </span>
               </div>
 
@@ -158,7 +158,7 @@ export default function PlacementsPage() {
                   <span className="text-2xl font-display font-bold text-charcoal-800">
                     {Number(p.cpm_rate || 0).toLocaleString('sv-SE')} kr
                   </span>
-                  <span className="text-sm text-gray-400">/ 1 000 vis.</span>
+                  <span className="text-sm text-[#A39284]">/ 1 000 vis.</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -166,14 +166,14 @@ export default function PlacementsPage() {
                     className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
                       p.is_active
                         ? 'border-red-200 text-red-600 hover:bg-red-50'
-                        : 'border-green-200 text-green-600 hover:bg-green-50'
+                        : 'border-green-200 text-[#5A5B46] hover:bg-[#5A5B46]/10'
                     }`}
                   >
                     {p.is_active ? 'Inaktivera' : 'Aktivera'}
                   </button>
                   <button
                     onClick={() => openEdit(p)}
-                    className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
+                    className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-[#A39284] hover:bg-[#F4F0EA] transition-colors"
                   >
                     Redigera
                   </button>
@@ -182,13 +182,13 @@ export default function PlacementsPage() {
             </div>
 
             {/* Active ads count bar */}
-            <div className="h-1 bg-gray-50">
+            <div className="h-1 bg-[#F4F0EA]">
               <div
                 className="h-full bg-gold-400 transition-all"
                 style={{ width: `${Math.min(100, ((p.active_ads || 0) / p.max_ads) * 100)}%` }}
               />
             </div>
-            <div className="px-5 py-2 bg-gray-50 text-xs text-gray-400">
+            <div className="px-5 py-2 bg-[#F4F0EA] text-xs text-[#A39284]">
               {p.active_ads || 0} av {p.max_ads} annonsplatser används
             </div>
           </div>
@@ -199,23 +199,23 @@ export default function PlacementsPage() {
       <div className="bg-white border border-gray-100 rounded-xl overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-50">
           <h2 className="font-semibold text-charcoal-800">Prislista</h2>
-          <p className="text-xs text-gray-400 mt-0.5">Översikt av alla annonsplatser och priser</p>
+          <p className="text-xs text-[#A39284] mt-0.5">Översikt av alla annonsplatser och priser</p>
         </div>
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-[#F4F0EA]">
             <tr>
-              <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Placering</th>
-              <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">Max annonser</th>
-              <th className="text-right text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3">CPM (kr / 1 000 vis.)</th>
+              <th className="text-left text-xs font-medium text-[#A39284] uppercase tracking-wider px-6 py-3">Placering</th>
+              <th className="text-left text-xs font-medium text-[#A39284] uppercase tracking-wider px-6 py-3">Max annonser</th>
+              <th className="text-right text-xs font-medium text-[#A39284] uppercase tracking-wider px-6 py-3">CPM (kr / 1 000 vis.)</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
             {placements.filter(p => p.is_active).map(p => (
-              <tr key={p.id} className="hover:bg-gray-50/50 transition-colors">
+              <tr key={p.id} className="hover:bg-[#F4F0EA]/50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="font-medium text-charcoal-800 text-sm">{p.name}</div>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-500">{p.max_ads}</td>
+                <td className="px-6 py-4 text-sm text-[#A39284]">{p.max_ads}</td>
                 <td className="px-6 py-4 text-right font-semibold text-charcoal-800">
                   {Number(p.cpm_rate || 0).toLocaleString('sv-SE')} kr
                 </td>
@@ -233,7 +233,7 @@ export default function PlacementsPage() {
               <h2 className="text-lg font-display font-bold text-charcoal-800">
                 {editing ? 'Redigera placering' : 'Ny annonsplats'}
               </h2>
-              <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setShowModal(false)} className="text-[#A39284] hover:text-[#A39284]">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -252,7 +252,7 @@ export default function PlacementsPage() {
                     <option key={key} value={key}>{label} — {description}</option>
                   ))}
                 </select>
-                {form.key && <p className="text-xs text-gray-400 mt-1 font-mono">{form.key}</p>}
+                {form.key && <p className="text-xs text-[#A39284] mt-1 font-mono">{form.key}</p>}
               </div>
               <div>
                 <label className="label">Beskrivning</label>
@@ -279,7 +279,7 @@ export default function PlacementsPage() {
                 <label htmlFor="is_active" className="text-sm text-mocha-500">Aktiv (visas som tillgänglig)</label>
               </div>
               <div className="flex gap-3 pt-2">
-                <button type="button" onClick={() => setShowModal(false)} className="flex-1 px-4 py-2.5 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 text-sm font-medium transition-colors">
+                <button type="button" onClick={() => setShowModal(false)} className="flex-1 px-4 py-2.5 border border-gray-200 rounded-lg text-[#A39284] hover:bg-[#F4F0EA] text-sm font-medium transition-colors">
                   Avbryt
                 </button>
                 <button type="submit" className="flex-1 btn-primary text-sm">

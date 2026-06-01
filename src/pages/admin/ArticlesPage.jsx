@@ -81,12 +81,12 @@ function CategoriesTab() {
     } catch (err) { toast.error(err.response?.data?.error || 'Kunde inte ta bort kategori'); }
   };
 
-  if (loading) return <div className="p-8 text-center text-gray-400 text-sm">Laddar...</div>;
+  if (loading) return <div className="p-8 text-center text-[#A39284] text-sm">Laddar...</div>;
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-400">{categories.length} kategorier</p>
+        <p className="text-sm text-[#A39284]">{categories.length} kategorier</p>
         <button onClick={openNew} className="btn-primary inline-flex items-center gap-2 text-xs">
           <Plus size={14} /> Ny kategori
         </button>
@@ -94,7 +94,7 @@ function CategoriesTab() {
 
       {categories.length === 0 ? (
         <div className="card p-12 text-center">
-          <p className="font-display text-xl text-gray-400 mb-4">Inga kategorier ännu</p>
+          <p className="font-display text-xl text-[#A39284] mb-4">Inga kategorier ännu</p>
           <button onClick={openNew} className="btn-primary inline-flex items-center gap-2 text-xs">
             <Plus size={14} /> Skapa kategori
           </button>
@@ -104,10 +104,10 @@ function CategoriesTab() {
           <table className="w-full">
             <thead className="border-b border-gray-100">
               <tr>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-medium">Kategori</th>
-                <th className="text-left px-4 py-3 text-xs text-gray-400 font-medium hidden sm:table-cell">Slug</th>
-                <th className="text-right px-4 py-3 text-xs text-gray-400 font-medium">Artiklar</th>
-                <th className="text-right px-5 py-3 text-xs text-gray-400 font-medium">Åtgärder</th>
+                <th className="text-left px-5 py-3 text-xs text-[#A39284] font-medium">Kategori</th>
+                <th className="text-left px-4 py-3 text-xs text-[#A39284] font-medium hidden sm:table-cell">Slug</th>
+                <th className="text-right px-4 py-3 text-xs text-[#A39284] font-medium">Artiklar</th>
+                <th className="text-right px-5 py-3 text-xs text-[#A39284] font-medium">Åtgärder</th>
               </tr>
             </thead>
             <tbody>
@@ -120,17 +120,17 @@ function CategoriesTab() {
                     </div>
                   </td>
                   <td className="px-4 py-3 hidden sm:table-cell">
-                    <code className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded">{c.slug}</code>
+                    <code className="text-xs text-[#A39284] bg-[#F4F0EA] px-2 py-1 rounded">{c.slug}</code>
                   </td>
-                  <td className="px-4 py-3 text-right text-sm text-gray-500">{c.article_count}</td>
+                  <td className="px-4 py-3 text-right text-sm text-[#A39284]">{c.article_count}</td>
                   <td className="px-5 py-3">
                     <div className="flex items-center justify-end gap-1">
                       <button onClick={() => openEdit(c)}
-                        className="p-1.5 rounded text-gray-400 hover:text-charcoal-800 hover:bg-cream-100 transition-colors">
+                        className="p-1.5 rounded text-[#A39284] hover:text-charcoal-800 hover:bg-cream-100 transition-colors">
                         <Edit size={15} />
                       </button>
                       <button onClick={() => handleDelete(c)}
-                        className="p-1.5 rounded text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors"
+                        className="p-1.5 rounded text-[#A39284] hover:text-red-500 hover:bg-red-50 transition-colors"
                         title={c.article_count > 0 ? 'Kan inte tas bort — har artiklar kopplade' : 'Ta bort'}>
                         <Trash2 size={15} />
                       </button>
@@ -149,7 +149,7 @@ function CategoriesTab() {
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
             <div className="flex items-center justify-between px-6 py-4 border-b">
               <h2 className="font-display text-lg">{editing ? 'Redigera kategori' : 'Ny kategori'}</h2>
-              <button onClick={() => setModal(false)} className="text-gray-400 hover:text-charcoal-800">
+              <button onClick={() => setModal(false)} className="text-[#A39284] hover:text-charcoal-800">
                 <X size={18} />
               </button>
             </div>
@@ -161,7 +161,7 @@ function CategoriesTab() {
               <div>
                 <label className="label">Slug</label>
                 <input value={form.slug} onChange={e => setField('slug', e.target.value)} className="input-field font-mono text-xs" />
-                <p className="text-xs text-gray-400 mt-1">Används i URL:er — ändra med försiktighet</p>
+                <p className="text-xs text-[#A39284] mt-1">Används i URL:er — ändra med försiktighet</p>
               </div>
               <div>
                 <label className="label">Färg</label>
@@ -242,7 +242,7 @@ function ArticlesTab() {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A39284]" />
           <input value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Sök artiklar..." className="input-field pl-9" />
         </div>
@@ -256,10 +256,10 @@ function ArticlesTab() {
       {/* Table */}
       <div className="card overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-gray-400 text-sm">Laddar...</div>
+          <div className="p-8 text-center text-[#A39284] text-sm">Laddar...</div>
         ) : articles.length === 0 ? (
           <div className="p-12 text-center">
-            <p className="font-display text-xl text-gray-400 mb-2">Inga artiklar</p>
+            <p className="font-display text-xl text-[#A39284] mb-2">Inga artiklar</p>
             <Link to="/admin/artiklar/ny" className="btn-primary inline-flex items-center gap-2 text-xs mt-4">
               <Plus size={14} /> Skapa din första artikel
             </Link>
@@ -269,12 +269,12 @@ function ArticlesTab() {
             <table className="w-full">
               <thead className="border-b border-gray-100">
                 <tr>
-                  <th className="text-left px-5 py-3 text-xs text-gray-400 font-medium">Artikel</th>
-                  <th className="text-left px-4 py-3 text-xs text-gray-400 font-medium hidden md:table-cell">Kategori</th>
-                  <th className="text-left px-4 py-3 text-xs text-gray-400 font-medium hidden lg:table-cell">Publicerad</th>
-                  <th className="text-right px-4 py-3 text-xs text-gray-400 font-medium hidden sm:table-cell">Visningar</th>
-                  <th className="text-center px-4 py-3 text-xs text-gray-400 font-medium">Status</th>
-                  <th className="text-right px-5 py-3 text-xs text-gray-400 font-medium">Åtgärder</th>
+                  <th className="text-left px-5 py-3 text-xs text-[#A39284] font-medium">Artikel</th>
+                  <th className="text-left px-4 py-3 text-xs text-[#A39284] font-medium hidden md:table-cell">Kategori</th>
+                  <th className="text-left px-4 py-3 text-xs text-[#A39284] font-medium hidden lg:table-cell">Publicerad</th>
+                  <th className="text-right px-4 py-3 text-xs text-[#A39284] font-medium hidden sm:table-cell">Visningar</th>
+                  <th className="text-center px-4 py-3 text-xs text-[#A39284] font-medium">Status</th>
+                  <th className="text-right px-5 py-3 text-xs text-[#A39284] font-medium">Åtgärder</th>
                 </tr>
               </thead>
               <tbody>
@@ -287,7 +287,7 @@ function ArticlesTab() {
                         )}
                         <div className="min-w-0">
                           <p className="text-sm font-medium truncate max-w-[300px]">{article.title}</p>
-                          <p className="text-xs text-gray-400 truncate max-w-[300px]">{article.excerpt}</p>
+                          <p className="text-xs text-[#A39284] truncate max-w-[300px]">{article.excerpt}</p>
                         </div>
                       </div>
                     </td>
@@ -299,10 +299,10 @@ function ArticlesTab() {
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-400 hidden lg:table-cell">
+                    <td className="px-4 py-3 text-xs text-[#A39284] hidden lg:table-cell">
                       {article.published_at ? format(new Date(article.published_at), 'd MMM yyyy', { locale: sv }) : '–'}
                     </td>
-                    <td className="px-4 py-3 text-right text-xs text-gray-500 hidden sm:table-cell">
+                    <td className="px-4 py-3 text-right text-xs text-[#A39284] hidden sm:table-cell">
                       {article.views?.toLocaleString('sv')}
                     </td>
                     <td className="px-4 py-3 text-center">
@@ -313,19 +313,19 @@ function ArticlesTab() {
                     <td className="px-5 py-3">
                       <div className="flex items-center justify-end gap-1">
                         <button onClick={() => toggleFeatured(article)} title="Utvald"
-                          className={`p-1.5 rounded hover:bg-amber-50 transition-colors ${article.featured ? 'text-amber-400' : 'text-gray-300 hover:text-amber-400'}`}>
+                          className={`p-1.5 rounded hover:bg-[#B89B72]/10 transition-colors ${article.featured ? 'text-[#B89B72]' : 'text-[#A39284] hover:text-[#B89B72]'}`}>
                           <Star size={15} fill={article.featured ? 'currentColor' : 'none'} />
                         </button>
                         <Link to={`/artikel/${article.slug}`} target="_blank"
-                          className="p-1.5 rounded text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-colors">
+                          className="p-1.5 rounded text-[#A39284] hover:text-[#B89B72] hover:bg-[#B89B72]/10 transition-colors">
                           <Eye size={15} />
                         </Link>
                         <Link to={`/admin/artiklar/${article.id}`}
-                          className="p-1.5 rounded text-gray-400 hover:text-charcoal-800 hover:bg-cream-100 transition-colors">
+                          className="p-1.5 rounded text-[#A39284] hover:text-charcoal-800 hover:bg-cream-100 transition-colors">
                           <Edit size={15} />
                         </Link>
                         <button onClick={() => handleDelete(article.id, article.title)}
-                          className="p-1.5 rounded text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors">
+                          className="p-1.5 rounded text-[#A39284] hover:text-red-500 hover:bg-red-50 transition-colors">
                           <Trash2 size={15} />
                         </button>
                       </div>
@@ -341,7 +341,7 @@ function ArticlesTab() {
       {/* Pagination */}
       {total > PAGE_SIZE && (
         <div className="flex items-center justify-between">
-          <p className="text-gray-400 text-xs">
+          <p className="text-[#A39284] text-xs">
             Visar {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, total)} av {total}
           </p>
           <div className="flex items-center gap-2">
@@ -349,7 +349,7 @@ function ArticlesTab() {
               className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg hover:bg-cream-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
               Föregående
             </button>
-            <span className="text-xs text-gray-500">{page + 1} / {Math.ceil(total / PAGE_SIZE)}</span>
+            <span className="text-xs text-[#A39284]">{page + 1} / {Math.ceil(total / PAGE_SIZE)}</span>
             <button onClick={() => setPage(p => p + 1)} disabled={(page + 1) * PAGE_SIZE >= total}
               className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg hover:bg-cream-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
               Nästa
@@ -390,7 +390,7 @@ export default function ArticlesPage() {
             className={`px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors ${
               tab === key
                 ? 'border-olive-500 text-charcoal-800'
-                : 'border-transparent text-gray-400 hover:text-charcoal-800'
+                : 'border-transparent text-[#A39284] hover:text-charcoal-800'
             }`}
           >
             {label}

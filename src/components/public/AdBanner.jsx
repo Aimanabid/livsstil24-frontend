@@ -11,7 +11,7 @@ const BANNER_PLACEMENTS    = new Set(['footer_banner', 'category_top']);
 function FallbackHero({ className }) {
   return (
     <div className={`relative overflow-hidden ${className}`}
-      style={{ background: 'linear-gradient(135deg,#1a1a1a,#2d2d2d,#1a1a1a)' }} />
+      style={{ background: 'linear-gradient(135deg,#5A5B46,#4a4b38,#5A5B46)' }} />
   );
 }
 
@@ -19,17 +19,17 @@ function FallbackHero({ className }) {
 function FallbackInline({ className, hideLabel }) {
   return (
     <div className={className}>
-      {!hideLabel && <p className="text-xs text-mocha-500 mb-1 tracking-widest uppercase text-center">Annons</p>}
+      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
       <div
         className="w-full flex items-center justify-between gap-6 px-8 sm:px-12 overflow-hidden"
-        style={{ background: 'linear-gradient(135deg,#1a1a1a,#2d2d2d,#1a1a1a)', height: 300 }}
+        style={{ background: 'linear-gradient(135deg,#5A5B46,#4a4b38,#5A5B46)', height: 300 }}
       >
         <div className="min-w-0 flex-1 overflow-hidden">
-          <p className="text-[10px] tracking-[0.2em] uppercase mb-1 text-gold-400">Sponsrat</p>
-          <p className="text-white font-semibold text-sm sm:text-base leading-snug truncate">Sommarens bästa erbjudanden</p>
-          <p className="text-white/55 text-xs mt-0.5 hidden sm:block truncate">Upp till 50% rabatt på utvalda märken – begränsad tid</p>
+          <p className="text-[10px] tracking-[0.2em] uppercase mb-1 text-[#B89B72]">Sponsrat</p>
+          <p className="font-semibold text-[#F4F0EA] text-sm sm:text-base leading-snug truncate">Sommarens bästa erbjudanden</p>
+          <p className="text-[#F4F0EA]/70 text-xs mt-0.5 hidden sm:block truncate">Upp till 50% rabatt på utvalda märken – begränsad tid</p>
         </div>
-        <button className="shrink-0 text-[10px] tracking-widest uppercase font-semibold px-4 sm:px-5 py-2 sm:py-2.5 border border-gold-400 text-gold-400 whitespace-nowrap">
+        <button className="shrink-0 text-[10px] tracking-widest uppercase font-semibold px-4 sm:px-5 py-2 sm:py-2.5 border border-[#B89B72] text-[#B89B72] whitespace-nowrap">
           Handla nu
         </button>
       </div>
@@ -41,15 +41,15 @@ function FallbackInline({ className, hideLabel }) {
 function FallbackSkyscraper({ className, hideLabel }) {
   return (
     <div className={className}>
-      {!hideLabel && <p className="text-xs text-mocha-500 mb-1 tracking-widest uppercase text-center">Annons</p>}
+      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
       <div
         className="w-full flex flex-col items-center justify-center text-center px-6 gap-4"
-        style={{ background: 'linear-gradient(160deg,#2c1810,#4a2c1a)', height: 600 }}
+        style={{ background: 'linear-gradient(160deg,#5A5B46,#4a4b38)', height: 600 }}
       >
-        <p className="text-xs tracking-[0.18em] uppercase text-gold-400">Sponsrat</p>
-        <p className="text-white font-semibold text-lg leading-snug">Livsstil Premium</p>
-        <p className="text-white/60 text-xs max-w-[180px]">Obegränsad läsning &amp; exklusivt innehåll</p>
-        <button className="text-xs tracking-widest uppercase font-semibold px-5 py-2 border border-gold-400 text-gold-400 mt-1">
+        <p className="text-xs tracking-[0.18em] uppercase text-[#B89B72]">Sponsrat</p>
+        <p className="font-semibold text-[#F4F0EA] text-lg leading-snug">Livsstil Premium</p>
+        <p className="text-[#F4F0EA]/70 text-xs max-w-[180px]">Obegränsad läsning &amp; exklusivt innehåll</p>
+        <button className="text-xs tracking-widest uppercase font-semibold px-5 py-2 border border-[#B89B72] text-[#B89B72] mt-1">
           Prova gratis
         </button>
       </div>
@@ -61,18 +61,18 @@ function FallbackSkyscraper({ className, hideLabel }) {
 function FallbackBanner({ className, hideLabel }) {
   return (
     <div className={className}>
-      {!hideLabel && <p className="text-xs text-mocha-500 mb-1 tracking-widest uppercase text-center">Annons</p>}
+      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
       <div className="flex justify-center">
         <div
           className="h-20 sm:h-24 md:h-28 flex items-center justify-between gap-6 px-8 sm:px-12 overflow-hidden"
-          style={{ background: 'linear-gradient(135deg,#1a1a1a,#2d2d2d,#1a1a1a)', width: '70%', minWidth: 0, maxWidth: '70%', flexShrink: 0 }}
+          style={{ background: 'linear-gradient(135deg,#5A5B46,#4a4b38,#5A5B46)', width: '70%', minWidth: 0, maxWidth: '70%', flexShrink: 0 }}
         >
           <div className="min-w-0 flex-1 overflow-hidden">
-            <p className="text-[10px] tracking-[0.2em] uppercase mb-1 text-gold-400">Sponsrat</p>
-            <p className="text-white font-semibold text-sm sm:text-base leading-snug truncate">Sommarens bästa erbjudanden</p>
-            <p className="text-white/55 text-xs mt-0.5 hidden sm:block truncate">Upp till 50% rabatt på utvalda märken – begränsad tid</p>
+            <p className="text-[10px] tracking-[0.2em] uppercase mb-1 text-[#B89B72]">Sponsrat</p>
+            <p className="font-semibold text-[#F4F0EA] text-sm sm:text-base leading-snug truncate">Sommarens bästa erbjudanden</p>
+            <p className="text-[#F4F0EA]/70 text-xs mt-0.5 hidden sm:block truncate">Upp till 50% rabatt på utvalda märken – begränsad tid</p>
           </div>
-          <button className="shrink-0 text-[10px] tracking-widest uppercase font-semibold px-4 sm:px-5 py-2 sm:py-2.5 border border-gold-400 text-gold-400 whitespace-nowrap">
+          <button className="shrink-0 text-[10px] tracking-widest uppercase font-semibold px-4 sm:px-5 py-2 sm:py-2.5 border border-[#B89B72] text-[#B89B72] whitespace-nowrap">
             Handla nu
           </button>
         </div>
@@ -132,7 +132,7 @@ export default function AdBanner({ placement, className = '', noFallback = false
           ? <video src={ad.video_url} poster={ad.image_url || undefined} autoPlay muted loop playsInline className="w-full h-full object-cover" />
           : ad.image_url
             ? <img src={ad.image_url} alt={ad.alt_text || ad.title} className="w-full h-full object-cover" />
-            : <div className="w-full h-full" style={{ background: 'linear-gradient(135deg,#1a1a1a,#2d2d2d,#1a1a1a)' }} />
+            : <div className="w-full h-full" style={{ background: 'linear-gradient(135deg,#5A5B46,#4a4b38,#5A5B46)' }} />
         }
       </div>
     );
@@ -142,7 +142,7 @@ export default function AdBanner({ placement, className = '', noFallback = false
   if (INLINE_PLACEMENTS.has(placement)) {
     return (
       <div className={className} ref={containerRef}>
-        {!hideLabel && <p className="text-xs text-mocha-500 mb-1 tracking-widest uppercase text-center">Annons</p>}
+        {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
         <div className="w-full overflow-hidden cursor-pointer" style={{ height: 300 }} onClick={handleClick}>
           {ad.ad_type === 'video'
             ? <video src={ad.video_url} poster={ad.image_url || undefined} autoPlay muted loop playsInline className="w-full h-full object-cover" />
@@ -150,14 +150,14 @@ export default function AdBanner({ placement, className = '', noFallback = false
               ? <img src={ad.image_url} alt={ad.alt_text || ad.title} className="w-full h-full object-cover" />
               : (
                 <div className="w-full h-full flex items-center justify-between gap-6 px-8 sm:px-12"
-                  style={{ background: 'linear-gradient(135deg,#1a1a1a,#2d2d2d,#1a1a1a)' }}>
+                  style={{ background: 'linear-gradient(135deg,#5A5B46,#4a4b38,#5A5B46)' }}>
                   <div className="min-w-0 flex-1 overflow-hidden">
-                    <p className="text-[10px] tracking-[0.2em] uppercase mb-1 text-gold-400">Sponsrat</p>
-                    <p className="text-white font-semibold text-sm sm:text-base leading-snug truncate">{ad.title}</p>
-                    {ad.alt_text && <p className="text-white/55 text-xs mt-0.5 hidden sm:block truncate">{ad.alt_text}</p>}
+                    <p className="text-[10px] tracking-[0.2em] uppercase mb-1 text-[#B89B72]">Sponsrat</p>
+                    <p className="font-semibold text-[#F4F0EA] text-sm sm:text-base leading-snug truncate">{ad.title}</p>
+                    {ad.alt_text && <p className="text-[#F4F0EA]/70 text-xs mt-0.5 hidden sm:block truncate">{ad.alt_text}</p>}
                   </div>
                   {ad.link_url && (
-                    <button className="shrink-0 text-[10px] tracking-widest uppercase font-semibold px-4 sm:px-5 py-2 sm:py-2.5 border border-gold-400 text-gold-400 whitespace-nowrap">
+                    <button className="shrink-0 text-[10px] tracking-widest uppercase font-semibold px-4 sm:px-5 py-2 sm:py-2.5 border border-[#B89B72] text-[#B89B72] whitespace-nowrap">
                       Läs mer
                     </button>
                   )}
@@ -173,7 +173,7 @@ export default function AdBanner({ placement, className = '', noFallback = false
   if (SKYSCRAPER_PLACEMENTS.has(placement)) {
     return (
       <div className={className} ref={containerRef}>
-        {!hideLabel && <p className="text-xs text-mocha-500 mb-1 tracking-widest uppercase text-center">Annons</p>}
+        {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
         <div className="w-full overflow-hidden cursor-pointer" style={{ height: 600 }} onClick={handleClick}>
           {ad.ad_type === 'video'
             ? <video src={ad.video_url} poster={ad.image_url || undefined} autoPlay muted loop playsInline className="w-full h-full object-cover" />
@@ -181,12 +181,12 @@ export default function AdBanner({ placement, className = '', noFallback = false
               ? <img src={ad.image_url} alt={ad.alt_text || ad.title} className="w-full h-full object-cover" />
               : (
                 <div className="w-full h-full flex flex-col items-center justify-center text-center px-6 gap-4"
-                  style={{ background: 'linear-gradient(160deg,#2c1810,#4a2c1a)' }}>
-                  <p className="text-xs tracking-[0.18em] uppercase text-gold-400">Sponsrat</p>
-                  <p className="text-white font-semibold text-lg leading-snug">{ad.title}</p>
-                  {ad.alt_text && <p className="text-white/60 text-xs max-w-[180px]">{ad.alt_text}</p>}
+                  style={{ background: 'linear-gradient(160deg,#5A5B46,#4a4b38)' }}>
+                  <p className="text-xs tracking-[0.18em] uppercase text-[#B89B72]">Sponsrat</p>
+                  <p className="font-semibold text-[#F4F0EA] text-lg leading-snug">{ad.title}</p>
+                  {ad.alt_text && <p className="text-[#F4F0EA]/70 text-xs max-w-[180px]">{ad.alt_text}</p>}
                   {ad.link_url && (
-                    <button className="text-xs tracking-widest uppercase font-semibold px-5 py-2 border border-gold-400 text-gold-400 mt-1">
+                    <button className="text-xs tracking-widest uppercase font-semibold px-5 py-2 border border-[#B89B72] text-[#B89B72] mt-1">
                       Läs mer
                     </button>
                   )}
@@ -201,17 +201,17 @@ export default function AdBanner({ placement, className = '', noFallback = false
   // ── Banner strip — footer_banner, category_top ───────────────────────────
   return (
     <div className={className} ref={containerRef}>
-      {!hideLabel && <p className="text-xs text-mocha-500 mb-1 tracking-widest uppercase text-center">Annons</p>}
+      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
       <div className="flex justify-center cursor-pointer" onClick={handleClick}>
         <div className="h-20 sm:h-24 md:h-28 overflow-hidden" style={{ width: '70%' }}>
           {ad.image_url
             ? <img src={ad.image_url} alt={ad.alt_text || ad.title} className="w-full h-full object-cover" />
             : (
               <div className="w-full h-full flex items-center justify-between gap-6 px-8 sm:px-12"
-                style={{ background: 'linear-gradient(135deg,#1a1a1a,#2d2d2d,#1a1a1a)' }}>
-                <p className="text-white font-semibold text-sm truncate">{ad.title}</p>
+                style={{ background: 'linear-gradient(135deg,#5A5B46,#4a4b38,#5A5B46)' }}>
+                <p className="font-semibold text-[#F4F0EA] text-sm truncate">{ad.title}</p>
                 {ad.link_url && (
-                  <button className="shrink-0 text-[10px] tracking-widest uppercase font-semibold px-4 py-2 border border-gold-400 text-gold-400 whitespace-nowrap">
+                  <button className="shrink-0 text-[10px] tracking-widest uppercase font-semibold px-4 py-2 border border-[#B89B72] text-[#B89B72] whitespace-nowrap">
                     Läs mer
                   </button>
                 )}

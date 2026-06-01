@@ -59,14 +59,17 @@
 
 @layer components {
   .nav-link {
-    @apply relative text-[11px] font-sans font-medium tracking-[0.16em] uppercase text-charcoal-800 hover:text-olive-500 transition-colors duration-200 pb-0.5;
+    @apply relative text-[11px] font-sans font-medium tracking-[0.16em] uppercase transition-colors duration-200 pb-0.5;
+    color: #0e0e0e;
   }
+  .nav-link:hover { color: #B89B72; }
   .nav-link::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-0 h-px bg-olive-500 transition-all duration-300;
+    @apply absolute bottom-0 left-0 w-0 h-px transition-all duration-300;
+    background-color: #B89B72;
   }
   .nav-link:hover::after { @apply w-full; }
-  .nav-link.active { @apply text-olive-500; }
+  .nav-link.active { color: #B89B72; }
   .nav-link.active::after { @apply w-full; }
 
   .eyebrow {
@@ -89,27 +92,34 @@
   }
 
   .btn-primary {
-    @apply bg-olive-500 text-cream-50 text-[11px] tracking-[0.16em] uppercase font-medium px-6 py-3 hover:bg-olive-600 transition-colors duration-200;
+    @apply bg-olive-500 text-[11px] tracking-[0.16em] uppercase font-medium px-6 py-3 hover:bg-olive-600 transition-colors duration-200;
+    color: #F4F0EA;
   }
   .btn-outline {
-    @apply border border-olive-500 text-olive-500 text-[11px] tracking-[0.16em] uppercase font-medium px-6 py-3 hover:bg-olive-500 hover:text-cream-50 transition-colors duration-200;
+    @apply border border-olive-500 text-olive-500 text-[11px] tracking-[0.16em] uppercase font-medium px-6 py-3 hover:bg-olive-500 transition-colors duration-200;
   }
+  .btn-outline:hover { color: #F4F0EA; }
   .btn-gold {
-    @apply bg-gold-400 text-white text-[11px] tracking-[0.16em] uppercase font-medium px-6 py-3 hover:bg-gold-500 transition-colors duration-200;
+    @apply bg-gold-400 text-[11px] tracking-[0.16em] uppercase font-medium px-6 py-3 hover:bg-gold-500 transition-colors duration-200;
+    color: #F4F0EA;
   }
 
   .admin-sidebar-link {
-    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-mocha-500 hover:bg-mocha-500/10 hover:text-charcoal-800 transition-all duration-200;
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200;
+    color: #A39284;
   }
+  .admin-sidebar-link:hover { background-color: rgba(90,91,70,0.08); color: #0e0e0e; }
   .admin-sidebar-link.active {
-    @apply bg-mocha-500/15 text-charcoal-800 font-medium;
+    @apply font-medium;
+    background-color: #5A5B46;
+    color: #F4F0EA;
   }
 
   .status-badge { @apply text-xs font-medium px-2.5 py-1 rounded-full; }
-  .status-published { @apply bg-green-100 text-green-700; }
-  .status-draft { @apply bg-amber-100 text-amber-700; }
-  .status-active { @apply bg-green-100 text-green-700; }
-  .status-inactive { @apply bg-mocha-500/10 text-mocha-500; }
+  .status-published { background-color: rgba(90,91,70,0.12); color: #5A5B46; }
+  .status-draft { background-color: rgba(163,146,132,0.15); color: #A39284; }
+  .status-active { background-color: rgba(90,91,70,0.12); color: #5A5B46; }
+  .status-inactive { background-color: rgba(163,146,132,0.12); color: #A39284; }
 
   .input-field {
     @apply w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-charcoal-800 focus:outline-none focus:ring-2 focus:ring-olive-500 focus:border-transparent placeholder-mocha-400 bg-white transition-all;
@@ -158,7 +168,8 @@
 /* Override for health/food/wellness categories (Glacial Indifference) */
 .article-body--secondary h2,
 .article-body--secondary h3,
-.article-body--secondary > p:first-of-type::first-letter {
+.article-body--secondary > p:first-of-type::first-letter,
+.article-body--secondary blockquote {
   font-family: 'Glacial Indifference', Arial, sans-serif;
 }
 

@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import api from '../../utils/api';
@@ -101,8 +101,8 @@ export default function ArticlePage() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="flex gap-2">
         {[0, 1, 2].map(i => (
-          <div key={i} className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-bounce"
-            style={{ animationDelay: `${i * 0.15}s` }} />
+          <div key={i} className="w-1.5 h-1.5 rounded-full animate-bounce"
+            style={{ backgroundColor: '#B89B72', animationDelay: `${i * 0.15}s` }} />
         ))}
       </div>
     </div>
@@ -110,9 +110,9 @@ export default function ArticlePage() {
 
   if (!article) return (
     <div className="max-w-3xl mx-auto px-6 py-24 text-center">
-      <p className="eyebrow text-gold-400 mb-3">404</p>
-      <h1 className="font-display text-5xl mb-6">Artikel hittades inte</h1>
-      <Link to="/" className="btn-outline inline-block">â† Tillbaka till start</Link>
+      <p className="eyebrow mb-3" style={{ color: '#B89B72' }}>404</p>
+      <h1 className="font-display text-5xl mb-6" style={{ color: '#0e0e0e' }}>Artikel hittades inte</h1>
+      <Link to="/" className="btn-outline inline-block">← Tillbaka till start</Link>
     </div>
   );
 
@@ -120,7 +120,7 @@ export default function ArticlePage() {
     ? format(new Date(article.published_at), 'd MMMM yyyy', { locale: sv })
     : '';
 
-  const html = article.content || '<p>InnehÃ¥ll saknas.</p>';
+  const html = article.content || '<p>Innehåll saknas.</p>';
   const [contentTop, contentBottom] = (() => {
     if (html.length < 600) return [html, null];
     const mid = Math.floor(html.length / 2);
@@ -142,12 +142,11 @@ export default function ArticlePage() {
   return (
     <div>
       <Helmet>
-        <title>{seoTitle} â€“ Livsstil24</title>
+        <title>{seoTitle} – Livsstil24</title>
         <meta name="description" content={seoDescription} />
         {seoKeywords && <meta name="keywords" content={seoKeywords} />}
         <link rel="canonical" href={canonicalUrl} />
 
-        {/* Open Graph (Facebook, WhatsApp, LinkedIn) */}
         <meta property="og:type" content="article" />
         <meta property="og:title" content={seoTitle} />
         <meta property="og:description" content={seoDescription} />
@@ -156,7 +155,6 @@ export default function ArticlePage() {
         {article.published_at && <meta property="article:published_time" content={article.published_at} />}
         {article.category_name && <meta property="article:section" content={article.category_name} />}
 
-        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={seoTitle} />
         <meta name="twitter:description" content={seoDescription} />
@@ -180,21 +178,21 @@ export default function ArticlePage() {
             alt={article.title}
             className="w-full h-auto block"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-cream-50 via-cream-50/10 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#F4F0EA] via-[#F4F0EA]/10 to-transparent" />
         </div>
       ) : null}
 
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-4xl">
           <div className="flex items-center gap-2 pt-2 mb-4">
-            <Link to="/" className="text-[11px] text-gray-400 hover:text-gold-400 transition-colors flex items-center gap-1">
+            <Link to="/" className="text-[11px] transition-colors flex items-center gap-1 text-[#A39284] hover:text-[#B89B72]">
               <ArrowLeft size={11} /> Hem
             </Link>
             {article.category_name && (
               <>
-                <span className="text-gray-300 text-xs">/</span>
+                <span className="text-xs" style={{ color: '#A39284' }}>/</span>
                 <Link to={`/kategori/${article.category_slug}`}
-                  className="text-[11px] text-gray-400 hover:text-gold-400 transition-colors">
+                  className="text-[11px] transition-colors text-[#A39284] hover:text-[#B89B72]">
                   {article.category_name}
                 </Link>
               </>
@@ -205,25 +203,25 @@ export default function ArticlePage() {
             {article.category_name}
           </span>
 
-          <h1 className={`${catFont} ${isSecondary ? 'uppercase' : ''} text-4xl md:text-5xl lg:text-[3.25rem] leading-[1.06] tracking-tight mb-5`}>
+          <h1 className={`${catFont} ${isSecondary ? 'uppercase' : ''} text-4xl md:text-5xl lg:text-[3.25rem] leading-[1.06] tracking-tight mb-5`} style={{ color: '#0e0e0e' }}>
             {article.title}
           </h1>
 
           {article.excerpt && (
-            <p className="text-lg text-gray-500 leading-relaxed mb-6 font-light border-l-2 border-gold-400 pl-4">
+            <p className={`${catFont} text-lg leading-relaxed mb-6 font-light border-l-2 pl-4`} style={{ color: '#0e0e0e', borderColor: '#B89B72' }}>
               {article.excerpt}
             </p>
           )}
 
           <div className="flex items-center justify-between py-5 border-y border-cream-200 mb-12">
-            <div className="flex items-center gap-3 text-xs text-mocha-500 flex-wrap">
-              <span className="font-semibold text-charcoal-800">{article.author_name}</span>
-              <span className="text-gray-300">Â·</span>
+            <div className="flex items-center gap-3 text-xs flex-wrap" style={{ color: '#0e0e0e' }}>
+              <span className="font-semibold">{article.author_name}</span>
+              <span>·</span>
               <span>{publishDate}</span>
             </div>
             <button
               onClick={() => navigator.share?.({ title: article.title, url: window.location.href })}
-              className="flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase text-gray-400 hover:text-gold-400 transition-colors shrink-0 ml-4"
+              className="flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase transition-colors shrink-0 ml-4 text-[#0e0e0e] hover:text-[#B89B72]"
             >
               <Share2 size={13} /> Dela
             </button>
@@ -251,7 +249,6 @@ export default function ArticlePage() {
             <div className="my-12">
               <AdBanner placement="article_inline" />
             </div>
-
           </article>
 
           <aside className="hidden lg:block">
@@ -261,16 +258,16 @@ export default function ArticlePage() {
               {mostRead.length > 0 && (
                 <div>
                   <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
-                    <TrendingUp size={12} className="text-gold-400" />
-                    <span className="eyebrow text-charcoal-800">Mest lÃ¤sta</span>
+                    <TrendingUp size={12} style={{ color: '#B89B72' }} />
+                    <span className="eyebrow" style={{ color: '#0e0e0e' }}>Mest lästa</span>
                   </div>
                   {mostRead.map((a, i) => (
                     <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }}
                       className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
-                      <span className="font-display text-4xl text-cream-200 leading-none w-8 shrink-0 select-none">{i + 1}</span>
+                      <span className="font-sans text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#A39284' }}>{i + 1}</span>
                       <div className="min-w-0">
                         <span className="eyebrow block mb-1" style={{ color: a.category_color || '#B89B72' }}>{a.category_name}</span>
-                        <h4 className="text-sm font-medium leading-snug group-hover:text-gold-500 transition-colors line-clamp-2">{a.title}</h4>
+                        <h4 className="text-sm font-medium leading-snug transition-colors line-clamp-2 text-[#0e0e0e] group-hover:text-[#B89B72]">{a.title}</h4>
                       </div>
                     </Link>
                   ))}
@@ -284,11 +281,11 @@ export default function ArticlePage() {
       </div>
 
       {related.length > 0 && (
-        <div className="border-t border-cream-200 bg-mocha-500/5 py-16">
+        <div className="border-t border-cream-200 py-16" style={{ backgroundColor: 'rgba(163,146,132,0.08)' }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center gap-6 mb-10">
               <div className="flex-1 h-px bg-cream-200" />
-              <h2 className="font-display text-2xl tracking-wide">Fler artiklar</h2>
+              <h2 className="font-display text-2xl tracking-wide" style={{ color: '#0e0e0e' }}>Fler artiklar</h2>
               <div className="flex-1 h-px bg-cream-200" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -301,4 +298,3 @@ export default function ArticlePage() {
     </div>
   );
 }
-

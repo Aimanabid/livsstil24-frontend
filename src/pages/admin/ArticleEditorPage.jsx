@@ -21,7 +21,7 @@ function EditorToolbar({ editor }) {
       title={title}
       disabled={disabled}
       onMouseDown={e => { e.preventDefault(); onClick(); }}
-      className={`p-1.5 rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${active ? 'bg-olive-500 text-white' : 'text-gray-600 hover:bg-cream-100 hover:text-charcoal-800'}`}
+      className={`p-1.5 rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${active ? 'bg-olive-500 text-[#F4F0EA]' : 'text-[#A39284] hover:bg-cream-100 hover:text-charcoal-800'}`}
     >
       {children}
     </button>
@@ -49,7 +49,7 @@ function EditorToolbar({ editor }) {
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-0.5 p-2 border border-gray-200 rounded-t-lg bg-gray-50">
+    <div className="flex flex-wrap items-center gap-0.5 p-2 border border-gray-200 rounded-t-lg bg-[#F4F0EA]">
       <Btn onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive('heading', { level: 2 })} title="Rubrik 2">
         <span className="text-xs font-bold">H2</span>
       </Btn>
@@ -205,7 +205,7 @@ export default function ArticleEditorPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link to="/admin/artiklar" className="p-2 hover:bg-cream-100 rounded-lg transition-colors text-gray-400 hover:text-charcoal-800">
+          <Link to="/admin/artiklar" className="p-2 hover:bg-cream-100 rounded-lg transition-colors text-[#A39284] hover:text-charcoal-800">
             <ArrowLeft size={18} />
           </Link>
           <div>
@@ -252,7 +252,7 @@ export default function ArticleEditorPage() {
               value={form.excerpt}
               onChange={e => set('excerpt', e.target.value)}
               placeholder="Kort sammanfattning (ingress)..."
-              className="w-full border-none focus:outline-none text-sm text-gray-500 placeholder-gray-300 resize-none bg-transparent leading-relaxed"
+              className="w-full border-none focus:outline-none text-sm text-[#A39284] placeholder-gray-300 resize-none bg-transparent leading-relaxed"
               rows={3}
             />
           </div>
@@ -269,7 +269,7 @@ export default function ArticleEditorPage() {
                     Byt bild
                   </button>
                   <button onClick={() => set('featured_image', '')}
-                    className="bg-red-500 text-white text-xs px-3 py-1.5 rounded font-medium">
+                    className="bg-red-500 text-[#F4F0EA] text-xs px-3 py-1.5 rounded font-medium">
                     Ta bort
                   </button>
                 </div>
@@ -280,12 +280,12 @@ export default function ArticleEditorPage() {
                 className="border-2 border-dashed border-cream-200 rounded-lg p-8 text-center cursor-pointer hover:border-gold-400 transition-colors"
               >
                 {uploadingImage ? (
-                  <p className="text-sm text-gray-400">Laddar upp...</p>
+                  <p className="text-sm text-[#A39284]">Laddar upp...</p>
                 ) : (
                   <>
-                    <Image size={24} className="mx-auto text-gray-300 mb-2" />
-                    <p className="text-sm text-gray-400">Klicka för att ladda upp bild</p>
-                    <p className="text-xs text-gray-300 mt-1">JPG, PNG, WebP – max 10MB</p>
+                    <Image size={24} className="mx-auto text-[#A39284] mb-2" />
+                    <p className="text-sm text-[#A39284]">Klicka för att ladda upp bild</p>
+                    <p className="text-xs text-[#A39284] mt-1">JPG, PNG, WebP – max 10MB</p>
                   </>
                 )}
               </div>
@@ -308,7 +308,7 @@ export default function ArticleEditorPage() {
                 <video src={form.video_url} controls className="w-full rounded-lg max-h-64 bg-black" />
                 <button
                   onClick={() => set('video_url', '')}
-                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-2 right-2 bg-red-500 text-[#F4F0EA] rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <X size={14} />
                 </button>
@@ -319,12 +319,12 @@ export default function ArticleEditorPage() {
                 className="border-2 border-dashed border-cream-200 rounded-lg p-8 text-center cursor-pointer hover:border-gold-400 transition-colors"
               >
                 {uploadingVideo ? (
-                  <p className="text-sm text-gray-400">Laddar upp video...</p>
+                  <p className="text-sm text-[#A39284]">Laddar upp video...</p>
                 ) : (
                   <>
-                    <Video size={24} className="mx-auto text-gray-300 mb-2" />
-                    <p className="text-sm text-gray-400">Klicka för att ladda upp video</p>
-                    <p className="text-xs text-gray-300 mt-1">MP4, WebM – max 200MB</p>
+                    <Video size={24} className="mx-auto text-[#A39284] mb-2" />
+                    <p className="text-sm text-[#A39284]">Klicka för att ladda upp video</p>
+                    <p className="text-xs text-[#A39284] mt-1">MP4, WebM – max 200MB</p>
                   </>
                 )}
               </div>
@@ -353,7 +353,7 @@ export default function ArticleEditorPage() {
         <div className="space-y-4">
           {/* Publish settings */}
           <div className="card p-4 space-y-4">
-            <h3 className="text-xs font-medium uppercase tracking-wide text-gray-500">Publiceringsinställningar</h3>
+            <h3 className="text-xs font-medium uppercase tracking-wide text-[#A39284]">Publiceringsinställningar</h3>
 
             <div>
               <label className="label">Status</label>
@@ -380,7 +380,7 @@ export default function ArticleEditorPage() {
 
           {/* Tags */}
           <div className="card p-4 space-y-3">
-            <h3 className="text-xs font-medium uppercase tracking-wide text-gray-500">Taggar</h3>
+            <h3 className="text-xs font-medium uppercase tracking-wide text-[#A39284]">Taggar</h3>
             <div className="flex gap-2">
               <input value={tagInput} onChange={e => setTagInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addTag())}
@@ -392,7 +392,7 @@ export default function ArticleEditorPage() {
                 {form.tags.map(tag => (
                   <span key={tag} className="inline-flex items-center gap-1 text-xs bg-cream-100 px-2 py-1 rounded-full">
                     {tag}
-                    <button onClick={() => set('tags', form.tags.filter(t => t !== tag))} className="text-gray-400 hover:text-red-400 transition-colors">
+                    <button onClick={() => set('tags', form.tags.filter(t => t !== tag))} className="text-[#A39284] hover:text-red-400 transition-colors">
                       <X size={10} />
                     </button>
                   </span>
@@ -403,20 +403,20 @@ export default function ArticleEditorPage() {
 
           {/* SEO */}
           <div className="card p-4 space-y-3">
-            <h3 className="text-xs font-medium uppercase tracking-wide text-gray-500">SEO</h3>
+            <h3 className="text-xs font-medium uppercase tracking-wide text-[#A39284]">SEO</h3>
             <div>
               <label className="label">SEO-titel</label>
               <input value={form.seo_title} onChange={e => set('seo_title', e.target.value)}
                 placeholder={form.title || 'Lämna tomt för att använda titeln'}
                 className="input-field text-sm" />
-              <p className="text-xs text-gray-400 mt-1">{(form.seo_title || form.title).length}/60 tecken</p>
+              <p className="text-xs text-[#A39284] mt-1">{(form.seo_title || form.title).length}/60 tecken</p>
             </div>
             <div>
               <label className="label">Meta-beskrivning</label>
               <textarea value={form.seo_description} onChange={e => set('seo_description', e.target.value)}
                 placeholder={form.excerpt || 'Kort beskrivning för sökmotorer'}
                 className="input-field text-sm resize-none" rows={3} />
-              <p className="text-xs text-gray-400 mt-1">{(form.seo_description || form.excerpt || '').length}/160 tecken</p>
+              <p className="text-xs text-[#A39284] mt-1">{(form.seo_description || form.excerpt || '').length}/160 tecken</p>
             </div>
           </div>
         </div>

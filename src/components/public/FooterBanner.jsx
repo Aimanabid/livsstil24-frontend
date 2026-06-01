@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../utils/api';
+import { getCategoryFont } from '../../utils/categoryFont';
 
 const SLIDE_DURATION  = 700;  // transition ms
 const SLIDE_INTERVAL  = 3000; // pause between slides ms
@@ -27,7 +28,6 @@ export default function FooterBanner() {
     const t = setInterval(() => {
       const next = (current + 1) % articles.length;
       setIncoming(next);
-      // small tick so browser registers the start position before we animate
       requestAnimationFrame(() => requestAnimationFrame(() => setSliding(true)));
 
       setTimeout(() => {
@@ -44,12 +44,13 @@ export default function FooterBanner() {
     'Din digitala livsstilstidning för mode, skönhet och det moderna livet.';
 
   if (!articles.length) return (
-    <div className="bg-mocha-500 border-t border-charcoal-800/15 mx-auto mb-6 flex items-center justify-center py-8" style={{ width: '70%' }}>
+    <div className="mx-auto mb-6 flex items-center justify-center py-8"
+      style={{ width: '70%', backgroundColor: '#A39284' }}>
       <div className="text-center">
-        <span className="font-display text-3xl tracking-[0.1em] text-charcoal-800 block mb-3">
-          LIVSSTIL<span className="text-gold-500">24</span>
+        <span className="font-display text-3xl tracking-[0.1em] block mb-3" style={{ color: '#0e0e0e' }}>
+          LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
         </span>
-        <p className="text-sm text-charcoal-800 leading-relaxed max-w-xs">{description}</p>
+        <p className="text-sm leading-relaxed max-w-xs" style={{ color: '#0e0e0e' }}>{description}</p>
       </div>
     </div>
   );
@@ -57,7 +58,7 @@ export default function FooterBanner() {
   const article = articles[current];
 
   return (
-    <div className="bg-mocha-500 border-t border-charcoal-800/15 mx-auto mb-6" style={{ width: '70%' }}>
+    <div className="mx-auto mb-6" style={{ width: '70%', backgroundColor: '#A39284' }}>
       <div className="px-6 py-5">
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 lg:gap-12 items-center">
 
@@ -79,7 +80,7 @@ export default function FooterBanner() {
                 alt={article.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/25 to-transparent" />
               <ArticleOverlay article={article} />
             </div>
 
@@ -99,7 +100,7 @@ export default function FooterBanner() {
                   alt={articles[incoming].title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/25 to-transparent" />
                 <ArticleOverlay article={articles[incoming]} />
               </div>
             )}
@@ -109,18 +110,19 @@ export default function FooterBanner() {
               {articles.map((_, i) => (
                 <span
                   key={i}
-                  className={`block rounded-full transition-all duration-400 ${
-                    i === current
-                      ? 'w-5 h-1.5 bg-gold-400'
-                      : 'w-1.5 h-1.5 bg-white/35'
-                  }`}
+                  className="block rounded-full transition-all duration-400"
+                  style={{
+                    width: i === current ? '1.25rem' : '0.375rem',
+                    height: '0.375rem',
+                    backgroundColor: i === current ? '#B89B72' : '#0e0e0e',
+                  }}
                 />
               ))}
             </div>
           </div>
 
           {/* ── Right: branding ── */}
-          <div className="lg:pl-4 lg:border-l lg:border-charcoal-800/15">
+          <div className="lg:pl-4 lg:border-l" style={{ borderColor: '#0e0e0e' }}>
             {settings.logo_url ? (
               <img
                 src={settings.logo_url}
@@ -128,12 +130,12 @@ export default function FooterBanner() {
                 className="h-10 object-contain mb-4"
               />
             ) : (
-              <span className="font-display text-3xl md:text-4xl tracking-[0.1em] text-charcoal-800 block mb-4">
-                LIVSSTIL<span className="text-gold-500">24</span>
+              <span className="font-display text-3xl md:text-4xl tracking-[0.1em] block mb-4" style={{ color: '#0e0e0e' }}>
+                LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
               </span>
             )}
 
-            <p className="text-sm text-charcoal-800 leading-relaxed max-w-xs">
+            <p className="text-sm leading-relaxed max-w-xs" style={{ color: '#0e0e0e' }}>
               {description}
             </p>
           </div>
@@ -156,7 +158,7 @@ function ArticleOverlay({ article }) {
       <Link
         to={`/artikel/${article.slug}`}
         state={{ fromApp: true }}
-        className="font-display text-white text-xl md:text-2xl leading-snug hover:text-gold-300 transition-colors line-clamp-2 block"
+        className={`${getCategoryFont(article.category_slug || article.category_name)} text-xl md:text-2xl leading-snug line-clamp-2 block`}
       >
         {article.title}
       </Link>

@@ -75,7 +75,7 @@ export default function TvPage() {
           <h1 className="font-display text-5xl md:text-7xl tracking-tight text-charcoal-800 mb-3">
             Livsstil24 TV
           </h1>
-          <p className="text-xs text-gray-400 tracking-widest">{total} videor</p>
+          <p className="text-xs text-[#A39284] tracking-widest">{total} videor</p>
         </div>
       </div>
 
@@ -98,7 +98,7 @@ export default function TvPage() {
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
                 <p className="font-display text-3xl text-gray-300 mb-3">Inga videor Ã¤nnu</p>
-                <p className="text-sm text-gray-400">Kom tillbaka snart!</p>
+                <p className="text-sm text-[#A39284]">Kom tillbaka snart!</p>
               </div>
             ) : (
               <>
@@ -145,7 +145,7 @@ export default function TvPage() {
                         <span className="text-[10px] tracking-widest uppercase text-red-400 font-medium block mb-1">
                           {article.category_name || 'Livsstil24 TV'}
                         </span>
-                        <h2 className="font-display text-xl md:text-2xl text-white leading-snug group-hover:text-gold-300 transition-colors line-clamp-2">
+                        <h2 className="font-display text-xl md:text-2xl leading-snug group-hover:text-[#B89B72] transition-colors line-clamp-2" style={{ color: '#F4F0EA' }}>
                           {article.title}
                         </h2>
                       </div>
@@ -153,12 +153,12 @@ export default function TvPage() {
 
                     <div className="flex items-start justify-between gap-4">
                       {article.excerpt && (
-                        <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 flex-1">
+                        <p className="text-sm text-[#A39284] leading-relaxed line-clamp-2 flex-1">
                           {article.excerpt}
                         </p>
                       )}
                       {article.published_at && (
-                        <p className="text-[11px] text-gray-400 shrink-0 mt-0.5">
+                        <p className="text-[11px] text-[#A39284] shrink-0 mt-0.5">
                           {format(new Date(article.published_at), 'd MMM yyyy', { locale: sv })}
                         </p>
                       )}
@@ -190,10 +190,10 @@ export default function TvPage() {
                 </div>
                 {topVideos.map((a, i) => (
                   <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
-                    <span className="font-display text-4xl text-cream-200 leading-none w-8 shrink-0 select-none">{i + 1}</span>
+                    <span className="font-display text-4xl text-[#A39284] leading-none w-8 shrink-0 select-none">{i + 1}</span>
                     <div className="min-w-0">
                       <span className="eyebrow block mb-1 text-red-500">Livsstil24 TV</span>
-                      <h4 className="text-sm font-medium leading-snug group-hover:text-gold-500 transition-colors line-clamp-2">{a.title}</h4>
+                      <h4 className="text-sm font-medium leading-snug group-hover:text-[#B89B72] transition-colors line-clamp-2">{a.title}</h4>
                     </div>
                   </Link>
                 ))}
