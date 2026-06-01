@@ -44,13 +44,14 @@ export default function FooterBanner() {
     'Din digitala livsstilstidning för mode, skönhet och det moderna livet.';
 
   if (!articles.length) return (
-    <div className="mx-auto mb-6 flex items-center justify-center py-8"
-      style={{ width: '70%', backgroundColor: '#A39284' }}>
-      <div className="text-center">
-        <span className="font-display text-3xl tracking-[0.1em] block mb-3" style={{ color: '#0e0e0e' }}>
-          LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
-        </span>
-        <p className="text-sm leading-relaxed max-w-xs" style={{ color: '#0e0e0e' }}>{description}</p>
+    <div className="max-w-7xl mx-auto px-6 mb-6">
+      <div className="flex items-center justify-center py-8" style={{ backgroundColor: '#A39284' }}>
+        <div className="text-center">
+          <span className="font-display text-3xl tracking-[0.1em] block mb-3" style={{ color: '#0e0e0e' }}>
+            LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
+          </span>
+          <p className="text-sm leading-relaxed max-w-xs" style={{ color: '#0e0e0e' }}>{description}</p>
+        </div>
       </div>
     </div>
   );
@@ -58,8 +59,9 @@ export default function FooterBanner() {
   const article = articles[current];
 
   return (
-    <div className="mx-auto mb-6" style={{ width: '70%', backgroundColor: '#A39284' }}>
-      <div className="px-6 py-5">
+    <div className="max-w-7xl mx-auto px-6 mb-6">
+    <div style={{ backgroundColor: '#A39284' }}>
+      <div className="py-5 px-5">
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 lg:gap-12 items-center">
 
           {/* ── Left: sliding image ── */}
@@ -142,6 +144,7 @@ export default function FooterBanner() {
 
         </div>
       </div>
+    </div>
     </div>
   );
 }
