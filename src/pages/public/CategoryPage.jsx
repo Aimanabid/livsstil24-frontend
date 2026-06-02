@@ -89,7 +89,7 @@ export default function CategoryPage() {
               </div>
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display text-3xl mb-3" style={{ color: '#A39284' }}>Inga artiklar ännu</p>
+                <p className="font-sans text-3xl mb-3" style={{ color: '#A39284' }}>Inga artiklar ännu</p>
                 <p className="text-sm" style={{ color: '#A39284' }}>Kom tillbaka snart!</p>
               </div>
             ) : (
@@ -119,7 +119,7 @@ export default function CategoryPage() {
                 </div>
                 {topArticles.map((a, i) => (
                   <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
-                    <span className="font-display text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#A39284' }}>{i + 1}</span>
+                    <span className="font-sans text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#0E0E0E' }}>{i + 1}</span>
                     <div className="min-w-0">
                       <span className="eyebrow block mb-1" style={{ color: a.category_color }}>{a.category_name}</span>
                       <h4 className="text-sm font-medium leading-snug transition-colors line-clamp-2 text-[#0e0e0e] group-hover:text-[#B89B72]">{a.title}</h4>

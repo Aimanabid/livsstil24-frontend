@@ -94,7 +94,7 @@ export default function HomePage() {
                 alt={hero.title}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.04]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#F4F0EA] via-[#F4F0EA]/25 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#F4F0EA] to-transparent" />
               <div className="absolute bottom-0 left-0 px-8 md:px-16 pb-10 md:pb-16 max-w-3xl">
                 <span className="eyebrow block mb-3" style={{ color: hero.category_color || '#B89B72' }}>
                   {hero.category_name}
@@ -133,7 +133,7 @@ export default function HomePage() {
                 <h3 className={`${getCategoryFont(a.category_slug || a.category_name)} text-xl md:text-2xl leading-snug transition-colors mb-2 text-[#0e0e0e] group-hover:text-[#B89B72]`}>
                   {a.title}
                 </h3>
-                <p className="text-xs line-clamp-2 font-light leading-relaxed" style={{ color: '#A39284' }}>{a.excerpt}</p>
+                <p className="text-xs line-clamp-2 font-light leading-relaxed" style={{ color: '#0E0E0E' }}>{a.excerpt}</p>
               </Link>
             ))}
           </div>
@@ -278,7 +278,7 @@ export default function HomePage() {
                 </div>
                 {topArticles.map((a, i) => (
                   <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
-                    <span className="font-display text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#A39284' }}>{i + 1}</span>
+                    <span className="font-sans text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#0E0E0E' }}>{i + 1}</span>
                     <div className="min-w-0">
                       <span className="eyebrow block mb-1" style={{ color: a.category_color }}>{a.category_name}</span>
                       <h4 className="text-sm font-medium leading-snug transition-colors line-clamp-2 text-[#0e0e0e] group-hover:text-[#B89B72]">{a.title}</h4>

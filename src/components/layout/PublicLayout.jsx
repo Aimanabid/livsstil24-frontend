@@ -103,7 +103,7 @@ export default function PublicLayout() {
         {/* Close button */}
         <button
           onClick={() => setBannerVisible(false)}
-          className="absolute top-3 right-3 z-10 w-8 h-8 bg-white hover:bg-white/90 text-charcoal-800 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
+          className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors" style={{ backgroundColor: '#F4F0EA', color: '#0E0E0E' }}
           aria-label="Stäng annons"
         >
           <X size={15} />
@@ -112,7 +112,7 @@ export default function PublicLayout() {
         {/* Scroll-to-navbar button */}
         <button
           onClick={() => window.scrollTo({ top: (bannerRef.current?.offsetHeight ?? 0) + 80, behavior: 'smooth' })}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 w-9 h-9 bg-white hover:bg-white/90 text-charcoal-800 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors animate-pulse"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors animate-pulse" style={{ backgroundColor: '#F4F0EA', color: '#0E0E0E' }}
           aria-label="Visa navigering"
         >
           <ChevronDown size={18} style={{ animation: 'chevron-float 2s ease-in-out infinite' }} />
@@ -154,7 +154,7 @@ export default function PublicLayout() {
           {/* Right: app link */}
           <div className="flex-1 flex justify-end">
             <Link to="/app"
-              className="hidden md:flex items-center gap-1.5 text-[11px] tracking-[0.18em] uppercase font-medium transition-colors text-[#B89B72] hover:text-[#5A5B46]">
+              className="hidden md:flex items-center gap-1.5 text-[11px] tracking-[0.18em] uppercase font-medium transition-colors text-[#0e0e0e] hover:text-[#B89B72]">
               <Download size={12} /> App
             </Link>
           </div>
@@ -209,8 +209,7 @@ export default function PublicLayout() {
                 </NavLink>
               ))}
               <Link to="/app" onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-2 py-4 text-sm font-medium"
-                style={{ color: '#B89B72' }}>
+                className="flex items-center gap-2 py-4 text-sm font-medium transition-colors text-[#0e0e0e] hover:text-[#B89B72]">
                 <Download size={13} /> Ladda ner appen
               </Link>
             </div>
@@ -225,7 +224,7 @@ export default function PublicLayout() {
       <FooterBanner />
 
       {/* ── Footer ── */}
-      <footer className="bg-mocha-500 text-charcoal-800">
+      <footer style={{ backgroundColor: '#A39284' }}>
         <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mb-14">
 
@@ -233,29 +232,28 @@ export default function PublicLayout() {
               {settings.logo_url ? (
                 <img src={settings.logo_url} alt="Livsstil24" className="h-8 object-contain mb-4" />
               ) : (
-                <span className="font-display text-2xl tracking-[0.1em] block mb-4">
-                  LIVSSTIL<span className="text-gold-400">24</span>
+                <span className="font-display text-2xl tracking-[0.1em] block mb-4" style={{ color: '#0E0E0E' }}>
+                  LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
                 </span>
               )}
-              <p className="text-xs text-charcoal-800 leading-relaxed mb-6 max-w-[200px]">
+              <p className="text-xs leading-relaxed mb-6 max-w-[200px]" style={{ color: '#0E0E0E' }}>
                 {settings.site_description || 'Din digitala livsstilstidning för mode, skönhet och det moderna livet.'}
               </p>
               <div className="flex gap-4">
-                {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-charcoal-800 transition-colors"><Instagram size={16} /></a>}
-                {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="text-charcoal-800 transition-colors"><Facebook  size={16} /></a>}
-                {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="text-charcoal-800 transition-colors"><TikTokIcon size={16} /></a>}
-                {settings.youtube_url   && <a href={settings.youtube_url}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="text-charcoal-800 transition-colors"><Youtube    size={16} /></a>}
-                {settings.linkedin_url  && <a href={settings.linkedin_url}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  className="text-charcoal-800 transition-colors"><Linkedin   size={16} /></a>}
+                {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="footer-link"><Instagram size={16} /></a>}
+                {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="footer-link"><Facebook  size={16} /></a>}
+                {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="footer-link"><TikTokIcon size={16} /></a>}
+                {settings.youtube_url   && <a href={settings.youtube_url}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="footer-link"><Youtube    size={16} /></a>}
+                {settings.linkedin_url  && <a href={settings.linkedin_url}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  className="footer-link"><Linkedin   size={16} /></a>}
               </div>
             </div>
 
             <div>
-              <h3 className="eyebrow text-charcoal-800 mb-5">Kategorier</h3>
+              <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Kategorier</h3>
               <ul className="space-y-3">
                 {categories.slice(0, 6).map(cat => (
                   <li key={cat.id}>
-                    <Link to={`/kategori/${cat.slug}`}
-                      className="text-xs text-charcoal-800 transition-colors">
+                    <Link to={`/kategori/${cat.slug}`} className="text-xs footer-link">
                       {cat.name}
                     </Link>
                   </li>
@@ -264,26 +262,26 @@ export default function PublicLayout() {
             </div>
 
             <div>
-              <h3 className="eyebrow text-charcoal-800 mb-5">Juridiskt</h3>
-              <ul className="space-y-3 text-xs text-charcoal-800">
-                <li><a href="#" className="transition-colors">Integritetspolicy</a></li>
-                <li><a href="#" className="transition-colors">Cookiepolicy</a></li>
-                <li><a href="#" className="transition-colors">Användarvillkor</a></li>
+              <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Juridiskt</h3>
+              <ul className="space-y-3 text-xs">
+                <li><a href="#" className="footer-link">Integritetspolicy</a></li>
+                <li><a href="#" className="footer-link">Cookiepolicy</a></li>
+                <li><a href="#" className="footer-link">Användarvillkor</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-charcoal-800/15 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
+          <div className="border-t pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style={{ borderColor: 'rgba(14,14,14,0.15)' }}>
             <div className="flex flex-col md:flex-row items-center gap-2 md:gap-5">
-              <p className="text-[11px] text-charcoal-800">© 2026 Livsstil24 AB · Alla rättigheter förbehållna</p>
+              <p className="text-[11px]" style={{ color: '#0E0E0E' }}>© 2026 Livsstil24 AB · Alla rättigheter förbehållna</p>
               {settings.chief_editor && (
-                <p className="text-[11px] text-charcoal-800">Chefredaktör: {settings.chief_editor}</p>
+                <p className="text-[11px]" style={{ color: '#0E0E0E' }}>Chefredaktör: {settings.chief_editor}</p>
               )}
               {settings.responsible_publisher && (
-                <p className="text-[11px] text-charcoal-800">Ansvarig utgivare: {settings.responsible_publisher}</p>
+                <p className="text-[11px]" style={{ color: '#0E0E0E' }}>Ansvarig utgivare: {settings.responsible_publisher}</p>
               )}
             </div>
-            <Link to="/admin" className="text-[11px] text-charcoal-800 transition-colors">Admin</Link>
+            <Link to="/admin" className="text-[11px] footer-link">Admin</Link>
           </div>
         </div>
       </footer>

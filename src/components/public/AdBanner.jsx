@@ -19,7 +19,7 @@ function FallbackHero({ className }) {
 function FallbackInline({ className, hideLabel }) {
   return (
     <div className={className}>
-      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
+      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#0E0E0E' }}>Annons</p>}
       <div
         className="w-full flex items-center justify-between gap-6 px-8 sm:px-12 overflow-hidden"
         style={{ background: 'linear-gradient(135deg,#5A5B46,#4a4b38,#5A5B46)', height: 300 }}
@@ -41,7 +41,7 @@ function FallbackInline({ className, hideLabel }) {
 function FallbackSkyscraper({ className, hideLabel }) {
   return (
     <div className={className}>
-      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
+      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#0E0E0E' }}>Annons</p>}
       <div
         className="w-full flex flex-col items-center justify-center text-center px-6 gap-4"
         style={{ background: 'linear-gradient(160deg,#5A5B46,#4a4b38)', height: 600 }}
@@ -61,7 +61,7 @@ function FallbackSkyscraper({ className, hideLabel }) {
 function FallbackBanner({ className, hideLabel }) {
   return (
     <div className={className}>
-      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
+      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#0E0E0E' }}>Annons</p>}
       <div className="flex justify-center">
         <div
           className="h-20 sm:h-24 md:h-28 flex items-center justify-between gap-6 px-8 sm:px-12 overflow-hidden"
@@ -142,7 +142,7 @@ export default function AdBanner({ placement, className = '', noFallback = false
   if (INLINE_PLACEMENTS.has(placement)) {
     return (
       <div className={className} ref={containerRef}>
-        {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
+        {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#0E0E0E' }}>Annons</p>}
         <div className="w-full overflow-hidden cursor-pointer" style={{ height: 300 }} onClick={handleClick}>
           {ad.ad_type === 'video'
             ? <video src={ad.video_url} poster={ad.image_url || undefined} autoPlay muted loop playsInline className="w-full h-full object-cover" />
@@ -173,7 +173,7 @@ export default function AdBanner({ placement, className = '', noFallback = false
   if (SKYSCRAPER_PLACEMENTS.has(placement)) {
     return (
       <div className={className} ref={containerRef}>
-        {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
+        {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#0E0E0E' }}>Annons</p>}
         <div className="w-full overflow-hidden cursor-pointer" style={{ height: 600 }} onClick={handleClick}>
           {ad.ad_type === 'video'
             ? <video src={ad.video_url} poster={ad.image_url || undefined} autoPlay muted loop playsInline className="w-full h-full object-cover" />
@@ -201,7 +201,7 @@ export default function AdBanner({ placement, className = '', noFallback = false
   // ── Banner strip — footer_banner, category_top ───────────────────────────
   return (
     <div className={className} ref={containerRef}>
-      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#A39284' }}>Annons</p>}
+      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#0E0E0E' }}>Annons</p>}
       <div className="flex justify-center cursor-pointer" onClick={handleClick}>
         <div className="h-20 sm:h-24 md:h-28 overflow-hidden" style={{ width: '70%' }}>
           {ad.image_url

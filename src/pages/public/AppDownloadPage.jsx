@@ -45,7 +45,7 @@ export default function AppDownloadPage() {
           </p>
 
           {installed ? (
-            <div className="inline-flex items-center gap-3 bg-green-500/20 text-green-400 px-8 py-4 rounded-full text-sm">
+            <div className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm" style={{ backgroundColor: 'rgba(184,155,114,0.2)', color: '#B89B72' }}>
               <Star size={16} fill="currentColor" /> Appen är installerad! Öppna den från hemskärmen.
             </div>
           ) : isIOS ? (
@@ -75,11 +75,11 @@ export default function AppDownloadPage() {
               <p className="text-sm" style={{ color: '#F4F0EA' }}>Öppna den här sidan i Chrome eller Safari för att installera appen.</p>
               <div className="flex justify-center gap-4 mt-4">
                 <a href="https://www.google.com/chrome/" target="_blank" rel="noopener noreferrer"
-                  className="text-xs px-4 py-2 rounded border transition-colors text-[#F4F0EA] border-[#F4F0EA]/30 hover:border-[#B89B72] hover:text-[#B89B72]">
+                  className="text-xs px-4 py-2 rounded border border-[#B89B72] transition-colors text-[#F4F0EA] hover:text-[#B89B72]">
                   Google Chrome
                 </a>
                 <a href="https://www.apple.com/safari/" target="_blank" rel="noopener noreferrer"
-                  className="text-xs px-4 py-2 rounded border transition-colors text-[#F4F0EA] border-[#F4F0EA]/30 hover:border-[#B89B72] hover:text-[#B89B72]">
+                  className="text-xs px-4 py-2 rounded border border-[#B89B72] transition-colors text-[#F4F0EA] hover:text-[#B89B72]">
                   Safari
                 </a>
               </div>
@@ -102,7 +102,7 @@ export default function AppDownloadPage() {
             { icon: Wifi, title: 'Offline-läsning', desc: 'Artiklar du nyligen läst är tillgängliga även utan internet.' },
           ].map(({ icon: Icon, title, desc }) => (
             <div key={title} className="text-center p-8 border border-cream-200 hover:border-[#B89B72] transition-colors group">
-              <div className="inline-flex w-12 h-12 items-center justify-center rounded-full mb-4 transition-colors group-hover:bg-[#B89B72]/10" style={{ backgroundColor: '#F4F0EA' }}>
+              <div className="inline-flex w-12 h-12 items-center justify-center rounded-full mb-4 transition-colors group-hover:bg-[#E9E3DA]" style={{ backgroundColor: '#F4F0EA' }}>
                 <Icon size={20} style={{ color: '#B89B72' }} />
               </div>
               <h3 className="font-display text-xl mb-2" style={{ color: '#0e0e0e' }}>{title}</h3>

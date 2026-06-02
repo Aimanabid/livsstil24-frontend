@@ -71,7 +71,7 @@ export default function TagPage() {
               </div>
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display text-3xl mb-3" style={{ color: '#A39284' }}>Inga artiklar med denna tagg</p>
+                <p className="font-sans text-3xl mb-3" style={{ color: '#A39284' }}>Inga artiklar med denna tagg</p>
                 <p className="text-sm" style={{ color: '#A39284' }}>Prova att söka efter något annat.</p>
               </div>
             ) : (

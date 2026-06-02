@@ -69,10 +69,10 @@ export default function TvPage() {
       <div className="border-b border-cream-200">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 text-center">
           <div className="flex justify-center mb-4">
-            <div className="w-6 h-px bg-red-500" />
+            <div className="w-6 h-px" style={{ backgroundColor: '#B89B72' }} />
           </div>
-          <p className="eyebrow text-red-500 mb-4">Kanal</p>
-          <h1 className="font-display text-5xl md:text-7xl tracking-tight text-charcoal-800 mb-3">
+          <p className="eyebrow mb-4" style={{ color: '#B89B72' }}>Kanal</p>
+          <h1 className="font-display text-5xl md:text-7xl tracking-tight mb-3" style={{ color: '#0E0E0E' }}>
             Livsstil24 TV
           </h1>
           <p className="text-xs text-[#A39284] tracking-widest">{total} videor</p>
@@ -97,7 +97,7 @@ export default function TvPage() {
               </div>
             ) : articles.length === 0 ? (
               <div className="text-center py-24">
-                <p className="font-display text-3xl text-gray-300 mb-3">Inga videor Ã¤nnu</p>
+                <p className="font-sans text-3xl mb-3" style={{ color: '#A39284' }}>Inga videor ännu</p>
                 <p className="text-sm text-[#A39284]">Kom tillbaka snart!</p>
               </div>
             ) : (
@@ -125,24 +125,24 @@ export default function TvPage() {
                         />
                       ) : null}
 
-                      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/45 transition-colors duration-300" />
+                      <div className="absolute inset-0 bg-[rgba(14,14,14,0.30)] group-hover:bg-[rgba(14,14,14,0.45)] transition-colors duration-300" />
 
                       {article.video_url && (
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-16 h-16 rounded-full bg-white/15 backdrop-blur-sm border border-white/30 flex items-center justify-center group-hover:bg-red-600 group-hover:border-red-600 transition-all duration-300 group-hover:scale-110">
-                            <Play size={22} fill="white" className="text-white ml-1" />
+                          <div className="w-16 h-16 rounded-full bg-[rgba(244,240,234,0.15)] backdrop-blur-sm border border-[rgba(244,240,234,0.30)] flex items-center justify-center group-hover:bg-[#5A5B46] group-hover:border-[#5A5B46] transition-all duration-300 group-hover:scale-110">
+                            <Play size={22} fill="#F4F0EA" style={{ color: '#F4F0EA' }} className="ml-1" />
                           </div>
                         </div>
                       )}
 
                       {article.video_url && (
-                        <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] tracking-widest uppercase px-2.5 py-1 font-semibold">
+                        <div className="absolute top-3 left-3 text-[10px] tracking-widest uppercase px-2.5 py-1 font-semibold" style={{ backgroundColor: '#5A5B46', color: '#F4F0EA' }}>
                           VIDEO
                         </div>
                       )}
 
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent px-5 pb-4 pt-10">
-                        <span className="text-[10px] tracking-widest uppercase text-red-400 font-medium block mb-1">
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[rgba(14,14,14,0.8)] via-[rgba(14,14,14,0.2)] to-transparent px-5 pb-4 pt-10">
+                        <span className="text-[10px] tracking-widest uppercase font-medium block mb-1" style={{ color: '#B89B72' }}>
                           {article.category_name || 'Livsstil24 TV'}
                         </span>
                         <h2 className="font-display text-xl md:text-2xl leading-snug group-hover:text-[#B89B72] transition-colors line-clamp-2" style={{ color: '#F4F0EA' }}>
@@ -186,13 +186,13 @@ export default function TvPage() {
               <div>
                 <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
                   <TrendingUp size={12} className="text-gold-400" />
-                  <span className="eyebrow text-charcoal-800">Mest sedda</span>
+                  <span className="eyebrow" style={{ color: '#0E0E0E' }}>Mest sedda</span>
                 </div>
                 {topVideos.map((a, i) => (
                   <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
-                    <span className="font-display text-4xl text-[#A39284] leading-none w-8 shrink-0 select-none">{i + 1}</span>
+                    <span className="font-sans text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#0E0E0E' }}>{i + 1}</span>
                     <div className="min-w-0">
-                      <span className="eyebrow block mb-1 text-red-500">Livsstil24 TV</span>
+                      <span className="eyebrow block mb-1" style={{ color: '#B89B72' }}>Livsstil24 TV</span>
                       <h4 className="text-sm font-medium leading-snug group-hover:text-[#B89B72] transition-colors line-clamp-2">{a.title}</h4>
                     </div>
                   </Link>
