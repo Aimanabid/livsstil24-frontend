@@ -66,7 +66,7 @@ export default function CategoryPage() {
           <h1 className={`${catFont} ${isSecondary ? 'uppercase' : ''} text-5xl md:text-7xl tracking-tight mb-4`} style={{ color: '#0e0e0e' }}>
             {category?.name || slug}
           </h1>
-          <p className="text-xs tracking-widest" style={{ color: '#A39284' }}>
+          <p className="text-xs tracking-widest" style={{ color: '#0E0E0E' }}>
             {total} artiklar
           </p>
         </div>
