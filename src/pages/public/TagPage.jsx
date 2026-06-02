@@ -47,7 +47,7 @@ export default function TagPage() {
           <h1 className="font-display text-5xl md:text-7xl tracking-tight mb-4" style={{ color: '#0e0e0e' }}>
             {tag}
           </h1>
-          <p className="text-xs tracking-widest" style={{ color: '#A39284' }}>{total} artiklar</p>
+          <p className="text-xs tracking-widest" style={{ color: '#0E0E0E' }}>{total} artiklar</p>
         </div>
       </div>
 
