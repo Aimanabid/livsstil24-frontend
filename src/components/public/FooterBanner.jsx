@@ -82,7 +82,7 @@ export default function FooterBanner() {
                 alt={article.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/25 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#A39284] to-transparent" />
               <ArticleOverlay article={article} />
             </div>
 
@@ -102,7 +102,7 @@ export default function FooterBanner() {
                   alt={articles[incoming].title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/25 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#A39284] to-transparent" />
                 <ArticleOverlay article={articles[incoming]} />
               </div>
             )}
@@ -162,6 +162,7 @@ function ArticleOverlay({ article }) {
         to={`/artikel/${article.slug}`}
         state={{ fromApp: true }}
         className={`${getCategoryFont(article.category_slug || article.category_name)} text-xl md:text-2xl leading-snug line-clamp-2 block`}
+        style={{ color: '#0E0E0E' }}
       >
         {article.title}
       </Link>

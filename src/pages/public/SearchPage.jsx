@@ -59,7 +59,7 @@ export default function SearchPage() {
       <div className="max-w-7xl mx-auto px-6 py-12 pb-20">
         {!q ? (
           <div className="text-center py-16">
-            <p className="font-display text-2xl" style={{ color: '#A39284' }}>Skriv något för att söka</p>
+            <p className="font-sans text-2xl" style={{ color: '#A39284' }}>Skriv något för att söka</p>
           </div>
         ) : loading ? (
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
@@ -85,7 +85,7 @@ export default function SearchPage() {
 
             {articles.length === 0 ? (
               <div className="text-center py-16">
-                <p className="font-display text-3xl mb-3" style={{ color: '#A39284' }}>Inga resultat</p>
+                <p className="font-sans text-3xl mb-3" style={{ color: '#A39284' }}>Inga resultat</p>
                 <p className="text-sm" style={{ color: '#A39284' }}>Prova ett annat sökord.</p>
               </div>
             ) : (

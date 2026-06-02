@@ -80,7 +80,10 @@
     @apply inline-block text-[10px] font-sans font-medium tracking-[0.22em] uppercase;
   }
 
-  .article-card { @apply cursor-pointer; }
+  .article-card { @apply cursor-pointer; --title-color: #0E0E0E; }
+  .article-card:hover { --title-color: #B89B72; }
+  .footer-link { color: #0E0E0E; transition: color 0.2s; }
+  .footer-link:hover { color: #B89B72; }
   .article-card img {
     @apply transition-transform duration-700 ease-in-out group-hover:scale-105;
   }
@@ -168,7 +171,7 @@
 /* Override for health/food/wellness categories (Glacial Indifference) */
 .article-body--secondary h2,
 .article-body--secondary h3,
-.article-body--secondary > p:first-of-type::first-letter,
+.article-body--secondary.article-body--lead > p:first-of-type::first-letter,
 .article-body--secondary blockquote {
   font-family: 'Glacial Indifference', Arial, sans-serif;
 }
@@ -210,7 +213,7 @@
 .article-body img { display: block; width: 100%; max-width: 100%; height: auto; margin: 2rem 0; }
 
 /* Drop cap */
-.article-body > p:first-of-type::first-letter {
+.article-body--lead > p:first-of-type::first-letter {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 3.9em;
   font-weight: 700;

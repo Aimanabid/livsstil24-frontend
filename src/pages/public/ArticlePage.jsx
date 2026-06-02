@@ -185,14 +185,14 @@ export default function ArticlePage() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-4xl">
           <div className="flex items-center gap-2 pt-2 mb-4">
-            <Link to="/" className="text-[11px] transition-colors flex items-center gap-1 text-[#A39284] hover:text-[#B89B72]">
+            <Link to="/" className="text-[11px] transition-colors flex items-center gap-1 hover:text-[#B89B72]" style={{ color: '#0E0E0E' }}>
               <ArrowLeft size={11} /> Hem
             </Link>
             {article.category_name && (
               <>
-                <span className="text-xs" style={{ color: '#A39284' }}>/</span>
+                <span className="text-xs" style={{ color: '#0E0E0E' }}>/</span>
                 <Link to={`/kategori/${article.category_slug}`}
-                  className="text-[11px] transition-colors text-[#A39284] hover:text-[#B89B72]">
+                  className="text-[11px] transition-colors hover:text-[#B89B72]" style={{ color: '#0E0E0E' }}>
                   {article.category_name}
                 </Link>
               </>
@@ -233,7 +233,7 @@ export default function ArticlePage() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_256px] gap-16">
           <article className="max-w-7xl">
             <div ref={articleBodyRef}
-              className={`article-body${isSecondary ? ' article-body--secondary' : ''}`}
+              className={`article-body article-body--lead${isSecondary ? ' article-body--secondary' : ''}`}
               dangerouslySetInnerHTML={{ __html: contentTop }} />
             {contentBottom && (
               <>
@@ -264,7 +264,7 @@ export default function ArticlePage() {
                   {mostRead.map((a, i) => (
                     <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }}
                       className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
-                      <span className="font-sans text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#A39284' }}>{i + 1}</span>
+                      <span className="font-sans text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#0E0E0E' }}>{i + 1}</span>
                       <div className="min-w-0">
                         <span className="eyebrow block mb-1" style={{ color: a.category_color || '#B89B72' }}>{a.category_name}</span>
                         <h4 className="text-sm font-medium leading-snug transition-colors line-clamp-2 text-[#0e0e0e] group-hover:text-[#B89B72]">{a.title}</h4>
