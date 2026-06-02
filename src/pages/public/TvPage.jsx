@@ -75,7 +75,7 @@ export default function TvPage() {
           <h1 className="font-display text-5xl md:text-7xl tracking-tight mb-3" style={{ color: '#0E0E0E' }}>
             Livsstil24 TV
           </h1>
-          <p className="text-xs text-[#A39284] tracking-widest">{total} videor</p>
+          <p className="text-xs tracking-widest" style={{ color: '#0E0E0E' }}>{total} videor</p>
         </div>
       </div>
 
@@ -125,27 +125,27 @@ export default function TvPage() {
                         />
                       ) : null}
 
-                      <div className="absolute inset-0 bg-[rgba(14,14,14,0.30)] group-hover:bg-[rgba(14,14,14,0.45)] transition-colors duration-300" />
+                      <div className="absolute inset-0 bg-[rgba(14,14,14,0.20)] group-hover:bg-[rgba(14,14,14,0.35)] transition-colors duration-300" />
 
                       {article.video_url && (
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-16 h-16 rounded-full bg-[rgba(244,240,234,0.15)] backdrop-blur-sm border border-[rgba(244,240,234,0.30)] flex items-center justify-center group-hover:bg-[#5A5B46] group-hover:border-[#5A5B46] transition-all duration-300 group-hover:scale-110">
+                          <div className="w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ backgroundColor: '#5A5B46', border: '2px solid #5A5B46' }}>
                             <Play size={22} fill="#F4F0EA" style={{ color: '#F4F0EA' }} className="ml-1" />
                           </div>
                         </div>
                       )}
 
                       {article.video_url && (
-                        <div className="absolute top-3 left-3 text-[10px] tracking-widest uppercase px-2.5 py-1 font-semibold" style={{ backgroundColor: '#5A5B46', color: '#F4F0EA' }}>
+                        <div className="absolute top-3 left-3 text-[10px] tracking-widest uppercase px-2.5 py-1 font-semibold" style={{ backgroundColor: '#5A5B46', color: '#0E0E0E' }}>
                           VIDEO
                         </div>
                       )}
 
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[rgba(14,14,14,0.8)] via-[rgba(14,14,14,0.2)] to-transparent px-5 pb-4 pt-10">
-                        <span className="text-[10px] tracking-widest uppercase font-medium block mb-1" style={{ color: '#B89B72' }}>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[rgba(244,240,234,0.92)] via-[rgba(244,240,234,0.5)] to-transparent px-5 pb-4 pt-10">
+                        <span className="text-[10px] tracking-widest uppercase font-medium block mb-1" style={{ color: article.category_color || '#B89B72' }}>
                           {article.category_name || 'Livsstil24 TV'}
                         </span>
-                        <h2 className="font-display text-xl md:text-2xl leading-snug group-hover:text-[#B89B72] transition-colors line-clamp-2" style={{ color: '#F4F0EA' }}>
+                        <h2 className="font-display text-xl md:text-2xl leading-snug group-hover:text-[#B89B72] transition-colors line-clamp-2" style={{ color: '#0E0E0E' }}>
                           {article.title}
                         </h2>
                       </div>
@@ -153,12 +153,12 @@ export default function TvPage() {
 
                     <div className="flex items-start justify-between gap-4">
                       {article.excerpt && (
-                        <p className="text-sm text-[#A39284] leading-relaxed line-clamp-2 flex-1">
+                        <p className="text-sm leading-relaxed line-clamp-2 flex-1" style={{ color: '#0E0E0E' }}>
                           {article.excerpt}
                         </p>
                       )}
                       {article.published_at && (
-                        <p className="text-[11px] text-[#A39284] shrink-0 mt-0.5">
+                        <p className="text-[11px] shrink-0 mt-0.5" style={{ color: '#0E0E0E' }}>
                           {format(new Date(article.published_at), 'd MMM yyyy', { locale: sv })}
                         </p>
                       )}
