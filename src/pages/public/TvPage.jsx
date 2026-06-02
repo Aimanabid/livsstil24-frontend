@@ -38,6 +38,8 @@ export default function TvPage() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [topVideos, setTopVideos]     = useState([]);
 
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
   useEffect(() => {
     setLoading(true);
     Promise.all([
