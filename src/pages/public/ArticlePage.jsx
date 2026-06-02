@@ -178,7 +178,7 @@ export default function ArticlePage() {
             alt={article.title}
             className="w-full h-auto block"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#F4F0EA] via-[#F4F0EA]/10 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#F4F0EA] via-transparent to-transparent" />
         </div>
       ) : null}
 

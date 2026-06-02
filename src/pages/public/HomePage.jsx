@@ -94,7 +94,7 @@ export default function HomePage() {
                 alt={hero.title}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.04]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/25 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#F4F0EA] via-[#F4F0EA]/25 to-transparent" />
               <div className="absolute bottom-0 left-0 px-8 md:px-16 pb-10 md:pb-16 max-w-3xl">
                 <span className="eyebrow block mb-3" style={{ color: hero.category_color || '#B89B72' }}>
                   {hero.category_name}
