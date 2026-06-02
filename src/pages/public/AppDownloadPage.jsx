@@ -6,6 +6,8 @@ export default function AppDownloadPage() {
   const [installed, setInstalled] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
 
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
   useEffect(() => {
     setIsIOS(/iPhone|iPad|iPod/.test(navigator.userAgent));
 
@@ -40,7 +42,7 @@ export default function AppDownloadPage() {
             Livsstil24<br />
             <span style={{ color: '#B89B72' }}>i din ficka</span>
           </h1>
-          <p className="text-lg max-w-lg mx-auto mb-10 leading-relaxed" style={{ color: '#F4F0EA' }}>
+          <p className="text-lg max-w-lg mx-auto mb-10 leading-relaxed" style={{ color: '#0E0E0E' }}>
             Installera vår app direkt på din hemskärm – ingen App Store behövs. Snabb, elegant och alltid med dig.
           </p>
 
@@ -51,7 +53,7 @@ export default function AppDownloadPage() {
           ) : isIOS ? (
             <div className="rounded-2xl p-6 max-w-sm mx-auto text-left" style={{ backgroundColor: 'rgba(244,240,234,0.1)' }}>
               <p className="text-xs font-medium mb-4 tracking-wide uppercase" style={{ color: '#B89B72' }}>Installera på iPhone / iPad</p>
-              <ol className="space-y-3 text-sm" style={{ color: '#F4F0EA' }}>
+              <ol className="space-y-3 text-sm" style={{ color: '#0E0E0E' }}>
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: 'rgba(184,155,114,0.2)', color: '#B89B72' }}>1</span>
                   Tryck på <strong>Dela</strong>-ikonen (rutan med pil) i webbläsarens verktygsfält
@@ -72,14 +74,16 @@ export default function AppDownloadPage() {
             </button>
           ) : (
             <div className="space-y-3">
-              <p className="text-sm" style={{ color: '#F4F0EA' }}>Öppna den här sidan i Chrome eller Safari för att installera appen.</p>
+              <p className="text-sm" style={{ color: '#0E0E0E' }}>Öppna den här sidan i Chrome eller Safari för att installera appen.</p>
               <div className="flex justify-center gap-4 mt-4">
                 <a href="https://www.google.com/chrome/" target="_blank" rel="noopener noreferrer"
-                  className="text-xs px-4 py-2 rounded border border-[#B89B72] transition-colors text-[#F4F0EA] hover:text-[#B89B72]">
+                  className="text-xs px-4 py-2 rounded border border-[#B89B72] transition-colors"
+                  style={{ color: '#0E0E0E' }}>
                   Google Chrome
                 </a>
                 <a href="https://www.apple.com/safari/" target="_blank" rel="noopener noreferrer"
-                  className="text-xs px-4 py-2 rounded border border-[#B89B72] transition-colors text-[#F4F0EA] hover:text-[#B89B72]">
+                  className="text-xs px-4 py-2 rounded border border-[#B89B72] transition-colors"
+                  style={{ color: '#0E0E0E' }}>
                   Safari
                 </a>
               </div>

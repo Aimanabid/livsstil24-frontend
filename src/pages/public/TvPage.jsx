@@ -37,6 +37,7 @@ export default function TvPage() {
   const [loading, setLoading]         = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [topVideos, setTopVideos]     = useState([]);
+  const [hoveredId, setHoveredId]     = useState(null);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
@@ -111,6 +112,8 @@ export default function TvPage() {
                     to={`/artikel/${article.slug}`}
                     state={{ fromApp: true }}
                     className="group block"
+                    onMouseEnter={() => setHoveredId(article.id)}
+                    onMouseLeave={() => setHoveredId(null)}
                   >
                     <div className="relative overflow-hidden aspect-video bg-charcoal-900 mb-4">
                       {article.featured_image ? (
@@ -147,7 +150,7 @@ export default function TvPage() {
                         <span className="text-[10px] tracking-widest uppercase font-medium block mb-1" style={{ color: article.category_color || '#B89B72' }}>
                           {article.category_name || 'Livsstil24 TV'}
                         </span>
-                        <h2 className="font-display text-xl md:text-2xl leading-snug group-hover:text-[#B89B72] transition-colors line-clamp-2" style={{ color: '#0E0E0E' }}>
+                        <h2 className="font-display text-xl md:text-2xl leading-snug transition-colors duration-300 line-clamp-2" style={{ color: hoveredId === article.id ? '#B89B72' : '#0E0E0E' }}>
                           {article.title}
                         </h2>
                       </div>
