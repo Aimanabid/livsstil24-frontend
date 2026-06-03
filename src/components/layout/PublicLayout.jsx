@@ -2,7 +2,6 @@ import { Outlet, Link, NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { Search, Menu, X, Download, Instagram, Facebook, Youtube, Linkedin, ChevronDown } from 'lucide-react';
 import AdBanner from '../public/AdBanner';
-import FooterBanner from '../public/FooterBanner';
 
 function TikTokIcon({ size = 14 }) {
   return (
@@ -221,10 +220,12 @@ export default function PublicLayout() {
         <Outlet />
       </main>
 
-      <FooterBanner />
+      <div className="max-w-7xl mx-auto px-6 mb-6">
+        <AdBanner placement="footer_banner" />
+      </div>
 
       {/* ── Footer ── */}
-      <footer style={{ backgroundColor: '#A39284' }}>
+      <footer style={{ backgroundColor: '#ddd6d0' }}>
         <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mb-14">
 

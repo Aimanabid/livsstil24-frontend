@@ -75,7 +75,7 @@ export default function TvPage() {
             <div className="w-6 h-px" style={{ backgroundColor: '#B89B72' }} />
           </div>
           <p className="eyebrow mb-4" style={{ color: '#B89B72' }}>Kanal</p>
-          <h1 className="font-display text-5xl md:text-7xl tracking-tight mb-3" style={{ color: '#0E0E0E' }}>
+          <h1 className="font-display uppercase text-5xl md:text-7xl tracking-tight mb-3" style={{ color: '#0E0E0E' }}>
             Livsstil24 TV
           </h1>
           <p className="text-xs tracking-widest" style={{ color: '#0E0E0E' }}>{total} videor</p>
@@ -188,23 +188,25 @@ export default function TvPage() {
             <div className="sticky top-[120px] space-y-10">
               <AdBanner placement="sidebar_top" />
 
-              <div>
-                <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
-                  <TrendingUp size={12} className="text-gold-400" />
-                  <span className="eyebrow" style={{ color: '#0E0E0E' }}>Mest sedda</span>
+              {total >= 3 && (
+                <div>
+                  <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
+                    <TrendingUp size={12} className="text-gold-400" />
+                    <span className="eyebrow" style={{ color: '#0E0E0E' }}>Mest sedda</span>
+                  </div>
+                  {topVideos.map((a, i) => (
+                    <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
+                      <span className="font-sans text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#0E0E0E' }}>{i + 1}</span>
+                      <div className="min-w-0">
+                        <span className="eyebrow block mb-1" style={{ color: '#B89B72' }}>Livsstil24 TV</span>
+                        <h4 className="text-sm font-medium leading-snug group-hover:text-[#B89B72] transition-colors line-clamp-2">{a.title}</h4>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
-                {topVideos.map((a, i) => (
-                  <Link key={a.id} to={`/artikel/${a.slug}`} state={{ fromApp: true }} className="group flex gap-4 py-4 border-b border-cream-100 last:border-0">
-                    <span className="font-sans text-4xl leading-none w-8 shrink-0 select-none" style={{ color: '#0E0E0E' }}>{i + 1}</span>
-                    <div className="min-w-0">
-                      <span className="eyebrow block mb-1" style={{ color: '#B89B72' }}>Livsstil24 TV</span>
-                      <h4 className="text-sm font-medium leading-snug group-hover:text-[#B89B72] transition-colors line-clamp-2">{a.title}</h4>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+              )}
 
-              <AdBanner placement="sidebar_mid" />
+              {total >= 6 && <AdBanner placement="sidebar_mid" />}
             </div>
           </aside>
 
