@@ -256,7 +256,7 @@ export default function PublicLayout() {
               <ul className="space-y-3">
                 {categories.slice(0, 6).map(cat => (
                   <li key={cat.id}>
-                    <Link to={`/kategori/${cat.slug}`} className="text-xs footer-link">{cat.name}</Link>
+                    <Link to={`/kategori/${cat.slug}`} className="text-xs uppercase footer-link">{cat.name}</Link>
                   </li>
                 ))}
               </ul>
@@ -265,9 +265,9 @@ export default function PublicLayout() {
             <div>
               <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Juridiskt</h3>
               <ul className="space-y-3 text-xs mb-8">
-                <li><a href="#" className="footer-link">Integritetspolicy</a></li>
-                <li><a href="#" className="footer-link">Cookiepolicy</a></li>
-                <li><a href="#" className="footer-link">Användarvillkor</a></li>
+                <li><a href="#" className="text-xs uppercase footer-link">Integritetspolicy</a></li>
+                <li><a href="#" className="text-xs uppercase footer-link">Cookiepolicy</a></li>
+                <li><a href="#" className="text-xs uppercase footer-link">Användarvillkor</a></li>
               </ul>
               <h3 className="eyebrow mb-3" style={{ color: '#0E0E0E' }}>Appen</h3>
               <Link to="/app" className="btn-primary inline-flex items-center gap-2">
