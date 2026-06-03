@@ -281,7 +281,7 @@ export default function ArticlePage() {
       </div>
 
       {related.length > 0 && (
-        <div className="border-t border-cream-200 py-16" style={{ backgroundColor: 'rgba(163,146,132,0.08)' }}>
+        <div className="border-t border-cream-200 py-16" style={{ backgroundColor: '#A39284' }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center gap-6 mb-10">
               <div className="flex-1 h-px bg-cream-200" />
