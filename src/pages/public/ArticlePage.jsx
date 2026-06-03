@@ -274,7 +274,7 @@ export default function ArticlePage() {
                 </div>
               )}
 
-              {contentBottom && <AdBanner placement="sidebar_mid" />}
+              {contentBottom && html.length > 1500 && <AdBanner placement="sidebar_mid" />}
             </div>
           </aside>
         </div>

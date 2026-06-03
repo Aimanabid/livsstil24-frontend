@@ -141,10 +141,10 @@ export default function PublicLayout() {
               <img
                 src={settings.logo_url}
                 alt="Livsstil24"
-                className={`object-contain transition-all duration-300 ${scrolled ? 'h-7 md:h-8' : 'h-10 md:h-14'}`}
+                className={`object-contain transition-all duration-300 ${scrolled ? 'h-9 md:h-11' : 'h-12 md:h-16'}`}
               />
             ) : (
-              <span className={`font-display tracking-[0.12em] transition-all duration-300 block ${scrolled ? 'text-xl md:text-2xl' : 'text-3xl md:text-5xl'}`} style={{ color: '#0e0e0e' }}>
+              <span className={`font-display tracking-[0.12em] transition-all duration-300 block ${scrolled ? 'text-2xl md:text-3xl' : 'text-4xl md:text-6xl'}`} style={{ color: '#0e0e0e' }}>
                 LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
               </span>
             )}
@@ -227,25 +227,27 @@ export default function PublicLayout() {
       {/* ── Footer ── */}
       <footer style={{ backgroundColor: '#ddd6d0' }}>
         <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mb-14">
 
+          {/* ── Main grid ── */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mb-14">
             <div className="col-span-2 md:col-span-1">
               {settings.logo_url ? (
-                <img src={settings.logo_url} alt="Livsstil24" className="h-8 object-contain mb-4" />
+                <img src={settings.logo_url} alt="Livsstil24" className="h-12 object-contain mb-4" />
               ) : (
-                <span className="font-display text-2xl tracking-[0.1em] block mb-4" style={{ color: '#0E0E0E' }}>
+                <span className="font-display text-4xl tracking-[0.1em] block mb-4" style={{ color: '#0E0E0E' }}>
                   LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
                 </span>
               )}
-              <p className="text-xs leading-relaxed mb-6 max-w-[200px]" style={{ color: '#0E0E0E' }}>
+              <p className="text-sm leading-relaxed mb-6 max-w-[220px]" style={{ color: '#0E0E0E' }}>
                 {settings.site_description || 'Din digitala livsstilstidning för mode, skönhet och det moderna livet.'}
               </p>
-              <div className="flex gap-4">
-                {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="footer-link"><Instagram size={16} /></a>}
-                {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="footer-link"><Facebook  size={16} /></a>}
-                {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="footer-link"><TikTokIcon size={16} /></a>}
-                {settings.youtube_url   && <a href={settings.youtube_url}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="footer-link"><Youtube    size={16} /></a>}
-                {settings.linkedin_url  && <a href={settings.linkedin_url}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  className="footer-link"><Linkedin   size={16} /></a>}
+              <p className="eyebrow mb-3" style={{ color: '#0E0E0E' }}>Följ oss</p>
+              <div className="flex gap-5">
+                {settings.instagram_url && <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="transition-colors text-[#0e0e0e] hover:text-[#B89B72]"><Instagram size={26} /></a>}
+                {settings.facebook_url  && <a href={settings.facebook_url}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"  className="transition-colors text-[#0e0e0e] hover:text-[#B89B72]"><Facebook  size={26} /></a>}
+                {settings.tiktok_url    && <a href={settings.tiktok_url}    target="_blank" rel="noopener noreferrer" aria-label="TikTok"    className="transition-colors text-[#0e0e0e] hover:text-[#B89B72]"><TikTokIcon size={26} /></a>}
+                {settings.youtube_url   && <a href={settings.youtube_url}   target="_blank" rel="noopener noreferrer" aria-label="YouTube"   className="transition-colors text-[#0e0e0e] hover:text-[#B89B72]"><Youtube    size={26} /></a>}
+                {settings.linkedin_url  && <a href={settings.linkedin_url}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  className="transition-colors text-[#0e0e0e] hover:text-[#B89B72]"><Linkedin   size={26} /></a>}
               </div>
             </div>
 
@@ -254,9 +256,7 @@ export default function PublicLayout() {
               <ul className="space-y-3">
                 {categories.slice(0, 6).map(cat => (
                   <li key={cat.id}>
-                    <Link to={`/kategori/${cat.slug}`} className="text-xs footer-link">
-                      {cat.name}
-                    </Link>
+                    <Link to={`/kategori/${cat.slug}`} className="text-xs footer-link">{cat.name}</Link>
                   </li>
                 ))}
               </ul>
@@ -264,11 +264,15 @@ export default function PublicLayout() {
 
             <div>
               <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Juridiskt</h3>
-              <ul className="space-y-3 text-xs">
+              <ul className="space-y-3 text-xs mb-8">
                 <li><a href="#" className="footer-link">Integritetspolicy</a></li>
                 <li><a href="#" className="footer-link">Cookiepolicy</a></li>
                 <li><a href="#" className="footer-link">Användarvillkor</a></li>
               </ul>
+              <h3 className="eyebrow mb-3" style={{ color: '#0E0E0E' }}>Appen</h3>
+              <Link to="/app" className="btn-primary inline-flex items-center gap-2">
+                <Download size={13} className="animate-bounce" /> Ladda ner vår app
+              </Link>
             </div>
           </div>
 
