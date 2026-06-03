@@ -4,16 +4,16 @@ import toast from 'react-hot-toast'
 
 const PLACEMENT_ICONS = {
   hero_banner:    '🖼️',
+  footer_banner:  '🔲',
   sidebar_top:    '📌',
   sidebar_mid:    '📌',
   article_inline: '📄',
   article_mid:    '📰',
-  category_top:   '🏷️',
 }
 
 const POSITION_KEYS = [
   { key: 'hero_banner',    label: 'Hero Banner',    description: 'Startsida — stor hero-bild överst' },
-  { key: 'category_top',   label: 'Category Top',   description: 'Kategorisidor — banner under rubriken' },
+  { key: 'footer_banner',  label: 'Footer Banner',  description: 'Sidfot — annonsbanderoll längst ner' },
   { key: 'article_inline', label: 'Article Inline', description: 'Artikelsidor — video/banner efter texten' },
   { key: 'article_mid',    label: 'Article Mid',    description: 'Artikelsidor — annons mitt i artikeln' },
   { key: 'sidebar_top',    label: 'Sidebar Top',    description: 'Sidopanel — övre annonsplats' },
@@ -109,23 +109,23 @@ export default function PlacementsPage() {
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-white border border-gray-100 rounded-xl p-4">
           <p className="text-xs text-[#A39284] uppercase tracking-wider">Totalt platser</p>
-          <p className="text-3xl font-display font-bold text-charcoal-800 mt-1">{placements.length}</p>
+          <p className="text-3xl font-display font-bold text-charcoal-800 mt-1">{placements.filter(p => p.key !== 'category_top').length}</p>
         </div>
         <div className="bg-white border border-gray-100 rounded-xl p-4">
           <p className="text-xs text-[#A39284] uppercase tracking-wider">Aktiva platser</p>
-          <p className="text-3xl font-display font-bold text-[#5A5B46] mt-1">{placements.filter(p => p.is_active).length}</p>
+          <p className="text-3xl font-display font-bold text-[#5A5B46] mt-1">{placements.filter(p => p.key !== 'category_top' && p.is_active).length}</p>
         </div>
         <div className="bg-white border border-gray-100 rounded-xl p-4">
           <p className="text-xs text-[#A39284] uppercase tracking-wider">Högsta CPM</p>
           <p className="text-3xl font-display font-bold text-[#B89B72] mt-1">
-            {placements.length ? Math.max(...placements.map(p => Number(p.cpm_rate || 0))).toLocaleString('sv-SE') : 0} kr
+            {placements.filter(p => p.key !== 'category_top').length ? Math.max(...placements.filter(p => p.key !== 'category_top').map(p => Number(p.cpm_rate || 0))).toLocaleString('sv-SE') : 0} kr
           </p>
         </div>
       </div>
 
       {/* Placements grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {placements.map(p => (
+        {placements.filter(p => p.key !== 'category_top').map(p => (
           <div key={p.id} className={`bg-white border rounded-xl overflow-hidden transition-all ${p.is_active ? 'border-gray-100' : 'border-gray-200 opacity-60'}`}>
             <div className="p-5">
               <div className="flex items-start justify-between">

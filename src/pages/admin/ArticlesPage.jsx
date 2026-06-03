@@ -171,8 +171,14 @@ function CategoriesTab() {
                       className="w-7 h-7 rounded-full border-2 transition-transform hover:scale-110"
                       style={{ background: color, borderColor: form.color === color ? '#0E0E0E' : 'transparent' }} />
                   ))}
-                  <input type="color" value={form.color} onChange={e => setField('color', e.target.value)}
-                    className="w-7 h-7 rounded-full border border-gray-200 cursor-pointer bg-transparent p-0" title="Anpassad färg" />
+                  <div className="flex flex-col items-center gap-1">
+                    <label className="relative w-7 h-7 cursor-pointer" title="Anpassad färg">
+                      <span className="absolute inset-0 rounded-full border-2 border-dashed border-gray-400 flex items-center justify-center text-gray-400 text-xs font-bold pointer-events-none">+</span>
+                      <input type="color" value={form.color} onChange={e => setField('color', e.target.value)}
+                        className="opacity-0 absolute inset-0 w-full h-full cursor-pointer" />
+                    </label>
+                    <span className="text-[10px] text-[#A39284]">Egen</span>
+                  </div>
                 </div>
                 <div className="mt-3 flex items-center gap-2">
                   <span className="text-xs px-2.5 py-1 rounded-full font-medium"

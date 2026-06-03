@@ -142,12 +142,12 @@ export default function HomePage() {
 
       {/* â•â• EDITOR'S PICK (dark carousel) â•â• */}
       {editorsPick.length > 0 && (
-        <section className="py-10 max-h-screen overflow-hidden" style={{ backgroundColor: '#5A5B46' }}>
+        <section className="py-10" style={{ backgroundColor: '#ddd6d0' }}>
           <div className="max-w-7xl mx-auto px-6">
             {/* Header */}
             <div className="flex items-center gap-5 mb-8">
               <div className="flex-1 h-px" style={{ backgroundColor: '#A39284' }} />
-              <span className="eyebrow" style={{ color: '#B89B72' }}>Redaktionens val</span>
+              <span className="eyebrow" style={{ color: '#0E0E0E' }}>Redaktionens val</span>
               <div className="flex-1 h-px" style={{ backgroundColor: '#A39284' }} />
             </div>
 
@@ -172,26 +172,27 @@ export default function HomePage() {
                       key={a.id}
                       to={`/artikel/${a.slug}`}
                       state={{ fromApp: true }}
-                      className="group w-full shrink-0 flex flex-col md:flex-row gap-0"
+                      className="group w-full shrink-0 relative block"
                     >
-                      <div className="overflow-hidden w-full md:w-[45%] aspect-[16/9] md:aspect-[4/3]">
+                      <div className="relative w-full overflow-hidden" style={{ height: '70vh' }}>
                         <img
                           src={a.featured_image}
                           alt={a.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
-                      </div>
-                      <div className="md:w-[55%] px-0 md:px-10 pt-6 md:pt-0 flex flex-col justify-center">
-                        <span className="eyebrow block mb-3" style={{ color: a.category_color || '#B89B72' }}>{a.category_name}</span>
-                        <h3 className={`${getCategoryFont(a.category_slug || a.category_name)} text-3xl md:text-4xl lg:text-5xl leading-snug transition-colors mb-4 text-[#0e0e0e] group-hover:text-[#B89B72]`}>
-                          {a.title}
-                        </h3>
-                        {a.excerpt && (
-                          <p className="text-sm line-clamp-3 font-light leading-relaxed mb-6" style={{ color: '#0e0e0e' }}>{a.excerpt}</p>
-                        )}
-                        <span className="text-xs tracking-[0.15em] uppercase font-medium flex items-center gap-2" style={{ color: '#B89B72' }}>
-                          Läs mer <ArrowRight size={12} />
-                        </span>
+                        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(14,14,14,0.72) 0%, transparent 55%)' }} />
+                        <div className="absolute bottom-0 left-0 right-0 px-8 pb-10">
+                          <span className="eyebrow block mb-3" style={{ color: a.category_color || '#B89B72' }}>{a.category_name}</span>
+                          <h3 className={`${getCategoryFont(a.category_slug || a.category_name)} text-3xl md:text-4xl lg:text-5xl leading-snug mb-4 transition-colors text-[#0e0e0e] group-hover:text-[#B89B72]`}>
+                            {a.title}
+                          </h3>
+                          {a.excerpt && (
+                            <p className="text-sm line-clamp-2 font-light leading-relaxed mb-6" style={{ color: '#0e0e0e' }}>{a.excerpt}</p>
+                          )}
+                          <span className="text-xs tracking-[0.15em] uppercase font-medium flex items-center gap-2" style={{ color: '#B89B72' }}>
+                            Läs mer <ArrowRight size={12} />
+                          </span>
+                        </div>
                       </div>
                     </Link>
                   ))}

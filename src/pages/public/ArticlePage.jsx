@@ -172,11 +172,11 @@ export default function ArticlePage() {
           />
         </div>
       ) : article.featured_image ? (
-        <div className="relative w-full">
+        <div className="relative w-full overflow-hidden" style={{ height: 'min(200vh, 920px)' }}>
           <img
             src={article.featured_image}
             alt={article.title}
-            className="w-full h-auto block"
+            className="w-full h-full object-cover block"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#F4F0EA] via-transparent to-transparent" />
         </div>
@@ -207,13 +207,7 @@ export default function ArticlePage() {
             {article.title}
           </h1>
 
-          {article.excerpt && (
-            <p className={`${catFont} text-lg leading-relaxed mb-6 font-light border-l-2 pl-4`} style={{ color: '#0e0e0e', borderColor: '#B89B72' }}>
-              {article.excerpt}
-            </p>
-          )}
-
-          <div className="flex items-center justify-between py-5 border-y border-cream-200 mb-12">
+          <div className="flex items-center justify-between py-5 border-y border-cream-200 mb-5">
             <div className="flex items-center gap-3 text-xs flex-wrap" style={{ color: '#0e0e0e' }}>
               <span className="font-semibold">{article.author_name}</span>
               <span>·</span>
@@ -226,10 +220,16 @@ export default function ArticlePage() {
               <Share2 size={13} /> Dela
             </button>
           </div>
+
+          {article.excerpt && (
+            <p className="font-sans text-lg leading-relaxed mb-8 font-light" style={{ color: '#0e0e0e' }}>
+              {article.excerpt}
+            </p>
+          )}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pb-20">
+      <div className="max-w-7xl mx-auto px-6 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_256px] gap-16">
           <article className="max-w-7xl">
             <div ref={articleBodyRef}
@@ -255,7 +255,7 @@ export default function ArticlePage() {
             <div className="sticky top-[120px] space-y-8">
               <AdBanner placement="sidebar_top" />
 
-              {mostRead.length > 0 && (
+              {contentBottom && mostRead.length > 0 && (
                 <div>
                   <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
                     <TrendingUp size={12} style={{ color: '#B89B72' }} />
@@ -274,7 +274,7 @@ export default function ArticlePage() {
                 </div>
               )}
 
-              <AdBanner placement="sidebar_mid" />
+              {contentBottom && <AdBanner placement="sidebar_mid" />}
             </div>
           </aside>
         </div>

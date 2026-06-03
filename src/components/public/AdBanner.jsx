@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import api from '../../utils/api';
 
 const HERO_PLACEMENT       = 'hero_banner';
-const INLINE_PLACEMENTS    = new Set(['article_inline', 'article_mid']);
+const INLINE_PLACEMENTS    = new Set(['article_inline', 'article_mid', 'footer_banner']);
 const SKYSCRAPER_PLACEMENTS = new Set(['sidebar_top', 'sidebar_mid']);
-const BANNER_PLACEMENTS    = new Set(['footer_banner', 'category_top']);
+const BANNER_PLACEMENTS    = new Set(['category_top']);
 
 // ── Fallbacks ──────────────────────────────────────────────────────────────
 
