@@ -210,7 +210,7 @@ export default function PlacementsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
-            {placements.filter(p => p.is_active).map(p => (
+            {placements.filter(p => p.is_active && p.key !== 'category_top').map(p => (
               <tr key={p.id} className="hover:bg-[#F4F0EA]/50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="font-medium text-charcoal-800 text-sm">{p.name}</div>
