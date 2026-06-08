@@ -112,25 +112,27 @@ export default function ContactPage() {
 
               {/* Text */}
               <div
-                className={`flex flex-col justify-center px-10 md:px-16 lg:px-24 py-16 ${imageLeft ? 'md:order-2' : 'md:order-1'}`}
+                className={`flex flex-col justify-center items-center py-16 px-10 md:px-16 lg:px-20 ${imageLeft ? 'md:order-2' : 'md:order-1'}`}
               >
-                <div className="w-8 h-px mb-8" style={{ backgroundColor: '#B89B72' }} />
-                <p className="eyebrow mb-4" style={{ color: '#B89B72' }}>{member.title}</p>
-                <h2 className="font-sans text-3xl md:text-4xl lg:text-5xl leading-[1.04] tracking-tight mb-6"
-                  style={{ color: '#0E0E0E' }}>
-                  {member.name}
-                </h2>
-                <p className="text-sm leading-relaxed mb-8 font-light max-w-xs"
-                  style={{ color: '#0E0E0E' }}>
-                  {member.bio}
-                </p>
-                <a
-                  href={`mailto:${member.email}`}
-                  className="text-sm transition-colors text-[#A39284] hover:text-[#B89B72] inline-flex items-center gap-2"
-                >
-                  <Mail size={12} />
-                  {member.email}
-                </a>
+                <div className="w-full max-w-sm">
+                  <div className="w-8 h-px mb-8" style={{ backgroundColor: '#B89B72' }} />
+                  <p className="eyebrow mb-4" style={{ color: '#B89B72' }}>{member.title}</p>
+                  <h2 className="font-sans text-3xl md:text-4xl lg:text-5xl leading-[1.04] tracking-tight mb-6"
+                    style={{ color: '#0E0E0E' }}>
+                    {member.name}
+                  </h2>
+                  <p className="text-sm leading-relaxed mb-8 font-light"
+                    style={{ color: '#0E0E0E' }}>
+                    {member.bio}
+                  </p>
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="text-sm transition-colors text-[#A39284] hover:text-[#B89B72] inline-flex items-center gap-2"
+                  >
+                    <Mail size={12} />
+                    {member.email}
+                  </a>
+                </div>
               </div>
 
             </div>
