@@ -16,13 +16,13 @@ function FallbackHero({ className }) {
 }
 
 // 1000×300 — article_inline, article_mid
-function FallbackInline({ className, hideLabel }) {
+function FallbackInline({ className, hideLabel, tall }) {
   return (
     <div className={className}>
       {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#0E0E0E' }}>Annons</p>}
       <div
         className="w-full flex items-center justify-between gap-6 px-8 sm:px-12 overflow-hidden"
-        style={{ background: 'linear-gradient(135deg,#5A5B46,#4a4b38,#5A5B46)', height: 300 }}
+        style={{ background: 'linear-gradient(135deg,#5A5B46,#4a4b38,#5A5B46)', height: tall ? 600 : 300 }}
       >
         <div className="min-w-0 flex-1 overflow-hidden">
           <p className="text-[10px] tracking-[0.2em] uppercase mb-1 text-[#B89B72]">Sponsrat</p>
@@ -83,7 +83,7 @@ function FallbackBanner({ className, hideLabel }) {
 
 // ── Main component ─────────────────────────────────────────────────────────
 
-export default function AdBanner({ placement, className = '', noFallback = false, hideLabel = false }) {
+export default function AdBanner({ placement, className = '', noFallback = false, hideLabel = false, tall = false }) {
   const [ad, setAd] = useState(undefined);
   const containerRef = useRef(null);
   const impressionFired = useRef(false);
@@ -114,7 +114,7 @@ export default function AdBanner({ placement, className = '', noFallback = false
   if (ad === undefined || ad === null) {
     if (noFallback) return null;
     if (placement === HERO_PLACEMENT)          return <FallbackHero className={className} />;
-    if (INLINE_PLACEMENTS.has(placement))      return <FallbackInline className={className} hideLabel={hideLabel} />;
+    if (INLINE_PLACEMENTS.has(placement))      return <FallbackInline className={className} hideLabel={hideLabel} tall={tall} />;
     if (SKYSCRAPER_PLACEMENTS.has(placement))  return <FallbackSkyscraper className={className} hideLabel={hideLabel} />;
     return <FallbackBanner className={className} hideLabel={hideLabel} />;
   }
@@ -138,12 +138,12 @@ export default function AdBanner({ placement, className = '', noFallback = false
     );
   }
 
-  // ── Inline banners — 1000×300 ────────────────────────────────────────────
+  // ── Inline banners — 1000×300 (600 when tall) ───────────────────────────
   if (INLINE_PLACEMENTS.has(placement)) {
     return (
       <div className={className} ref={containerRef}>
         {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#0E0E0E' }}>Annons</p>}
-        <div className="w-full overflow-hidden cursor-pointer" style={{ height: 300 }} onClick={handleClick}>
+        <div className="w-full overflow-hidden cursor-pointer" style={{ height: tall ? 600 : 300 }} onClick={handleClick}>
           {ad.ad_type === 'video'
             ? <video src={ad.video_url} poster={ad.image_url || undefined} autoPlay muted loop playsInline className="w-full h-full object-cover" />
             : ad.image_url

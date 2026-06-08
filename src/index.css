@@ -195,6 +195,7 @@
   font-size: 1.0625rem;
   line-height: 1.9;
   margin-bottom: 1.5rem;
+  font-weight: 300;
   color: #0E0E0E;
 }
 .article-body a { color: #9A8262; text-decoration: underline; }

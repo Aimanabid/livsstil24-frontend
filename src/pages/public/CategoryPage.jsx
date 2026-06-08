@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import ArticleCard from '../../components/public/ArticleCard';
@@ -57,6 +58,10 @@ export default function CategoryPage() {
 
   return (
     <div>
+      <Helmet>
+        <title>{category?.name ? `${category.name} – Livsstil24` : 'Livsstil24'}</title>
+        <meta name="description" content={`Läs de senaste artiklarna inom ${category?.name || slug} på Livsstil24.`} />
+      </Helmet>
       <div className="border-b border-cream-200">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 text-center">
           <div className="flex justify-center mb-4">

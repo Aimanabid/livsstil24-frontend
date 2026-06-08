@@ -222,7 +222,7 @@ export default function ArticlePage() {
           </div>
 
           {article.excerpt && (
-            <p className="font-sans text-lg leading-relaxed mb-8 font-light" style={{ color: '#0e0e0e' }}>
+            <p className="font-sans text-lg leading-relaxed mb-8 font-normal" style={{ color: '#0e0e0e' }}>
               {article.excerpt}
             </p>
           )}
