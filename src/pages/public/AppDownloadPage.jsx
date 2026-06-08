@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Download, Smartphone, Zap, Star, Bell, Wifi } from 'lucide-react';
 
 export default function AppDownloadPage() {
@@ -32,6 +33,10 @@ export default function AppDownloadPage() {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>Ladda ner appen – Livsstil24</title>
+        <meta name="description" content="Ladda ner Livsstil24-appen och få tillgång till mode, skönhet och livsstilsinnehåll var du än är." />
+      </Helmet>
       {/* Hero */}
       <div style={{ backgroundColor: '#5A5B46' }}>
         <div className="max-w-5xl mx-auto px-6 py-20 text-center">

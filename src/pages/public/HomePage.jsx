@@ -1,4 +1,5 @@
 ﻿import { useEffect, useState, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import api from '../../utils/api';
 import AdBanner from '../../components/public/AdBanner';
@@ -84,6 +85,10 @@ export default function HomePage() {
 
   return (
     <div>
+      <Helmet>
+        <title>Livsstil24 – Din digitala livsstilstidning</title>
+        <meta name="description" content="Mode, skönhet, hälsa och det moderna livet." />
+      </Helmet>
       {/* â•â• HERO â•â• */}
       {hero && (
         <section>
@@ -251,7 +256,7 @@ export default function HomePage() {
                 </div>
                 {ci < chunks.length - 1 && (
                   <div className="mb-12">
-                    <AdBanner placement="article_inline" />
+                    <AdBanner placement="article_inline" tall={ci === 0} />
                   </div>
                 )}
               </div>
@@ -273,6 +278,10 @@ export default function HomePage() {
 
               {/* Trending */}
               <div>
+      <Helmet>
+        <title>Livsstil24 – Din digitala livsstilstidning</title>
+        <meta name="description" content="Mode, skönhet, hälsa och det moderna livet." />
+      </Helmet>
                 <div className="flex items-center gap-2.5 pb-3 mb-1 border-b border-cream-200">
                   <TrendingUp size={12} style={{ color: '#B89B72' }} />
                   <span className="eyebrow" style={{ color: '#0e0e0e' }}>Mest lästa</span>

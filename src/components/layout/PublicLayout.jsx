@@ -220,10 +220,6 @@ export default function PublicLayout() {
         <Outlet />
       </main>
 
-      <div className="max-w-7xl mx-auto px-6 mb-6">
-        <AdBanner placement="footer_banner" />
-      </div>
-
       {/* ── Footer ── */}
       <footer style={{ backgroundColor: '#ddd6d0' }}>
         <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
@@ -263,12 +259,17 @@ export default function PublicLayout() {
             </div>
 
             <div>
-              <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Juridiskt</h3>
-              <ul className="space-y-3 text-xs mb-8">
-                <li><a href="#" className="text-xs uppercase footer-link">Integritetspolicy</a></li>
-                <li><a href="#" className="text-xs uppercase footer-link">Cookiepolicy</a></li>
-                <li><a href="#" className="text-xs uppercase footer-link">Användarvillkor</a></li>
-              </ul>
+              <div className="mb-8">
+                <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Kontakt</h3>
+                <ul className="space-y-3 text-xs">
+                  <li><Link to="/kontakt" className="text-xs uppercase footer-link">Kontakta oss</Link></li>
+                  <li>
+                    <a href="mailto:info@livsstil24gruppen.se" className="text-xs footer-link">
+                      info@livsstil24gruppen.se
+                    </a>
+                  </li>
+                </ul>
+              </div>
               <h3 className="eyebrow mb-3" style={{ color: '#0E0E0E' }}>Appen</h3>
               <Link to="/app" className="btn-primary inline-flex items-center gap-2">
                 <Download size={13} className="animate-bounce" /> Ladda ner vår app
@@ -278,7 +279,7 @@ export default function PublicLayout() {
 
           <div className="border-t pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style={{ borderColor: 'rgba(14,14,14,0.15)' }}>
             <div className="flex flex-col md:flex-row items-center gap-2 md:gap-5">
-              <p className="text-[11px]" style={{ color: '#0E0E0E' }}>© 2026 Livsstil24 AB · Alla rättigheter förbehållna</p>
+              <p className="text-[11px]" style={{ color: '#0E0E0E' }}>© 2026 Livsstil24gruppen AB · Alla rättigheter förbehållna</p>
               {settings.chief_editor && (
                 <p className="text-[11px]" style={{ color: '#0E0E0E' }}>Chefredaktör: {settings.chief_editor}</p>
               )}

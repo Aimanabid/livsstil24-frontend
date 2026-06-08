@@ -1,4 +1,5 @@
 ﻿import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Play, TrendingUp } from 'lucide-react';
 import { format } from 'date-fns';
@@ -67,6 +68,10 @@ export default function TvPage() {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>Livsstil24 TV – Livsstil24</title>
+        <meta name="description" content="Se de senaste videoklipp och TV-inslag från Livsstil24." />
+      </Helmet>
 
       {/* â”€â”€ Page header â”€â”€ */}
       <div className="border-b border-cream-200">

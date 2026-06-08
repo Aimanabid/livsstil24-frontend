@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../../utils/api';
 import ArticleCard from '../../components/public/ArticleCard';
@@ -31,6 +32,10 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-[60vh]">
+      <Helmet>
+        <title>{q ? `"${q}" – Sök – Livsstil24` : 'Sök – Livsstil24'}</title>
+        <meta name="description" content={q ? `Sökresultat för "${q}" på Livsstil24.` : 'Sök bland artiklar på Livsstil24.'} />
+      </Helmet>
       {/* Header */}
       <div className="border-b border-cream-200" style={{ backgroundColor: '#F4F0EA' }}>
         <div className="max-w-2xl mx-auto px-6 py-16 md:py-20">

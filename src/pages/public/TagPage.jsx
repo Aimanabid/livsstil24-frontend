@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import api from '../../utils/api';
 import ArticleCard from '../../components/public/ArticleCard';
@@ -38,6 +39,10 @@ export default function TagPage() {
 
   return (
     <div>
+      <Helmet>
+        <title>{tag ? `#${tag} – Livsstil24` : 'Livsstil24'}</title>
+        <meta name="description" content={`Artiklar taggade med ${tag} på Livsstil24.`} />
+      </Helmet>
       <div className="border-b border-cream-200">
         <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 text-center">
           <div className="flex justify-center mb-4">
