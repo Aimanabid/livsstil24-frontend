@@ -259,6 +259,12 @@ export default function PublicLayout() {
             </div>
 
             <div>
+              <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Juridiskt</h3>
+              <ul className="space-y-3 text-xs mb-8">
+                <li><a href="#" className="text-xs uppercase footer-link">Integritetspolicy</a></li>
+                <li><a href="#" className="text-xs uppercase footer-link">Cookiepolicy</a></li>
+                <li><a href="#" className="text-xs uppercase footer-link">Användarvillkor</a></li>
+              </ul>
               <div className="mb-8">
                 <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Kontakt</h3>
                 <ul className="space-y-3 text-xs">

@@ -90,7 +90,11 @@ export default function AdBanner({ placement, className = '', noFallback = false
 
   useEffect(() => {
     api.get(`/ads/placement/${placement}`)
-      .then(({ data }) => setAd(Array.isArray(data) ? (data[0] ?? null) : null))
+      .then(({ data }) => {
+        if (!Array.isArray(data) || data.length === 0) { setAd(null); return; }
+        const pick = data.length === 1 ? data[0] : data[Math.floor(Math.random() * data.length)];
+        setAd(pick);
+      })
       .catch(() => setAd(null));
   }, [placement]);
 
