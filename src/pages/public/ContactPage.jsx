@@ -117,8 +117,8 @@ export default function ContactPage() {
                 <div className="w-full max-w-sm">
                   <div className="w-8 h-px mb-8" style={{ backgroundColor: '#B89B72' }} />
                   <p className="eyebrow mb-4" style={{ color: '#B89B72' }}>{member.title}</p>
-                  <h2 className="font-sans text-3xl md:text-4xl lg:text-5xl leading-[1.04] tracking-tight mb-6"
-                    style={{ color: '#0E0E0E' }}>
+                  <h2 className="font-sans leading-[1.04] tracking-tight mb-6"
+                    style={{ color: '#0E0E0E', fontSize: '2rem' }}>
                     {member.name}
                   </h2>
                   <p className="text-sm leading-relaxed mb-8 font-light"
