@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import api from '../../utils/api';
 
-const HERO_PLACEMENT       = 'hero_banner';
-const INLINE_PLACEMENTS    = new Set(['article_inline', 'article_mid', 'footer_banner']);
+const HERO_PLACEMENT        = 'hero_banner';
+const INLINE_PLACEMENTS     = new Set(['article_inline', 'article_mid']);
 const SKYSCRAPER_PLACEMENTS = new Set(['sidebar_top', 'sidebar_mid']);
-const BANNER_PLACEMENTS    = new Set(['category_top']);
 
 // ── Fallbacks ──────────────────────────────────────────────────────────────
 
@@ -57,29 +56,6 @@ function FallbackSkyscraper({ className, hideLabel }) {
   );
 }
 
-// footer_banner, category_top — responsive banner strip
-function FallbackBanner({ className, hideLabel }) {
-  return (
-    <div className={className}>
-      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#0E0E0E' }}>Annons</p>}
-      <div className="flex justify-center">
-        <div
-          className="h-20 sm:h-24 md:h-28 flex items-center justify-between gap-6 px-8 sm:px-12 overflow-hidden"
-          style={{ background: 'linear-gradient(135deg,#5A5B46,#4a4b38,#5A5B46)', width: '70%', minWidth: 0, maxWidth: '70%', flexShrink: 0 }}
-        >
-          <div className="min-w-0 flex-1 overflow-hidden">
-            <p className="text-[10px] tracking-[0.2em] uppercase mb-1 text-[#B89B72]">Sponsrat</p>
-            <p className="font-semibold text-[#F4F0EA] text-sm sm:text-base leading-snug truncate">Sommarens bästa erbjudanden</p>
-            <p className="text-[#F4F0EA]/70 text-xs mt-0.5 hidden sm:block truncate">Upp till 50% rabatt på utvalda märken – begränsad tid</p>
-          </div>
-          <button className="shrink-0 text-[10px] tracking-widest uppercase font-semibold px-4 sm:px-5 py-2 sm:py-2.5 border border-[#B89B72] text-[#B89B72] whitespace-nowrap">
-            Handla nu
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ── Main component ─────────────────────────────────────────────────────────
 
@@ -120,7 +96,7 @@ export default function AdBanner({ placement, className = '', noFallback = false
     if (placement === HERO_PLACEMENT)          return <FallbackHero className={className} />;
     if (INLINE_PLACEMENTS.has(placement))      return <FallbackInline className={className} hideLabel={hideLabel} tall={tall} />;
     if (SKYSCRAPER_PLACEMENTS.has(placement))  return <FallbackSkyscraper className={className} hideLabel={hideLabel} />;
-    return <FallbackBanner className={className} hideLabel={hideLabel} />;
+    return null;
   }
 
   const handleClick = () => {
@@ -202,28 +178,5 @@ export default function AdBanner({ placement, className = '', noFallback = false
     );
   }
 
-  // ── Banner strip — footer_banner, category_top ───────────────────────────
-  return (
-    <div className={className} ref={containerRef}>
-      {!hideLabel && <p className="text-xs mb-1 tracking-widest uppercase text-center" style={{ color: '#0E0E0E' }}>Annons</p>}
-      <div className="flex justify-center cursor-pointer" onClick={handleClick}>
-        <div className="h-20 sm:h-24 md:h-28 overflow-hidden" style={{ width: '70%' }}>
-          {ad.image_url
-            ? <img src={ad.image_url} alt={ad.alt_text || ad.title} className="w-full h-full object-cover" />
-            : (
-              <div className="w-full h-full flex items-center justify-between gap-6 px-8 sm:px-12"
-                style={{ background: 'linear-gradient(135deg,#5A5B46,#4a4b38,#5A5B46)' }}>
-                <p className="font-semibold text-[#F4F0EA] text-sm truncate">{ad.title}</p>
-                {ad.link_url && (
-                  <button className="shrink-0 text-[10px] tracking-widest uppercase font-semibold px-4 py-2 border border-[#B89B72] text-[#B89B72] whitespace-nowrap">
-                    Läs mer
-                  </button>
-                )}
-              </div>
-            )
-          }
-        </div>
-      </div>
-    </div>
-  );
+  return null;
 }

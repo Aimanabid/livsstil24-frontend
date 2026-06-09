@@ -57,10 +57,6 @@ export default function TagPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-12 pb-20">
-        <div className="mb-10">
-          <AdBanner placement="category_top" noFallback />
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_256px] gap-14">
           <div>
             {loading ? (
