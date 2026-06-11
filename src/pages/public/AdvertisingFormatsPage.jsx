@@ -156,7 +156,7 @@ function HeroBannerMockup() {
           flex: '0 0 58%', backgroundColor: '#5A5B46',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          <span style={{ color: 'rgba(244,240,234,0.92)', fontSize: 9, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', fontFamily: 'Arial, sans-serif' }}>
+          <span style={{ color: 'rgba(244,240,234,0.92)', fontSize: 13, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', fontFamily: 'Arial, sans-serif' }}>
             LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
           </span>
         </div>
