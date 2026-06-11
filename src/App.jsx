@@ -12,6 +12,7 @@ import AppDownloadPage from './pages/public/AppDownloadPage';
 import TagPage from './pages/public/TagPage';
 import SearchPage from './pages/public/SearchPage';
 import ContactPage from './pages/public/ContactPage';
+import AdvertisingFormatsPage from './pages/public/AdvertisingFormatsPage';
 import NotFoundPage from './pages/public/NotFoundPage';
 
 // Admin pages
@@ -51,6 +52,7 @@ export default function App() {
         <Route path="sok" element={<SearchPage />} />
         <Route path="app" element={<AppDownloadPage />} />
         <Route path="kontakt" element={<ContactPage />} />
+        <Route path="annonsformat" element={<AdvertisingFormatsPage />} />
       </Route>
 
       {/* 404 */}
