@@ -225,7 +225,7 @@ export default function PublicLayout() {
         <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
 
           {/* ── Main grid ── */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mb-14">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
             <div className="col-span-2 md:col-span-1">
               {settings.logo_url ? (
                 <img src={settings.logo_url} alt="Livsstil24" className="h-12 object-contain mb-4" />
@@ -247,7 +247,8 @@ export default function PublicLayout() {
               </div>
             </div>
 
-            <div>
+            {/* Column 2 — Kategorier */}
+            <div className="md:pl-12">
               <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Kategorier</h3>
               <ul className="space-y-3">
                 {categories.slice(0, 6).map(cat => (
@@ -258,13 +259,8 @@ export default function PublicLayout() {
               </ul>
             </div>
 
+            {/* Column 3 — Kontakt + Annonsera */}
             <div>
-              <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Juridiskt</h3>
-              <ul className="space-y-3 text-xs mb-8">
-                <li><a href="#" className="text-xs uppercase footer-link">Integritetspolicy</a></li>
-                <li><a href="#" className="text-xs uppercase footer-link">Cookiepolicy</a></li>
-                <li><a href="#" className="text-xs uppercase footer-link">Användarvillkor</a></li>
-              </ul>
               <div className="mb-8">
                 <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Kontakt</h3>
                 <ul className="space-y-3 text-xs">
@@ -276,6 +272,27 @@ export default function PublicLayout() {
                   </li>
                 </ul>
               </div>
+              <div>
+                <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Annonsera</h3>
+                <ul className="space-y-3 text-xs">
+                  <li><Link to="/annonsformat" className="text-xs uppercase footer-link">Annonsformat</Link></li>
+                  <li>
+                    <a href="mailto:annons@livsstil24gruppen.se" className="text-xs footer-link">
+                      annons@livsstil24gruppen.se
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Column 4 — Juridiskt + Appen */}
+            <div>
+              <h3 className="eyebrow mb-5" style={{ color: '#0E0E0E' }}>Juridiskt</h3>
+              <ul className="space-y-3 text-xs mb-8">
+                <li><a href="#" className="text-xs uppercase footer-link">Integritetspolicy</a></li>
+                <li><a href="#" className="text-xs uppercase footer-link">Cookiepolicy</a></li>
+                <li><a href="#" className="text-xs uppercase footer-link">Användarvillkor</a></li>
+              </ul>
               <h3 className="eyebrow mb-3" style={{ color: '#0E0E0E' }}>Appen</h3>
               <Link to="/app" className="btn-primary inline-flex items-center gap-2">
                 <Download size={13} className="animate-bounce" /> Ladda ner vår app
