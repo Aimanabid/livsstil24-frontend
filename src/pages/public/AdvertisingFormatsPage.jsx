@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Mail } from 'lucide-react';
+import api from '../../utils/api';
 
 const FORMATS = [
   {
@@ -102,7 +103,14 @@ function SideRect({ x, y, w, h }) {
 
 function HeroBannerMockup() {
   const [active, setActive] = useState(false);
+  const [logoUrl, setLogoUrl] = useState(null);
   const ref = useRef(null);
+
+  useEffect(() => {
+    api.get('/settings').then(({ data }) => {
+      if (data?.logo_url) setLogoUrl(data.logo_url);
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -126,48 +134,56 @@ function HeroBannerMockup() {
       backgroundColor: '#EDE8E1',
     }}>
       {/* Hero fills the entire viewport */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        backgroundColor: '#B89B72',
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center', gap: 6,
-      }}>
-        <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: 14, fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', fontFamily: 'Arial, sans-serif' }}>
-          HEROANNONS
-        </span>
-        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12, fontFamily: 'Arial, sans-serif' }}>
-          1920 × 1080 px
-        </span>
-      </div>
+      <img
+        src="https://picsum.photos/seed/hero-lifestyle/1920/1080"
+        alt="Heroannons"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+      />
 
-      {/* Header + nav slides up — viewport ends at the nav bottom */}
+      {/* Header + nav slides up from the bottom */}
       <div style={{
         position: 'absolute',
         left: 0, right: 0, bottom: 0,
-        height: '20%',
+        height: '22%',
         transform: active ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.85s cubic-bezier(0.4, 0, 0.2, 1)',
         transitionDelay: active ? '0.55s' : '0s',
         display: 'flex', flexDirection: 'column',
-        boxShadow: '0 -6px 24px rgba(0,0,0,0.2)',
+        boxShadow: '0 -6px 24px rgba(0,0,0,0.15)',
       }}>
-        {/* Header bar with logo */}
+        {/* Logo bar — cream background, search | LIVSSTIL24 | APP */}
         <div style={{
-          flex: '0 0 58%', backgroundColor: '#5A5B46',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flex: '0 0 55%', backgroundColor: '#F4F0EA',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0 10px',
         }}>
-          <span style={{ color: 'rgba(244,240,234,0.92)', fontSize: 13, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', fontFamily: 'Arial, sans-serif' }}>
-            LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
-          </span>
+          {/* Search icon — magnifying glass */}
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="4.5" cy="4.5" r="3.2" stroke="rgba(14,14,14,0.55)" strokeWidth="1.3"/>
+            <line x1="7" y1="7" x2="10" y2="10" stroke="rgba(14,14,14,0.55)" strokeWidth="1.3" strokeLinecap="round"/>
+          </svg>
+          {/* Logo */}
+          {logoUrl
+            ? <img src={logoUrl} alt="Livsstil24" style={{ height: 22, objectFit: 'contain' }} />
+            : <span style={{ color: '#0E0E0E', fontSize: 17, letterSpacing: '0.12em', fontFamily: '"Playfair Display", serif' }}>
+                LIVSSTIL<span style={{ color: '#B89B72' }}>24</span>
+              </span>
+          }
+          {/* APP link */}
+          <span style={{ color: '#0E0E0E', fontSize: 7, letterSpacing: '1.5px', textTransform: 'uppercase', fontFamily: 'Arial, sans-serif', opacity: 0.5 }}>APP</span>
         </div>
 
-        {/* Nav row — bottom edge of the visible screen */}
+        {/* Nav row — actual category names */}
         <div style={{
-          flex: 1, backgroundColor: '#EDE8E1',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '0 8px',
+          flex: 1, backgroundColor: '#F4F0EA',
+          borderTop: '1px solid rgba(14,14,14,0.08)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '0 8px',
+          overflow: 'hidden',
         }}>
-          {[28, 36, 22, 32, 28].map((w, i) => (
-            <div key={i} style={{ width: w, height: 3, backgroundColor: 'rgba(90,91,70,0.3)', borderRadius: 2 }} />
+          {['Mat & Dryck', 'Mode & Skönhet', 'Träning & Hälsa', 'Resor', 'Inredning', 'Livsstil24 TV'].map((cat, i) => (
+            <span key={i} style={{ fontSize: 6.5, fontFamily: 'Arial, sans-serif', fontWeight: 500, letterSpacing: '0.4px', color: 'rgba(14,14,14,0.65)', whiteSpace: 'nowrap' }}>
+              {cat}
+            </span>
           ))}
         </div>
       </div>
@@ -210,74 +226,85 @@ function PageChrome() {
   );
 }
 
-const adLabel = (text, sub) => (
-  <>
-    <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: 12, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', fontFamily: 'Arial, sans-serif' }}>{text}</span>
-    <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: 11, fontFamily: 'Arial, sans-serif' }}>{sub}</span>
-  </>
-);
-
 // ── Article Inline ────────────────────────────────────────────────
+// Homepage feed layout: wide banner breaks the article card grid
+// after 4 cards, with a sidebar of stacked widgets on the right.
 
 function ArticleInlineMockup() {
   const [ref, active] = useInView();
+
+  const topCards = [
+    { category: 'Mode & Skönhet',   title: 'Höstens hetaste trender att känna till' },
+    { category: 'Mat & Dryck',      title: 'Hälsosam frukost på tio minuter' },
+    { category: 'Träning & Hälsa',  title: 'Skapa din perfekta morgonrutin' },
+    { category: 'Inredning',        title: 'Inred med naturliga material i höst' },
+  ];
+  const bottomCards = [
+    { category: 'Resor',            title: 'De vackraste platserna i Norden' },
+    { category: 'Mode & Skönhet',   title: 'Vinterkläder vi älskar just nu' },
+    { category: 'Livsstil24 TV',    title: 'Veckans avsnitt ute nu' },
+    { category: 'Träning & Hälsa',  title: 'Mindfulness i din vardag' },
+  ];
+
+  const ArticleCard = ({ delay, category, title }) => (
+    <div style={{
+      backgroundColor: 'rgba(163,146,132,0.12)', borderRadius: 2, overflow: 'hidden',
+      display: 'flex', flexDirection: 'column',
+      opacity: active ? 1 : 0,
+      transition: 'opacity 0.3s ease',
+      transitionDelay: active ? `${delay}s` : '0s',
+    }}>
+      <div style={{ flex: '0 0 55%', backgroundColor: 'rgba(163,146,132,0.45)' }} />
+      <div style={{ flex: 1, padding: '3px 4px', display: 'flex', flexDirection: 'column', gap: 1, overflow: 'hidden' }}>
+        <span style={{ fontSize: 3.5, fontFamily: 'Arial, sans-serif', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', color: '#B89B72', lineHeight: 1 }}>{category}</span>
+        <span style={{ fontSize: 4.5, fontFamily: 'Arial, sans-serif', fontWeight: 600, color: 'rgba(14,14,14,0.75)', lineHeight: 1.35 }}>{title}</span>
+      </div>
+    </div>
+  );
+
   return (
     <div ref={ref} style={mockupWrap}>
       <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
         <PageChrome />
         <div style={{ flex: 1, display: 'flex', gap: '2.5%', padding: '0 2.5% 3%' }}>
-          {/* Left content column */}
+
+          {/* Main feed column */}
           <div style={{ flex: 68, display: 'flex', flexDirection: 'column', gap: 3 }}>
-            {/* 4 article cards above — 2×2 grid */}
+            {/* 4 article cards above ad — 2×2 grid */}
             <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 3 }}>
-              {Array.from({ length: 4 }, (_, i) => (
-                <div key={`top-${i}`} style={{
-                  backgroundColor: 'rgba(163,146,132,0.12)', borderRadius: 2, overflow: 'hidden',
-                  display: 'flex', flexDirection: 'column',
-                  opacity: active ? 1 : 0,
-                  transition: 'opacity 0.3s ease',
-                  transitionDelay: active ? `${0.1 + i * 0.06}s` : '0s',
-                }}>
-                  <div style={{ flex: '0 0 50%', backgroundColor: 'rgba(163,146,132,0.48)' }} />
-                  <div style={{ flex: 1, padding: '3px 4px', display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <div style={{ flex: 1, backgroundColor: 'rgba(163,146,132,0.5)', borderRadius: 1 }} />
-                    <div style={{ flex: 1, width: '68%', backgroundColor: 'rgba(163,146,132,0.4)', borderRadius: 1 }} />
-                  </div>
-                </div>
-              ))}
+              {topCards.map((c, i) => <ArticleCard key={`t${i}`} delay={0.10 + i * 0.06} category={c.category} title={c.title} />)}
             </div>
-            {/* Ad at end of article — slides down */}
+
+            {/* Inline ad banner — slides down */}
             <div style={{
-              flex: '0 0 18%', backgroundColor: '#B89B72', borderRadius: 2,
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
+              flex: '0 0 38%', borderRadius: 2, overflow: 'hidden',
               opacity: active ? 1 : 0,
-              transform: active ? 'translateY(0)' : 'translateY(-10px)',
+              transform: active ? 'translateY(0)' : 'translateY(-8px)',
               transition: 'opacity 0.5s ease, transform 0.5s ease',
-              transitionDelay: active ? '0.45s' : '0s',
+              transitionDelay: active ? '0.40s' : '0s',
             }}>
-              {adLabel('ANNONS', '1000 × 300 px')}
+              <img src="https://picsum.photos/seed/nordic-banner/900/300" alt="Annons"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
             </div>
-            {/* 4 article cards below — 2×2 grid */}
+
+            {/* 4 article cards below ad — 2×2 grid */}
             <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 3 }}>
-              {Array.from({ length: 4 }, (_, i) => (
-                <div key={`bot-${i}`} style={{
-                  backgroundColor: 'rgba(163,146,132,0.12)', borderRadius: 2, overflow: 'hidden',
-                  display: 'flex', flexDirection: 'column',
-                  opacity: active ? 1 : 0,
-                  transition: 'opacity 0.3s ease',
-                  transitionDelay: active ? `${0.68 + i * 0.06}s` : '0s',
-                }}>
-                  <div style={{ flex: '0 0 50%', backgroundColor: 'rgba(163,146,132,0.48)' }} />
-                  <div style={{ flex: 1, padding: '3px 4px', display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <div style={{ flex: 1, backgroundColor: 'rgba(163,146,132,0.5)', borderRadius: 1 }} />
-                    <div style={{ flex: 1, width: '68%', backgroundColor: 'rgba(163,146,132,0.4)', borderRadius: 1 }} />
-                  </div>
-                </div>
-              ))}
+              {bottomCards.map((c, i) => <ArticleCard key={`b${i}`} delay={0.58 + i * 0.06} category={c.category} title={c.title} />)}
             </div>
           </div>
-          {/* Sidebar */}
-          <div style={{ flex: 29, backgroundColor: 'rgba(163,146,132,0.2)', borderRadius: 2 }} />
+
+          {/* Sidebar — two content blocks */}
+          <div style={{ flex: 29, display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {[0.12, 0.28].map((d, i) => (
+              <div key={i} style={{
+                flex: 1, backgroundColor: 'rgba(163,146,132,0.15)', borderRadius: 2,
+                opacity: active ? 1 : 0,
+                transition: 'opacity 0.3s ease',
+                transitionDelay: active ? `${d}s` : '0s',
+              }} />
+            ))}
+          </div>
+
         </div>
       </div>
     </div>
@@ -285,64 +312,76 @@ function ArticleInlineMockup() {
 }
 
 // ── Article Mid ───────────────────────────────────────────────────
+// Article reading page: title + meta + body text, wide banner ad
+// in the middle of the content, plain sidebar content blocks.
 
 function ArticleMidMockup() {
   const [ref, active] = useInView();
+
+  const fade = (delay) => ({
+    opacity: active ? 1 : 0,
+    transition: 'opacity 0.3s ease',
+    transitionDelay: active ? `${delay}s` : '0s',
+  });
+
   return (
     <div ref={ref} style={mockupWrap}>
       <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
         <PageChrome />
         <div style={{ flex: 1, display: 'flex', gap: '2.5%', padding: '0 2.5% 3%' }}>
-          {/* Left content column — article reading layout */}
-          <div style={{ flex: 68, display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {/* Featured article image */}
+
+          {/* Article body column — all flex so it fills full height */}
+          <div style={{ flex: 68, display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {/* Article featured image placeholder */}
+            <div style={{ flex: '0 0 22%', backgroundColor: 'rgba(163,146,132,0.25)', borderRadius: 2, flexShrink: 0, ...fade(0.03) }} />
+            {/* Category eyebrow */}
+            <span style={{ fontSize: 4, fontFamily: 'Arial, sans-serif', fontWeight: 700, letterSpacing: '0.6px', textTransform: 'uppercase', color: '#B89B72', lineHeight: 1, flexShrink: 0, ...fade(0.05) }}>
+              Fashion &amp; Beauty
+            </span>
+            {/* Title */}
+            <span style={{ fontSize: 6.5, fontFamily: 'Arial, sans-serif', fontWeight: 700, color: 'rgba(14,14,14,0.85)', lineHeight: 1.3, flexShrink: 0, ...fade(0.10) }}>
+              Fall's most beloved trends — and how to wear them
+            </span>
+            {/* Meta */}
+            <span style={{ fontSize: 4, fontFamily: 'Arial, sans-serif', color: 'rgba(163,146,132,0.8)', flexShrink: 0, borderBottom: '1px solid rgba(163,146,132,0.25)', paddingBottom: 3, ...fade(0.15) }}>
+              Anna Lindqvist · Nov 12, 2024
+            </span>
+            {/* Article text — above ad */}
+            <p style={{ margin: 0, fontSize: 5, lineHeight: 1.7, fontFamily: 'Arial, sans-serif', color: 'rgba(14,14,14,0.65)', ...fade(0.20) }}>
+              Fashion is about more than clothes — it's an expression of who you are. This season features soft lines, natural materials, and a palette inspired by Scandinavian nature.
+            </p>
+            <p style={{ margin: 0, fontSize: 5, lineHeight: 1.7, fontFamily: 'Arial, sans-serif', color: 'rgba(14,14,14,0.65)', ...fade(0.28) }}>
+              From minimalist tanks to structured blazers — the styles vary but the essence remains the same: simplicity with character.
+            </p>
+            <p style={{ margin: 0, fontSize: 5, lineHeight: 1.7, fontFamily: 'Arial, sans-serif', color: 'rgba(14,14,14,0.65)', ...fade(0.35) }}>
+              The timeless pieces are the ones that carry you through the seasons without losing their relevance. Choose quality over quantity and let each piece tell a story about who you want to be.
+            </p>
+            {/* Ad banner */}
             <div style={{
-              flex: '0 0 16%', backgroundColor: 'rgba(163,146,132,0.48)', borderRadius: 2,
+              flex: 7, borderRadius: 2, overflow: 'hidden',
               opacity: active ? 1 : 0,
-              transition: 'opacity 0.3s ease',
-              transitionDelay: active ? '0.05s' : '0s',
-            }} />
-            {/* Article title bar */}
-            <div style={{
-              flex: '0 0 6%', backgroundColor: 'rgba(90,91,70,0.3)', borderRadius: 2,
-              opacity: active ? 1 : 0,
-              transition: 'opacity 0.3s ease',
-              transitionDelay: active ? '0.12s' : '0s',
-            }} />
-            {/* 3 paragraph blocks above ad — varying widths */}
-            {[1, 0.88, 0.95].map((w, i) => (
-              <div key={`top-${i}`} style={{
-                flex: 1, backgroundColor: 'rgba(163,146,132,0.38)', borderRadius: 2,
-                width: `${w * 100}%`,
-                opacity: active ? 1 : 0,
-                transition: 'opacity 0.3s ease',
-                transitionDelay: active ? `${0.22 + i * 0.08}s` : '0s',
-              }} />
-            ))}
-            {/* Ad in the middle — slides up */}
-            <div style={{
-              flex: '0 0 18%', backgroundColor: '#B89B72', borderRadius: 2,
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
-              opacity: active ? 1 : 0,
-              transform: active ? 'translateY(0)' : 'translateY(10px)',
+              transform: active ? 'translateY(0)' : 'translateY(8px)',
               transition: 'opacity 0.5s ease, transform 0.5s ease',
-              transitionDelay: active ? '0.55s' : '0s',
+              transitionDelay: active ? '0.50s' : '0s',
             }}>
-              {adLabel('ANNONS', '1000 × 300 px')}
+              <img src="https://picsum.photos/seed/magazine-spread/900/300" alt="Annons"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
             </div>
-            {/* 3 paragraph blocks below ad — varying widths */}
-            {[1, 0.9, 0.72].map((w, i) => (
-              <div key={`bot-${i}`} style={{
-                flex: 1, backgroundColor: 'rgba(163,146,132,0.38)', borderRadius: 2,
-                width: `${w * 100}%`,
-                opacity: active ? 1 : 0,
-                transition: 'opacity 0.3s ease',
-                transitionDelay: active ? `${0.75 + i * 0.08}s` : '0s',
-              }} />
-            ))}
+            {/* Article text — below ad */}
+            <p style={{ margin: 0, fontSize: 5, lineHeight: 1.7, fontFamily: 'Arial, sans-serif', color: 'rgba(14,14,14,0.65)', ...fade(0.68) }}>
+              De tidlösa plaggen är dem som bär dig igenom årstiderna utan att tappa sin relevans. En välskräddad kavaj, ett mjukt kashmirplagg eller en klassisk trenchcoat är investeringar som håller decennier — inte bara en säsong.
+            </p>
+            <p style={{ margin: 0, fontSize: 5, lineHeight: 1.7, fontFamily: 'Arial, sans-serif', color: 'rgba(14,14,14,0.65)', ...fade(0.75) }}>
+              Kombinera med omtanke. En neutral bas låter accessoarerna tala — en skulpturformad väska, örhängen i guld eller ett silkesscarf knuten om handleden förvandlar det enkla till det extraordinära.
+            </p>
           </div>
-          {/* Sidebar */}
-          <div style={{ flex: 29, backgroundColor: 'rgba(163,146,132,0.2)', borderRadius: 2 }} />
+
+          {/* Sidebar — two content blocks */}
+          <div style={{ flex: 29, display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <div style={{ flex: 1, backgroundColor: 'rgba(163,146,132,0.2)', borderRadius: 2, ...fade(0.10) }} />
+            <div style={{ flex: 1, backgroundColor: 'rgba(163,146,132,0.15)', borderRadius: 2, ...fade(0.25) }} />
+          </div>
+
         </div>
       </div>
     </div>
@@ -353,49 +392,65 @@ function ArticleMidMockup() {
 
 function SidebarTopMockup() {
   const [ref, active] = useInView();
+  const fade = (d) => ({ opacity: active ? 1 : 0, transition: 'opacity 0.3s ease', transitionDelay: active ? `${d}s` : '0s' });
   return (
     <div ref={ref} style={mockupWrap}>
       <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
         <PageChrome />
         <div style={{ flex: 1, display: 'flex', gap: '2.5%', padding: '0 2.5% 3%' }}>
-          {/* Left content column */}
+
+          {/* Left — exact copy of article inline layout */}
           <div style={{ flex: 68, display: 'flex', flexDirection: 'column', gap: 3 }}>
-            {/* Featured article image */}
-            <div style={{
-              flex: '0 0 20%', backgroundColor: 'rgba(163,146,132,0.48)', borderRadius: 2,
-              opacity: active ? 1 : 0,
-              transition: 'opacity 0.3s ease',
-              transitionDelay: active ? '0.05s' : '0s',
-            }} />
-            {[1, 0.88, 1, 0.92, 1, 0.78].map((w, i) => (
-              <div key={i} style={{
-                flex: 1, backgroundColor: 'rgba(163,146,132,0.38)', borderRadius: 1,
-                width: `${w * 100}%`,
-                opacity: active ? 1 : 0,
-                transition: 'opacity 0.3s ease',
-                transitionDelay: active ? `${0.12 + i * 0.05}s` : '0s',
-              }} />
-            ))}
+            <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 3 }}>
+              {[
+                { category: 'Mode & Skönhet',  title: 'Höstens hetaste trender att känna till', delay: 0.08 },
+                { category: 'Mat & Dryck',     title: 'Hälsosam frukost på tio minuter',        delay: 0.14 },
+                { category: 'Träning & Hälsa', title: 'Skapa din perfekta morgonrutin',          delay: 0.20 },
+                { category: 'Inredning',       title: 'Inred med naturliga material i höst',     delay: 0.26 },
+              ].map((c, i) => (
+                <div key={i} style={{ backgroundColor: 'rgba(163,146,132,0.12)', borderRadius: 2, overflow: 'hidden', display: 'flex', flexDirection: 'column', opacity: active ? 1 : 0, transition: 'opacity 0.3s ease', transitionDelay: active ? `${c.delay}s` : '0s' }}>
+                  <div style={{ flex: '0 0 55%', backgroundColor: 'rgba(163,146,132,0.45)' }} />
+                  <div style={{ flex: 1, padding: '3px 4px', display: 'flex', flexDirection: 'column', gap: 1, overflow: 'hidden' }}>
+                    <span style={{ fontSize: 3.5, fontFamily: 'Arial, sans-serif', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', color: '#B89B72', lineHeight: 1 }}>{c.category}</span>
+                    <span style={{ fontSize: 4.5, fontFamily: 'Arial, sans-serif', fontWeight: 600, color: 'rgba(14,14,14,0.75)', lineHeight: 1.35 }}>{c.title}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ flex: '0 0 22%', borderRadius: 2, backgroundColor: 'rgba(163,146,132,0.12)', border: '1px dashed rgba(163,146,132,0.35)', opacity: active ? 1 : 0, transform: active ? 'translateY(0)' : 'translateY(-6px)', transition: 'opacity 0.5s ease, transform 0.5s ease', transitionDelay: active ? '0.38s' : '0s' }} />
+            <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 3 }}>
+              {[
+                { category: 'Resor',           title: 'De vackraste platserna i Norden',  delay: 0.52 },
+                { category: 'Mode & Skönhet',  title: 'Vinterkläder vi älskar just nu',   delay: 0.58 },
+                { category: 'Livsstil24 TV',   title: 'Veckans avsnitt ute nu',            delay: 0.64 },
+                { category: 'Träning & Hälsa', title: 'Mindfulness i din vardag',          delay: 0.70 },
+              ].map((c, i) => (
+                <div key={i} style={{ backgroundColor: 'rgba(163,146,132,0.12)', borderRadius: 2, overflow: 'hidden', display: 'flex', flexDirection: 'column', opacity: active ? 1 : 0, transition: 'opacity 0.3s ease', transitionDelay: active ? `${c.delay}s` : '0s' }}>
+                  <div style={{ flex: '0 0 55%', backgroundColor: 'rgba(163,146,132,0.45)' }} />
+                  <div style={{ flex: 1, padding: '3px 4px', display: 'flex', flexDirection: 'column', gap: 1, overflow: 'hidden' }}>
+                    <span style={{ fontSize: 3.5, fontFamily: 'Arial, sans-serif', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', color: '#B89B72', lineHeight: 1 }}>{c.category}</span>
+                    <span style={{ fontSize: 4.5, fontFamily: 'Arial, sans-serif', fontWeight: 600, color: 'rgba(14,14,14,0.75)', lineHeight: 1.35 }}>{c.title}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          {/* Sidebar — ad at top, gray section below */}
+
+          {/* Sidebar — ad at top, content below */}
           <div style={{ flex: 29, display: 'flex', flexDirection: 'column', gap: 3 }}>
             <div style={{
-              flex: '0 0 58%', backgroundColor: '#B89B72', borderRadius: 2,
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
+              flex: '0 0 58%', borderRadius: 2, overflow: 'hidden',
               opacity: active ? 1 : 0,
               transform: active ? 'translateX(0)' : 'translateX(18px)',
               transition: 'opacity 0.5s ease, transform 0.5s ease',
               transitionDelay: active ? '0.4s' : '0s',
             }}>
-              {adLabel('ANNONS', '250 × 600 px')}
+              <img src="https://picsum.photos/seed/livsstil-sidebar-top/250/600" alt="Annons"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
-            <div style={{
-              flex: 1, backgroundColor: 'rgba(163,146,132,0.2)', borderRadius: 2,
-              opacity: active ? 1 : 0,
-              transition: 'opacity 0.4s ease',
-              transitionDelay: active ? '0.85s' : '0s',
-            }} />
+            <div style={{ flex: 1, backgroundColor: 'rgba(163,146,132,0.2)', borderRadius: 2, ...fade(0.85) }} />
           </div>
+
         </div>
       </div>
     </div>
@@ -406,51 +461,65 @@ function SidebarTopMockup() {
 
 function SidebarMidMockup() {
   const [ref, active] = useInView();
+  const fade = (d) => ({ opacity: active ? 1 : 0, transition: 'opacity 0.3s ease', transitionDelay: active ? `${d}s` : '0s' });
   return (
     <div ref={ref} style={mockupWrap}>
       <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
         <PageChrome />
         <div style={{ flex: 1, display: 'flex', gap: '2.5%', padding: '0 2.5% 3%' }}>
-          {/* Left content column */}
+
+          {/* Left — exact copy of article inline layout */}
           <div style={{ flex: 68, display: 'flex', flexDirection: 'column', gap: 3 }}>
-            {/* Featured article image */}
-            <div style={{
-              flex: '0 0 20%', backgroundColor: 'rgba(163,146,132,0.48)', borderRadius: 2,
-              opacity: active ? 1 : 0,
-              transition: 'opacity 0.3s ease',
-              transitionDelay: active ? '0.05s' : '0s',
-            }} />
-            {[1, 0.88, 1, 0.92, 1, 0.78].map((w, i) => (
-              <div key={i} style={{
-                flex: 1, backgroundColor: 'rgba(163,146,132,0.38)', borderRadius: 1,
-                width: `${w * 100}%`,
-                opacity: active ? 1 : 0,
-                transition: 'opacity 0.3s ease',
-                transitionDelay: active ? `${0.12 + i * 0.05}s` : '0s',
-              }} />
-            ))}
+            <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 3 }}>
+              {[
+                { category: 'Mode & Skönhet',  title: 'Höstens hetaste trender att känna till', delay: 0.08 },
+                { category: 'Mat & Dryck',     title: 'Hälsosam frukost på tio minuter',        delay: 0.14 },
+                { category: 'Träning & Hälsa', title: 'Skapa din perfekta morgonrutin',          delay: 0.20 },
+                { category: 'Inredning',       title: 'Inred med naturliga material i höst',     delay: 0.26 },
+              ].map((c, i) => (
+                <div key={i} style={{ backgroundColor: 'rgba(163,146,132,0.12)', borderRadius: 2, overflow: 'hidden', display: 'flex', flexDirection: 'column', opacity: active ? 1 : 0, transition: 'opacity 0.3s ease', transitionDelay: active ? `${c.delay}s` : '0s' }}>
+                  <div style={{ flex: '0 0 55%', backgroundColor: 'rgba(163,146,132,0.45)' }} />
+                  <div style={{ flex: 1, padding: '3px 4px', display: 'flex', flexDirection: 'column', gap: 1, overflow: 'hidden' }}>
+                    <span style={{ fontSize: 3.5, fontFamily: 'Arial, sans-serif', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', color: '#B89B72', lineHeight: 1 }}>{c.category}</span>
+                    <span style={{ fontSize: 4.5, fontFamily: 'Arial, sans-serif', fontWeight: 600, color: 'rgba(14,14,14,0.75)', lineHeight: 1.35 }}>{c.title}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ flex: '0 0 22%', borderRadius: 2, backgroundColor: 'rgba(163,146,132,0.12)', border: '1px dashed rgba(163,146,132,0.35)', opacity: active ? 1 : 0, transform: active ? 'translateY(0)' : 'translateY(-6px)', transition: 'opacity 0.5s ease, transform 0.5s ease', transitionDelay: active ? '0.38s' : '0s' }} />
+            <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 3 }}>
+              {[
+                { category: 'Resor',           title: 'De vackraste platserna i Norden',  delay: 0.52 },
+                { category: 'Mode & Skönhet',  title: 'Vinterkläder vi älskar just nu',   delay: 0.58 },
+                { category: 'Livsstil24 TV',   title: 'Veckans avsnitt ute nu',            delay: 0.64 },
+                { category: 'Träning & Hälsa', title: 'Mindfulness i din vardag',          delay: 0.70 },
+              ].map((c, i) => (
+                <div key={i} style={{ backgroundColor: 'rgba(163,146,132,0.12)', borderRadius: 2, overflow: 'hidden', display: 'flex', flexDirection: 'column', opacity: active ? 1 : 0, transition: 'opacity 0.3s ease', transitionDelay: active ? `${c.delay}s` : '0s' }}>
+                  <div style={{ flex: '0 0 55%', backgroundColor: 'rgba(163,146,132,0.45)' }} />
+                  <div style={{ flex: 1, padding: '3px 4px', display: 'flex', flexDirection: 'column', gap: 1, overflow: 'hidden' }}>
+                    <span style={{ fontSize: 3.5, fontFamily: 'Arial, sans-serif', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', color: '#B89B72', lineHeight: 1 }}>{c.category}</span>
+                    <span style={{ fontSize: 4.5, fontFamily: 'Arial, sans-serif', fontWeight: 600, color: 'rgba(14,14,14,0.75)', lineHeight: 1.35 }}>{c.title}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          {/* Sidebar column */}
+
+          {/* Sidebar — content at top, ad slides in at bottom */}
           <div style={{ flex: 29, display: 'flex', flexDirection: 'column', gap: 3 }}>
-            {/* Content block at top fades in */}
+            <div style={{ flex: 1, backgroundColor: 'rgba(163,146,132,0.2)', borderRadius: 2, ...fade(0.3) }} />
             <div style={{
-              flex: 1, backgroundColor: 'rgba(163,146,132,0.2)', borderRadius: 2,
-              opacity: active ? 1 : 0,
-              transition: 'opacity 0.4s ease',
-              transitionDelay: active ? '0.3s' : '0s',
-            }} />
-            {/* Ad at the bottom slides in from the right */}
-            <div style={{
-              flex: '0 0 62%', backgroundColor: '#B89B72', borderRadius: 2,
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
+              flex: '0 0 62%', borderRadius: 2, overflow: 'hidden',
               opacity: active ? 1 : 0,
               transform: active ? 'translateX(0)' : 'translateX(18px)',
               transition: 'opacity 0.5s ease, transform 0.5s ease',
               transitionDelay: active ? '0.65s' : '0s',
             }}>
-              {adLabel('ANNONS', '250 × 600 px')}
+              <img src="https://picsum.photos/seed/vertical-bloom/250/600" alt="Annons"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
           </div>
+
         </div>
       </div>
     </div>
