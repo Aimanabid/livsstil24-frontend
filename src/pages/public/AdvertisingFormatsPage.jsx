@@ -59,7 +59,7 @@ function useAdImage(placementKey) {
     api.get(`/ads/placement/${placementKey}`).then(({ data }) => {
       if (!Array.isArray(data) || data.length === 0) return;
       const ad = data[0];
-      const url = ad.ad_type === 'video' ? ad.video_url : ad.image_url;
+      const url = ad.image_url || null;
       if (url) setSrc(url);
     }).catch(() => {});
   }, [placementKey]);
