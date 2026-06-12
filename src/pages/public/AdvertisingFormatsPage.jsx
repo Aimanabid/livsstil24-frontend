@@ -18,7 +18,7 @@ const FORMATS = [
     name: 'Artikelbanner — övre',
     description: 'Visas på startsidan efter var fjärde artikel i flödet — och återigen direkt när läsaren avslutat en artikels beskrivning. Når besökaren i två kritiska engagemangspunkter med naturligt hög uppmärksamhet.',
     placement: 'Artikelsidor — övre del av brödtexten',
-    dimensions: '1000 × 300 px',
+    dimensions: '1000 × 600 px',
     formats: 'JPG, PNG, WebP · MP4 (video)',
     maxSize: 'Bild 10 MB · Video 200 MB',
   },
@@ -52,6 +52,19 @@ const FORMATS = [
 ];
 
 // ── SVG wireframe mockups ──────────────────────────────────────────
+
+function useAdImage(placementKey) {
+  const [src, setSrc] = useState(null);
+  useEffect(() => {
+    api.get(`/ads/placement/${placementKey}`).then(({ data }) => {
+      if (!Array.isArray(data) || data.length === 0) return;
+      const ad = data[0];
+      const url = ad.ad_type === 'video' ? ad.video_url : ad.image_url;
+      if (url) setSrc(url);
+    }).catch(() => {});
+  }, [placementKey]);
+  return src;
+}
 
 const W = 320, H = 200;
 const BG    = '#EDE8E1';
@@ -104,6 +117,7 @@ function SideRect({ x, y, w, h }) {
 function HeroBannerMockup() {
   const [active, setActive] = useState(false);
   const [logoUrl, setLogoUrl] = useState(null);
+  const heroAdSrc = useAdImage('hero_banner');
   const ref = useRef(null);
 
   useEffect(() => {
@@ -135,7 +149,7 @@ function HeroBannerMockup() {
     }}>
       {/* Hero fills the entire viewport */}
       <img
-        src="https://picsum.photos/seed/hero-lifestyle/1920/1080"
+        src={heroAdSrc || 'https://picsum.photos/seed/hero-lifestyle/1920/1080'}
         alt="Heroannons"
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
       />
@@ -232,6 +246,7 @@ function PageChrome() {
 
 function ArticleInlineMockup() {
   const [ref, active] = useInView();
+  const inlineAdSrc = useAdImage('article_inline');
 
   const topCards = [
     { category: 'Mode & Skönhet',   title: 'Höstens hetaste trender att känna till' },
@@ -269,27 +284,27 @@ function ArticleInlineMockup() {
         <div style={{ flex: 1, display: 'flex', gap: '2.5%', padding: '0 2.5% 3%' }}>
 
           {/* Main feed column */}
-          <div style={{ flex: 68, display: 'flex', flexDirection: 'column', gap: 3 }}>
-            {/* 4 article cards above ad — 2×2 grid */}
-            <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 3 }}>
-              {topCards.map((c, i) => <ArticleCard key={`t${i}`} delay={0.10 + i * 0.06} category={c.category} title={c.title} />)}
+          <div style={{ flex: 68, minWidth: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {/* 2 article cards above ad */}
+            <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr', gap: 3 }}>
+              {topCards.slice(0, 2).map((c, i) => <ArticleCard key={`t${i}`} delay={0.10 + i * 0.06} category={c.category} title={c.title} />)}
             </div>
 
             {/* Inline ad banner — slides down */}
             <div style={{
-              flex: '0 0 38%', borderRadius: 2, overflow: 'hidden',
+              flex: 3, minHeight: 0, borderRadius: 2, overflow: 'hidden', position: 'relative',
               opacity: active ? 1 : 0,
               transform: active ? 'translateY(0)' : 'translateY(-8px)',
               transition: 'opacity 0.5s ease, transform 0.5s ease',
               transitionDelay: active ? '0.40s' : '0s',
             }}>
-              <img src="https://picsum.photos/seed/nordic-banner/900/300" alt="Annons"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
+              <img src={inlineAdSrc || 'https://picsum.photos/seed/nordic-banner/900/600'} alt="Annons"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
             </div>
 
-            {/* 4 article cards below ad — 2×2 grid */}
-            <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 3 }}>
-              {bottomCards.map((c, i) => <ArticleCard key={`b${i}`} delay={0.58 + i * 0.06} category={c.category} title={c.title} />)}
+            {/* 2 article cards below ad */}
+            <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr', gap: 3 }}>
+              {bottomCards.slice(0, 2).map((c, i) => <ArticleCard key={`b${i}`} delay={0.58 + i * 0.06} category={c.category} title={c.title} />)}
             </div>
           </div>
 
@@ -317,6 +332,7 @@ function ArticleInlineMockup() {
 
 function ArticleMidMockup() {
   const [ref, active] = useInView();
+  const midAdSrc = useAdImage('article_mid');
 
   const fade = (delay) => ({
     opacity: active ? 1 : 0,
@@ -331,7 +347,7 @@ function ArticleMidMockup() {
         <div style={{ flex: 1, display: 'flex', gap: '2.5%', padding: '0 2.5% 3%' }}>
 
           {/* Article body column — all flex so it fills full height */}
-          <div style={{ flex: 68, display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <div style={{ flex: 68, minWidth: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 3 }}>
             {/* Article featured image placeholder */}
             <div style={{ flex: '0 0 22%', backgroundColor: 'rgba(163,146,132,0.25)', borderRadius: 2, flexShrink: 0, ...fade(0.03) }} />
             {/* Category eyebrow */}
@@ -358,14 +374,14 @@ function ArticleMidMockup() {
             </p>
             {/* Ad banner */}
             <div style={{
-              flex: 7, borderRadius: 2, overflow: 'hidden',
+              flex: '0 0 40%', borderRadius: 2, overflow: 'hidden', position: 'relative',
               opacity: active ? 1 : 0,
               transform: active ? 'translateY(0)' : 'translateY(8px)',
               transition: 'opacity 0.5s ease, transform 0.5s ease',
               transitionDelay: active ? '0.50s' : '0s',
             }}>
-              <img src="https://picsum.photos/seed/magazine-spread/900/300" alt="Annons"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
+              <img src={midAdSrc || 'https://picsum.photos/seed/magazine-spread/900/300'} alt="Annons"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
             </div>
             {/* Article text — below ad */}
             <p style={{ margin: 0, fontSize: 5, lineHeight: 1.7, fontFamily: 'Arial, sans-serif', color: 'rgba(14,14,14,0.65)', ...fade(0.68) }}>
@@ -373,6 +389,12 @@ function ArticleMidMockup() {
             </p>
             <p style={{ margin: 0, fontSize: 5, lineHeight: 1.7, fontFamily: 'Arial, sans-serif', color: 'rgba(14,14,14,0.65)', ...fade(0.75) }}>
               Kombinera med omtanke. En neutral bas låter accessoarerna tala — en skulpturformad väska, örhängen i guld eller ett silkesscarf knuten om handleden förvandlar det enkla till det extraordinära.
+            </p>
+            <p style={{ margin: 0, fontSize: 5, lineHeight: 1.7, fontFamily: 'Arial, sans-serif', color: 'rgba(14,14,14,0.65)', ...fade(0.82) }}>
+              Välj plagg som talar till varandra — en monokrom look med texturskillnader skapar djup utan ansträngning. Lägg till ett statement-plagg och låt resten vara avskalat.
+            </p>
+            <p style={{ margin: 0, fontSize: 5, lineHeight: 1.7, fontFamily: 'Arial, sans-serif', color: 'rgba(14,14,14,0.65)', ...fade(0.88) }}>
+              Höstens nyckelplagg är inte bara estetiska — de är funktionella. Lager på lager, rätt material och genomtänkta detaljer gör skillnaden mellan en look som håller hela dagen och en som faller ihop vid första vinden.
             </p>
           </div>
 
@@ -392,6 +414,7 @@ function ArticleMidMockup() {
 
 function SidebarTopMockup() {
   const [ref, active] = useInView();
+  const sidebarTopSrc = useAdImage('sidebar_top');
   const fade = (d) => ({ opacity: active ? 1 : 0, transition: 'opacity 0.3s ease', transitionDelay: active ? `${d}s` : '0s' });
   return (
     <div ref={ref} style={mockupWrap}>
@@ -445,7 +468,7 @@ function SidebarTopMockup() {
               transition: 'opacity 0.5s ease, transform 0.5s ease',
               transitionDelay: active ? '0.4s' : '0s',
             }}>
-              <img src="https://picsum.photos/seed/livsstil-sidebar-top/250/600" alt="Annons"
+              <img src={sidebarTopSrc || 'https://picsum.photos/seed/livsstil-sidebar-top/250/600'} alt="Annons"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
             <div style={{ flex: 1, backgroundColor: 'rgba(163,146,132,0.2)', borderRadius: 2, ...fade(0.85) }} />
@@ -461,6 +484,7 @@ function SidebarTopMockup() {
 
 function SidebarMidMockup() {
   const [ref, active] = useInView();
+  const sidebarMidSrc = useAdImage('sidebar_mid');
   const fade = (d) => ({ opacity: active ? 1 : 0, transition: 'opacity 0.3s ease', transitionDelay: active ? `${d}s` : '0s' });
   return (
     <div ref={ref} style={mockupWrap}>
@@ -515,7 +539,7 @@ function SidebarMidMockup() {
               transition: 'opacity 0.5s ease, transform 0.5s ease',
               transitionDelay: active ? '0.65s' : '0s',
             }}>
-              <img src="https://picsum.photos/seed/vertical-bloom/250/600" alt="Annons"
+              <img src={sidebarMidSrc || 'https://picsum.photos/seed/vertical-bloom/250/600'} alt="Annons"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
           </div>
